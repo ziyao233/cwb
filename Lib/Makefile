@@ -1,6 +1,6 @@
 # cwb
 # File:/Lib/Makefile
-# Date:2021.02.14
+# Date:2021.02.15
 # By LGPL v3.0
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
@@ -18,7 +18,7 @@ FLAG_REMOVE:=-rf
 FLAG_CC:=-Wall -Werror -g -O0 -pedantic -Wextra
 
 # Files
-FILES_OBJS:=Net.o
+FILES_OBJS:=Net.o Time.o
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib
