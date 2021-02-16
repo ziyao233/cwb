@@ -15,9 +15,13 @@
 #include<sys/select.h>
 #include<errno.h>
 
+#include"Time.h"
+
 //	Check errno to find out the reason of error
 #define CWB_NET_WOULDBLOCK (errno==EAGAIN || errno==EWOULDBLOCK)
-#define CWB_NET_TRUEERROR (!CWB_NET_WOULDBLOCK && errno!=EINTR)
+#define CWB_NET_OK (!errno)
+#define CWB_NET_TRUEERROR (!CWB_NET_WOULDBLOCK && errno!=EINTR && !CWB_NET_OK)
+#define CWB_NET_LISTENER_TIMEOUT (!CWB_NET_WOULDBLOCK && !CWB_NET_TRUEERROR)
 
 /*
 	Pass to cwb_net_listener(flag)
@@ -50,7 +54,8 @@ uint32_t cwb_net_tohost32(uint32_t data);
 
 Cwb_Net_Listener *cwb_net_listener_new(unsigned int maxNum);
 int cwb_net_listener_listen(Cwb_Net_Listener *listener,int fd,uint8_t flag);
-int *cwb_net_listener_wait(Cwb_Net_Listener *listener,int *readyList,size_t maxNum);
+int *cwb_net_listener_wait(Cwb_Net_Listener *listener,int *readyList,
+						   size_t maxNum,Cwb_Time_MicroSecond *timeout);
 int cwb_net_listener_unlisten(Cwb_Net_Listener *listener,int fd);
 void cwb_net_listener_destroy(Cwb_Net_Listener *listener);
 

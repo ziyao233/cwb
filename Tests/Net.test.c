@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Tests/Net.Test.c
-	Date:2021.02.14
+	Date:2021.02.16
 	By LGPL v3.0
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -13,6 +13,7 @@
 
 #include<unistd.h>
 
+#include<cwb/Time.h>
 #include<cwb/Net.h>
 
 #define HTTP_PORT 14137
@@ -69,7 +70,8 @@ int main(void)
 	}
 	while(1)
 	{
-		int *activeList=cwb_net_listener_wait(listener,NULL,32);
+		Cwb_Time_MicroSecond ms=2000;
+		int *activeList=cwb_net_listener_wait(listener,NULL,32,&ms);
 		if(!activeList)
 		{
 			if(CWB_NET_TRUEERROR)
@@ -77,6 +79,11 @@ int main(void)
 				error_print("cwb_net_listener_wait()");
 				cwb_net_listener_destroy(listener);
 				return -1;
+			}
+			if(CWB_NET_LISTENER_TIMEOUT)
+			{
+				puts("Timeout");
+				continue;
 			}
 		}
 		

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Net.c
-	Date:2021.02.14
+	Date:2021.02.16
 	By LGPL v3.0
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -22,7 +22,7 @@
 #include<fcntl.h>
 
 #include"Net.h"
-
+#include"Time.h"
 
 /*
 	funcName:cwb_net_socket
@@ -264,7 +264,7 @@ int cwb_net_listener_listen(Cwb_Net_Listener *listener,int fd,
 			And this list should be free(just by free())
 */
 int *cwb_net_listener_wait(Cwb_Net_Listener *listener,int *readyList,
-						  size_t maxNum)
+						   size_t maxNum,Cwb_Time_MicroSecond *timeout)
 {
 	int *list=readyList?readyList:malloc(sizeof(int)*(maxNum+1));
 
@@ -281,7 +281,25 @@ int *cwb_net_listener_wait(Cwb_Net_Listener *listener,int *readyList,
 	memcpy((void*)&wSet,(void*)(&(listener->wSet)),sizeof(fd_set));
 	memcpy((void*)&rSet,(void*)(&(listener->rSet)),sizeof(fd_set));
 
-	int readyNum=select(FD_SETSIZE,&rSet,&wSet,NULL,NULL);
+
+	struct timeval timeVal,*timeoutPointer=NULL;
+	if(timeout)
+	{
+		timeoutPointer=&timeVal;
+		timeVal=(struct timeval){
+									.tv_sec=(time_t)(*timeout/1000),
+									.tv_usec=(suseconds_t)(*timeout%1000)
+								};
+	}
+	int readyNum=select(FD_SETSIZE,&rSet,&wSet,NULL,timeoutPointer);
+	
+	/*	Timeout	or something wrong	*/
+	if(readyNum<=0)
+	{
+		return NULL;
+	}
+
+
 	unsigned int listIndex=0;
 	for(int testFd=0;
 		testFd<FD_SETSIZE &&
