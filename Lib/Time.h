@@ -11,6 +11,8 @@
 
 #include<stdint.h>
 
-uint64_t cwb_time_get(void);
+typedef uint64_t Cwb_Time_MicroSecond;
+
+Cwb_Time_MicroSecond cwb_time_get(void);
 
 #endif

@@ -15,7 +15,9 @@
 #include<unistd.h>
 #include<sys/time.h>
 
-uint64_t cwb_time_get(void)
+#include"Time.h"
+
+Cwb_Time_MicroSecond cwb_time_get(void)
 {
 	struct timeval res;
 	if(gettimeofday(&res,NULL))
@@ -23,5 +25,5 @@ uint64_t cwb_time_get(void)
 		return 0;
 	}
 
-	return res.tv_sec*1000+res.tv_usec;
+	return (Cwb_Time_MicroSecond)((uint64_t)res.tv_sec*1000+res.tv_usec);
 }
