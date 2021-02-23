@@ -1,0 +1,21 @@
+cwb ---- A light weight and fast web framework for C Language.
+
+或许给C写一个Web框架显得有点傻,但是我还是写了它
+
+================
+Install
+
+本项目是POSIX兼容的,如果你有make,请在切换到Lib文件夹make && make install
+可以编辑Makefile来更改安装路径
+视情况调整命令权限
+================
+License
+
+使用LGPL v3.0以及反996许可证(Anti-996 License)
+文件详见LICENSE和LICENSE_ANTI_996
+================
+Developers
+
+Developers文件---->开发者名录
+欢迎通过tswuyin_st127@163.com联系我
+================
