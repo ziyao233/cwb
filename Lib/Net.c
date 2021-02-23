@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Net.c
-	Date:2021.02.16
+	Date:2021.02.23
 	By LGPL v3.0
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -243,7 +243,7 @@ int cwb_net_listener_listen(Cwb_Net_Listener *listener,int fd,
 		FD_SET(fd,&(listener->wSet));
 	}
 
-	return -1;
+	return 0;
 }
 
 /*

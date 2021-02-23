@@ -18,7 +18,7 @@ FLAG_REMOVE:=-rf
 FLAG_CC:=-Wall -Werror -g -O0 -pedantic -Wextra
 
 # Files
-FILES_OBJS:=Net.o Time.o
+FILES_OBJS:=Net.o Time.o Event.o
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib
