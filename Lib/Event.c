@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Event.c
-	Date:2021.02.23
+	Date:2021.02.24
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -65,6 +65,10 @@ int cwb_event_listen_connection(Cwb_Event_Base *base,int connection,
 		goto endAlreadyListened;
 	base->connections[connection].type&=~EVENT_FREE;
 	base->connections[connection].type|=EVENT_LISTENED;
+	if(flag&CWB_EVENT_ONCE)
+	{
+		base->connections[connection].type|=CWB_EVENT_ONCE;
+	}
 	base->connections[connection].handler=handler;
 	base->connections[connection].userData=userData;
 
@@ -129,6 +133,10 @@ int cwb_event_loop(Cwb_Event_Base *base)
 			if(connection->type&EVENT_FREE)
 				goto endProcess;
 			connection->handler(base,tmp,connection->userData);
+			if(connection->type&CWB_EVENT_ONCE)
+			{
+				cwb_event_unlisten_connection(base,tmp);
+			}
 		}
 		free(activeList);
 	}

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Event.h
-	Date:2021.02.23
+	Date:2021.02.24
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -10,6 +10,8 @@
 #define CWB_EVENT_H_INC
 
 #include"Net.h"
+
+#define CWB_EVENT_ONCE 0x40
 
 typedef struct
 {
