@@ -1,0 +1,170 @@
+================
+cwb 参考手册
+
+请注意,在主要版本号为0时的测试时期,API可能经常发生变化,请注意阅读手册内容
+================
+约定
+
+采用C语言的函数格式说明函数
+阅读手册时,制表符设为8个字符宽度更为合适
+================
+库目录
+
+	Time库
+	Net库
+===============
+Time库
+
+	数据结构
+		Cwb_Time_MicroSecond	以毫秒为单位的时间	
+	
+	函数
+		Cwb_Time_MicroSecond cwb_time_get(void);
+			获得以毫秒为单位的UTC时间
+			return:
+				UTC时间
+================
+Net库
+	Net库提供了与非阻塞网络IO有关的操作
+	
+	数据结构
+		Cwb_Net_Listener 描述一个网络事件监听器
+	
+	宏
+		CWB_NET_LISTENER_READ	监听可读事件
+		CWB_NET_LISTENER_WRITE	监听可写事件
+		CWB_NET_WOULDBLOCK	布尔值,表示函数返回的原因是IO操作
+			阻塞
+		CWB_NET_OK		布尔值,为真表示操作成功
+		CWB_NET_TRUEERROR	布尔值,表示有有意义的错误发生
+		CWB_NET_LISTENER_TIMEOUT 布尔值,表示监听操作超时
+	
+	函数
+		int cwb_net_socket(void);
+			创建新的TCP&IPv4&非阻塞套接字
+			return:
+				<0	如果有错误发生
+				套接字	如果成功
+
+		int cwb_net_bind(int sock,int port);
+			绑定套接字与端口
+			input:
+				sock	套接字
+				port	绑定的端口
+			return:
+				!=0	错误
+				==0	成功
+
+		int cwb_net_listen(int sock,int backLog);
+			监听套接字
+			input:
+				sock	套接字
+				backLog	backlog值(详见TCP backlog)
+			return:
+				!=0	失败
+				==0	成功
+
+		int cwb_net_accept(int sock);
+			从套接字接收连接
+			input:
+				sock	套接字
+			return:
+				<0	失败
+				>0	成功
+
+		ssize_t cwb_net_read(int sock,void *buf,size_t size);
+			从连接读数据
+			input:
+				sock	套接字
+				buf	缓冲区
+				size	缓冲区长度
+			return:
+				<0	失败
+				>0	读取的数据长度
+
+		ssize_t	cwb_net_write(int sock,void *buf,size_t size);
+			向连接写数据
+			input:
+				sock	套接字
+				buf	数据指针
+				size	数据长度
+			return:
+				<0	失败
+				>0	实际写入的数据长度
+
+		int cwb_net_close(int sock);
+			关闭连接或套接字
+			input:
+				sock	文件描述符
+			return:
+				-1	失败
+				0	成功
+
+		uint??_t cwb_net_tonet??(uint??_t data);
+			??可取16或32
+			将本机字节序转换为网络字节序
+			input:
+				data	本机字节序的数据
+			return:
+				data对应的网络字节序表示
+
+		uint??_t cwb_net_tohost??(uint??_t data);
+			??可取16或32
+			将网络字节序转化为本机字节序
+			input:
+				data	网络字节序的数据
+			return:
+				data对应的本机字节序表示
+		
+		Cwb_Net_Listener *cwb_net_listener_new(unsigned int maxNum);
+			创建一个网络监听器
+			input:
+				maxNum	最大监听数量
+			return:
+				NULL	失败
+				Else	网络监听器指针
+
+		int cwb_net_listener_listen(Cwb_Net_Listener *listener,
+					    int fd,
+					    uint8_t flag);
+			监听一个网络连接/套接字
+			input:
+				listener	监听器
+				fd		要监听的文件描述符
+				flag		监听方法
+					取值CWB_NET_LISTENER_READ
+					    CWB_NET_LISTENER_WRITE
+					    的位组合
+			return:
+				0	成功
+				<0	失败
+
+		int *cwb_net_listener_wait(Cwb_Net_Listener *listener,
+					   int *readyList,
+					   size_t maxNum,
+					   Cwb_Time_MicroSecond *timeout);
+			等待监听器发现就绪的文件描述符
+			readyList可以为NULL,此时会自动分配一个数组
+			返回的指针是自动分配的数组或者readyList
+				前者需要被手动释放(free())
+			数组以-1结尾
+			input:
+				listener	监听器
+				readyList	存储就绪文件描述符的数组
+				maxNum		可接受的最多就绪的
+							文件描述符数量
+				timeout		最长等待时间
+			return:
+				NULL		超时或者发生错误
+							使用
+							CWB_NET_TRUEERROR
+							等宏判断
+				Else		一个指向readyList或
+							函数分配的数组的
+							指针
+
+		void cwb_net_listener_destroy(Cwb_Net_Listener *listener);
+			销毁一个监听器
+			input:
+				listener	监听器
+================
