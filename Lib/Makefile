@@ -1,7 +1,7 @@
 # cwb
 # File:/Lib/Makefile
 # Date:2021.02.15
-# By LGPL v3.0
+# By LGPL v3.0 and Anti-996 License
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
 # Tool

@@ -2,7 +2,7 @@
 	cwb
 	File:/Lib/Net.c
 	Date:2021.02.23
-	By LGPL v3.0
+	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 
