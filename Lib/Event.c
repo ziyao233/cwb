@@ -95,6 +95,8 @@ int cwb_event_unlisten_connection(Cwb_Event_Base *base,int connection)
 
 	if(cwb_net_listener_unlisten(base->connListener,connection))
 		return -1;
+	
+	base->connections[connection].type=EVENT_FREE;
 
 	base->countConnection--;
 
