@@ -1,8 +1,8 @@
 /*
 	cwb
-	File:/Tests/Net.Test.c
-	Date:2021.02.16
-	By LGPL v3.0
+	File:/Tests/Net_IO.Test.c
+	Date:2021.03.05
+	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 
@@ -15,6 +15,7 @@
 
 #include<cwb/Time.h>
 #include<cwb/Net.h>
+#include<cwb/IO.h>
 
 #define HTTP_PORT 14137
 #define HTTP_BACKLOG 32
@@ -53,14 +54,14 @@ int main(void)
 		return -1;
 	}
 		
-	Cwb_Net_Listener *listener=cwb_net_listener_new(32);
-	if(!listener)
+	Cwb_IO_Watcher *watcher=cwb_io_watcher_new(32);
+	if(!watcher)
 	{
 		error_print("cwb_net_listener_new()");
 		return -1;
 	}
 
-	cwb_net_listener_listen(listener,serverSocket,CWB_NET_LISTENER_READ);
+	cwb_io_watcher_watch(watcher,serverSocket,CWB_IO_WATCHER_READ);
 
 	Data_Buffer *dataBuffer=(Data_Buffer*)malloc(sizeof(Data_Buffer)*32);
 	if(!dataBuffer)
@@ -71,16 +72,16 @@ int main(void)
 	while(1)
 	{
 		Cwb_Time_MicroSecond ms=2000;
-		int *activeList=cwb_net_listener_wait(listener,NULL,32,&ms);
+		int *activeList=cwb_io_watcher_wait(watcher,NULL,32,&ms);
 		if(!activeList)
 		{
-			if(CWB_NET_TRUEERROR)
+			if(CWB_IO_TRUEERROR)
 			{
 				error_print("cwb_net_listener_wait()");
-				cwb_net_listener_destroy(listener);
+				cwb_io_watcher_destroy(watcher);
 				return -1;
 			}
-			if(CWB_NET_LISTENER_TIMEOUT)
+			if(CWB_IO_WATCHER_TIMEOUT)
 			{
 				puts("Timeout");
 				continue;
@@ -95,7 +96,7 @@ int main(void)
 				int connectionFd=cwb_net_accept(serverSocket);
 				if(connectionFd<0)
 				{
-					if(CWB_NET_TRUEERROR)
+					if(CWB_IO_TRUEERROR)
 					{
 						error_print("cwb_net_accept()");
 						return -1;
@@ -107,7 +108,7 @@ int main(void)
 					cwb_net_close(connectionFd);
 					continue;
 				}
-				cwb_net_listener_listen(listener,connectionFd,CWB_NET_LISTENER_READ);
+				cwb_io_watcher_watch(watcher,connectionFd,CWB_IO_WATCHER_READ);
 				dataBuffer[connectionFd].used=0;
 			}
 			/*	Common Connection	*/
@@ -116,15 +117,15 @@ int main(void)
 				int connectionFd=activeList[index];
 
 				ssize_t size=cwb_net_read(connectionFd,
-										  (void*)(dataBuffer[connectionFd].used+
-											dataBuffer[connectionFd].buffer),
-										  BUFFER_SIZE-dataBuffer[connectionFd].used
+							  (void*)(dataBuffer[connectionFd].used+
+							  dataBuffer[connectionFd].buffer),
+							  BUFFER_SIZE-dataBuffer[connectionFd].used
 										 );
 
 				/*	An error is returned	*/
 				if(size<0)
 				{
-					if(CWB_NET_TRUEERROR)
+					if(CWB_IO_TRUEERROR)
 					{
 						error_print("cwb_net_read()");
 						return -1;
@@ -146,7 +147,7 @@ int main(void)
 				{
 					puts((char*)(dataBuffer[connectionFd].buffer));
 					cwb_net_close(connectionFd);
-					cwb_net_listener_unlisten(listener,connectionFd);
+					cwb_io_watcher_unwatch(watcher,connectionFd);
 				}
 
 			}

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Net.h
-	Date:2021.02.14
+	Date:2021.03.05
 	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,32 +12,9 @@
 #include<stdint.h>
 
 #include<unistd.h>
-#include<sys/select.h>
 #include<errno.h>
 
 #include"Time.h"
-
-//	Check errno to find out the reason of error
-#define CWB_NET_WOULDBLOCK (errno==EAGAIN || errno==EWOULDBLOCK)
-#define CWB_NET_OK (!errno)
-#define CWB_NET_TRUEERROR (!CWB_NET_WOULDBLOCK && errno!=EINTR && !CWB_NET_OK)
-#define CWB_NET_LISTENER_TIMEOUT (!CWB_NET_WOULDBLOCK && !CWB_NET_TRUEERROR)
-
-/*
-	Pass to cwb_net_listener(flag)
-*/
-//	Unused.(For fun and a cool lock...)
-#define CWB_NET_LISTENER_NULL 0x00
-//	For read event
-#define CWB_NET_LISTENER_READ 0x01
-//	For write event
-#define CWB_NET_LISTENER_WRITE 0x02
-
-typedef struct
-{
-	unsigned int maxNum;
-	fd_set rSet,wSet;
-}Cwb_Net_Listener;
 
 int cwb_net_socket(void);
 int cwb_net_bind(int sock,int port);
@@ -51,12 +28,5 @@ uint16_t cwb_net_tonet16(uint16_t data);
 uint32_t cwb_net_tonet32(uint32_t data);
 uint16_t cwb_net_tohost16(uint16_t data);
 uint32_t cwb_net_tohost32(uint32_t data);
-
-Cwb_Net_Listener *cwb_net_listener_new(unsigned int maxNum);
-int cwb_net_listener_listen(Cwb_Net_Listener *listener,int fd,uint8_t flag);
-int *cwb_net_listener_wait(Cwb_Net_Listener *listener,int *readyList,
-						   size_t maxNum,Cwb_Time_MicroSecond *timeout);
-int cwb_net_listener_unlisten(Cwb_Net_Listener *listener,int fd);
-void cwb_net_listener_destroy(Cwb_Net_Listener *listener);
 
 #endif
