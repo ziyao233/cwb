@@ -9,6 +9,7 @@
 #ifndef CWB_IO_H_INC
 #define CWB_IO_H_INC
 
+#include<errno.h>
 #include<sys/select.h>
 
 //	Check errno to find out the reason of error
