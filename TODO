@@ -1,0 +1,18 @@
+	+	Feature			特性
+	-	Performance Optmize	性能优化
+	*	Bug Fix			Bug修复
+	!	Planing Future		计划中特性
+	c	Chores			杂务
+	r	Refactor		代码重构
+
+(r)	Event库重构
+(+)	Http库 HTTP静态文件路由支持
+(+)	HTTP动态请求支持
+(+)	HTTP请求头操作
+(+)	HTTP响应头操作
+(+)	Encoder库 HTTP常用编码的编码
+(+)	Decoder库 HTTP常用编码的解码
+========	v0.1.0	========
+(+)	HTTP Cookie支持
+(!)	HTTP 多线程服务器
+(!)	COAP库
