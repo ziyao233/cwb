@@ -40,5 +40,6 @@ int *cwb_io_watcher_wait(Cwb_IO_Watcher *watcher,int *readyList,
 			 size_t maxNum,Cwb_Time_MicroSecond *timeout);
 int cwb_io_watcher_unwatch(Cwb_IO_Watcher *watcher,int fd);
 void cwb_io_watcher_destroy(Cwb_IO_Watcher *watcher);
+int cwb_io_watcher_resize(Cwb_IO_Watcher *watcher,unsigned int maxNum);
 
 #endif

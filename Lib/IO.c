@@ -182,3 +182,14 @@ void cwb_io_watcher_destroy(Cwb_IO_Watcher *watcher)
 	free(watcher);
 	return;
 }
+
+int cwb_io_watcher_resize(Cwb_IO_Watcher *watcher,unsigned int maxNum)
+{
+	/*	Just do a check	*/
+	if(maxNum>FD_SETSIZE)
+	{
+		return -1;
+	}
+	watcher->maxNum=maxNum;
+	return 0;
+}
