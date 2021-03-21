@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Tests/Event.test.c
-	Date:2021.02.23
+	Date:2021.03.21
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -47,27 +47,26 @@ int main(void)
 		return -1;
 	}
 
-	if(cwb_net_bind(serverSocket,HTTP_PORT)){
+	if(cwb_net_bind(serverSocket,HTTP_PORT)) {
 		error_print("cwb_net_bind()");
 		return -1;
 	}
 
-	if(cwb_net_listen(serverSocket,SOCKET_BACKLOG)){
+	if(cwb_net_listen(serverSocket,SOCKET_BACKLOG)) {
 		error_print("cwb_net_listen()");
 		return -1;
 	}
 
-	Cwb_Event_Base *base=cwb_event_new(SOCKET_MAXFD);
-	if(!base){
+	Cwb_Event_Base *base=cwb_event_new();
+	if(!base) {
 		error_print("cwb_base_new()");
 		return -1;
 	}
 
-	if(cwb_event_listen_connection(base,serverSocket,
-				       CWB_NET_LISTENER_READ,
-				       socket_handler,NULL))
-	{
-		error_print("cwb_event_listen_connection()");
+	if(cwb_event_fd_watch(base,serverSocket,
+			      CWB_EVENT_FD_READ,
+			      socket_handler,NULL)) {
+		error_print("cwb_event_fd_watch()");
 		return -1;
 	}
 	

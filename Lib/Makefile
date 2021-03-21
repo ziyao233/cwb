@@ -1,8 +1,11 @@
 # cwb
 # File:/Lib/Makefile
-# Date:2021.02.15
+# Date:2021.03.21
 # By LGPL v3.0 and Anti-996 License
 # Copyright(C) 2021 cwb developers.All rights reserved.
+
+# Configure
+CONF_DEBUG_OPTION:=-g -O0
 
 # Tool
 CC:=c99
@@ -15,10 +18,10 @@ MAKEDIR:=mkdir
 # Flags
 FLAG_AR:=rcu
 FLAG_REMOVE:=-rf
-FLAG_CC:=-Wall -Werror -g -O0 -pedantic -Wextra
+FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra
 
 # Files
-FILES_OBJS:=Net.o Time.o IO.o #Event.o
+FILES_OBJS:=Net.o Time.o IO.o Event.o
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib

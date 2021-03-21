@@ -5,7 +5,6 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
-(r)	Event库重构
 (+)	Http库 HTTP静态文件路由支持
 (+)	HTTP动态请求支持
 (+)	HTTP请求头操作
