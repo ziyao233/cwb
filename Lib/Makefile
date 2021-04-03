@@ -21,7 +21,8 @@ FLAG_REMOVE:=-rf
 FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra
 
 # Files
-FILES_OBJS:=Net.o Time.o IO.o Event.o
+FILES_CODERS:=Coder_Base64.o
+FILES_OBJS:=Net.o Time.o IO.o Event.o $(FILES_CODERS)
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib
