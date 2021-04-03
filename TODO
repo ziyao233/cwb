@@ -5,13 +5,14 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
-(+)	Http库 HTTP静态文件路由支持
+(+)	URI编解码
+(+)	www-form序列化
+(+)	HTTP服务器
 (+)	HTTP动态请求支持
 (+)	HTTP请求头操作
 (+)	HTTP响应头操作
-(+)	Encoder库 HTTP常用编码的编码
-(+)	Decoder库 HTTP常用编码的解码
 ========	v0.1.0	========
+(+)	JSON序列化
 (+)	HTTP Cookie支持
 (!)	HTTP 多线程服务器
 (!)	COAP库
