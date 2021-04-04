@@ -15,6 +15,7 @@ cwb 参考手册
 	Time库
 	Net库
 	IO库
+	Encoder && Decoder库
 ===============
 Time库
 	Time库提供了时间相关的操作
@@ -188,4 +189,33 @@ IO库
 			销毁一个IO观察者
 			input:
 				watcher		IO观察者
+================
+Encoder & Decoder库
+	Encoder和Decoder库提供了二进制数据的编解码
+
+	头文件
+		cwb/Encoder.c	编码器
+		cwb/Decoder.c	解码器
+
+	函数
+		char *cwb_encode_base64(const void *data,size_t size,
+					char *output,size_t bufSize);
+			编码数据
+				数据存储在output中,当output为NULL时,会尝试
+					分配缓冲区
+			input:
+				data	数据
+				size	数据长度
+				output	输出缓冲区
+				bufSize	输出缓冲区长度
+			return:
+				NULL	缓冲区过小或内存分配失败
+				output	存储着被编码的数据
+				other	output为NULL
+
+		void *cwb_decode_base64(const char *data,size_t *size,
+					void *output,size_t bufSize);
+			解码数据
+				除size的指向将会存储解码后数据的长度
+				同cwb_encode_base64()
 ================
