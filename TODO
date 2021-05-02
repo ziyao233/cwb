@@ -5,9 +5,7 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
-(+)	URI编解码
 (+)	www-form序列化
-(+)	数据结构Hash Table
 ========	v0.1.0	========
 (+)	HTTP服务器
 (+)	HTTP动态请求支持
