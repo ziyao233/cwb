@@ -1,19 +1,32 @@
 	+	Feature			特性
 	-	Performance Optmize	性能优化
 	*	Bug Fix			Bug修复
-	!	Planing Future		计划中特性
+	!	Planing Feature		计划中特性
 	c	Chores			杂务
 	r	Refactor		代码重构
 
 (+)	www-form序列化
+(-)	IO库select遍历
+(c)	README&Document
 ========	v0.1.0	========
+(c)	Code Style
 (+)	HTTP服务器
-(+)	HTTP动态请求支持
 (+)	HTTP请求头操作
 (+)	HTTP响应头操作
+(+)	HTTP Cookie支持
+(+)	Cwb_Dstr动态字符串
+(!)	CWB_DS_LIST链表
 ========	v0.2.0	========
+(+)	CWB_DS_HASHTABLE
 (+)	M/MIME编码
 (+)	JSON序列化
-(+)	HTTP Cookie支持
+(+)	XML序列化
+========	v0.3.0	========
+(-)	HTTP流量控制
+(+)	HTTP客户端
+(+)	模板
+(+)	epoll支持
 (+)	HTTP 多线程服务器
+(!)	IRC Protocol
+(!)	STMP&POP3 Protocol
 (!)	COAP库
