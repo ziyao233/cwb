@@ -5,6 +5,7 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
+(+)	Cwb_Dstr动态字符串
 (+)	www-form序列化
 (-)	IO库select遍历
 (c)	README&Document
@@ -14,7 +15,6 @@
 (+)	HTTP请求头操作
 (+)	HTTP响应头操作
 (+)	HTTP Cookie支持
-(+)	Cwb_Dstr动态字符串
 (!)	CWB_DS_LIST链表
 ========	v0.2.0	========
 (+)	CWB_DS_HASHTABLE

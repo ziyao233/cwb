@@ -1,7 +1,7 @@
 ================
 cwb 参考手册
 
-最后修改时间:2021.03.07
+最后修改时间:2021.05.03
 
 请注意,在主要版本号为0时的测试时期,API可能经常发生变化,请注意阅读手册内容
 ================
@@ -9,6 +9,7 @@ cwb 参考手册
 
 采用C语言的函数格式说明函数
 阅读手册时,制表符设为8个字符宽度更为合适
+返回值为int的函数若不特殊说明,其返回值为0代表操作成功,非零代表操作失败
 ================
 库目录
 
@@ -16,6 +17,8 @@ cwb 参考手册
 	Net库
 	IO库
 	Encoder && Decoder库
+	Event库
+	Ds库
 ===============
 Time库
 	Time库提供了时间相关的操作
@@ -198,8 +201,8 @@ Encoder & Decoder库
 		cwb/Decoder.c	解码器
 
 	函数
-		char *cwb_encode_base64(const void *data,size_t size,
-					char *output,size_t bufSize);
+		char *cwb_encode_xxx(const void *data,size_t size,
+				     char *output,size_t bufSize);
 			编码数据
 				数据存储在output中,当output为NULL时,会尝试
 					分配缓冲区
@@ -213,9 +216,88 @@ Encoder & Decoder库
 				output	存储着被编码的数据
 				other	output为NULL
 
-		void *cwb_decode_base64(const char *data,size_t *size,
-					void *output,size_t bufSize);
+		void *cwb_decode_xxx(const char *data,size_t *size,
+				     void *output,size_t bufSize);
 			解码数据
 				除size的指向将会存储解码后数据的长度
-				同cwb_encode_base64()
+				同cwb_encode_xxx()
+		目前支持的编解码器有
+			Coder		Encode	Decode	Function_Name
+			Base64		y	y	base64
+			URI		y	y	uri
+
 ================
+Event库
+	Event库提供了基于IO库IO Watcher模型的事件驱动机制
+
+	头文件
+		cwb/Event.h
+	
+	数据类型
+		Cwb_Event_Base	事件驱动框架
+		Cwb_Event_Fd_Handler
+			int (*Cwb_Event_Fd_Handler)
+				(Cwb_Event_Base *base,
+				 int fd,
+				 void *userData);
+			文件描述符事件回调函数
+				base		事件驱动框架
+				fd		事件源
+				userData	用户数据
+			当返回非0值时,框架视为回调函数出错
+	
+	宏
+		CWB_EVENT_FD_READ	监听文件描述符的可读事件
+		CWB_EVENT_FD_WRITE	监听文件描述符的可写事件
+
+	
+	函数
+		Cwb_Event_Base *cwb_event_new(void);
+			创建事件驱动框架
+			return:
+				事件驱动框架指针
+				失败返回NULL
+
+		int cwb_event_fd_watch(Cwb_Event_base *base,
+				       int fd,int flag,
+				       Cwb_Event_Fd_Handler handler,
+				       void *userData);
+			监听一个文件描述符
+			input:
+				base	事件驱动框架
+				fd	文件描述符
+				flag	监听标志
+					CWB_EVENT_FD*的按位或结果
+				handler	事件回调函数
+					监听的事件发生时会被调用
+				userData 用户数据,会被作为最后一个
+					参数传入handler
+			return:
+				0	成功
+				非0	失败
+
+		int cwb_event_fd_unwatch(Cwb_Event_Base *base,
+					 int fd);
+			取消对文件描述符的监听
+			input:
+				base	事件驱动框架
+				fd	文件描述符
+		
+		int cwb_event_loop(Cwb_Event_Base *base);
+			启动主事件循环
+			input:
+				base	事件驱动框架
+			return:
+				0	事件循环由cwb_event_exit()
+					正常结束
+				非零	事件循环中或事件处理中出现
+					错误
+
+		void cwb_event_destroy(Cwb_Event_Base *base);
+			销毁事件驱动框架
+			input:
+				base	事件驱动框架
+===============
+Ds库
+	Ds库提供了常用数据结构的实现
+==============
