@@ -3,4 +3,6 @@
 
 #define CWB_CONF_EVENT_FD_MAX_NUM 64
 
+#define CWB_CONF_DSTR_PARTSIZE 16384
+
 #endif
