@@ -1,6 +1,6 @@
 # cwb
 # File:/Lib/Makefile
-# Date:2021.05.04
+# Date:2021.05.08
 # By LGPL v3.0 and Anti-996 License
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
@@ -12,7 +12,7 @@ CC:=c99
 AR:=ar
 REMOVE:=rm
 ECHO:=echo
-COPY:=cp
+COPY:=cp -f
 MAKEDIR:=mkdir
 
 # Flags
@@ -44,7 +44,7 @@ disbuild:
 
 install:build
 	@$(ECHO) [MAKEDIR] $(DIR_INSTALL_HEADERS)
-	@$(MAKEDIR) $(DIR_INSTALL_HEADERS)
+	-$(MAKEDIR) $(DIR_INSTALL_HEADERS)
 	@$(ECHO) [COPY] Headers
 	@$(COPY) *.h $(DIR_INSTALL_HEADERS)
 	@$(ECHO) [COPY] $(FILES_LIB)

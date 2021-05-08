@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Dstr.c
-	Date:2021.05.04
+	Date:2021.05.08
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -14,12 +14,7 @@
 
 #include"Dstr.h"
 
-typedef struct Dstr_Part {
-	size_t used;
-	size_t length;
-	char *partStr;
-	struct Dstr_Part *next;
-}Dstr_Part;
+typedef struct __Cwb_Dstr_Part Dstr_Part;
 
 #define create_part() ((Dstr_Part*)malloc(sizeof(Dstr_Part)))
 
@@ -81,8 +76,8 @@ int cwb_dstr_assign(Cwb_Dstr *dstr,const char *src)
 		return -1;
 	
 	*part = (Dstr_Part){
-				.length = length+1,
-				.used	= length+1,
+				.length = length,
+				.used	= length,
 				.partStr= (char*)malloc(length+1),
 				.next	= NULL
 			   };
@@ -95,8 +90,8 @@ int cwb_dstr_assign(Cwb_Dstr *dstr,const char *src)
 	strcpy(part->partStr,src);
 
 	*dstr = (Cwb_Dstr){
-				.part	= (void*)part,
-				.last	= (void*)part,
+				.part	= part,
+				.last	= part,
 				.length = length
 			   };
 

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Dstr.h
-	Date:2021.05.04
+	Date:2021.05.08
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,10 +12,17 @@
 #include<stdlib.h>
 #include<stdint.h>
 
+struct __Cwb_Dstr_Part {
+	size_t used;
+	size_t length;
+	char *partStr;
+	struct __Cwb_Dstr_Part *next;
+};
+
 typedef struct {
 	size_t length;
-	void *part;
-	void *last;
+	struct __Cwb_Dstr_Part *part;
+	struct __Cwb_Dstr_Part *last;
 }Cwb_Dstr;
 
 Cwb_Dstr *cwb_dstr_new(void);
