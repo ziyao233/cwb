@@ -13,291 +13,345 @@ cwb 参考手册
 ================
 库目录
 
-	Time库
-	Net库
-	IO库
-	Encoder && Decoder库
-	Event库
-	Ds库
+Time库
+Net库
+IO库
+Encoder && Decoder库
+Event库
+Ds库
 ===============
 Time库
-	Time库提供了时间相关的操作
+Time库提供了时间相关的操作
 
-	头文件
-		cwb/Time.h
-	数据结构
-		Cwb_Time_MicroSecond	以毫秒为单位的时间	
-	
-	函数
-		Cwb_Time_MicroSecond cwb_time_get(void);
-			获得以毫秒为单位的UTC时间
-			return:
-				UTC时间
+头文件
+	cwb/Time.h
+数据结构
+	Cwb_Time_MicroSecond	以毫秒为单位的时间	
+
+函数
+	Cwb_Time_MicroSecond cwb_time_get(void);
+		获得以毫秒为单位的UTC时间
+		return:
+			UTC时间
 ================
 Net库
-	Net库提供了与非阻塞网络IO有关的操作
+Net库提供了与非阻塞网络IO有关的操作
 	
-	头文件
-		cwb/Net.h
-	函数
-		int cwb_net_socket(void);
-			创建新的TCP&IPv4&非阻塞套接字
-			return:
-				<0	如果有错误发生
-				套接字	如果成功
+头文件
+	cwb/Net.h
+函数
+	int cwb_net_socket(void);
+		创建新的TCP&IPv4&非阻塞套接字
+		return:
+			<0	如果有错误发生
+			套接字	如果成功
 
-		int cwb_net_bind(int sock,int port);
-			绑定套接字与端口
-			input:
-				sock	套接字
-				port	绑定的端口
-			return:
-				!=0	错误
-				==0	成功
+	int cwb_net_bind(int sock,int port);
+		绑定套接字与端口
+		input:
+			sock	套接字
+			port	绑定的端口
+		return:
+			!=0	错误
+			==0	成功
 
-		int cwb_net_listen(int sock,int backLog);
-			监听套接字
-			input:
-				sock	套接字
-				backLog	backlog值(详见TCP backlog)
-			return:
-				!=0	失败
-				==0	成功
+	int cwb_net_listen(int sock,int backLog);
+		监听套接字
+		input:
+			sock	套接字
+			backLog	backlog值(详见TCP backlog)
+		return:
+			!=0	失败
+			==0	成功
 
-		int cwb_net_accept(int sock);
-			从套接字接收连接
-			input:
-				sock	套接字
-			return:
-				<0	失败
-				>0	成功
+	int cwb_net_accept(int sock);
+		从套接字接收连接
+		input:
+			sock	套接字
+		return:
+			<0	失败
+			>0	成功
 
-		ssize_t cwb_net_read(int sock,void *buf,size_t size);
-			从连接读数据
-			input:
-				sock	套接字
-				buf	缓冲区
-				size	缓冲区长度
-			return:
-				<0	失败
-				>0	读取的数据长度
+	ssize_t cwb_net_read(int sock,void *buf,size_t size);
+		从连接读数据
+		input:
+			sock	套接字
+			buf	缓冲区
+			size	缓冲区长度
+		return:
+			<0	失败
+			>0	读取的数据长度
 
-		ssize_t	cwb_net_write(int sock,void *buf,size_t size);
-			向连接写数据
-			input:
-				sock	套接字
-				buf	数据指针
-				size	数据长度
-			return:
-				<0	失败
-				>0	实际写入的数据长度
+	ssize_t	cwb_net_write(int sock,void *buf,size_t size);
+		向连接写数据
+		input:
+			sock	套接字
+			buf	数据指针
+			size	数据长度
+		return:
+			<0	失败
+			>0	实际写入的数据长度
 
-		int cwb_net_close(int sock);
-			关闭连接或套接字
-			input:
-				sock	文件描述符
-			return:
-				-1	失败
-				0	成功
+	int cwb_net_close(int sock);
+		关闭连接或套接字
+		input:
+			sock	文件描述符
+		return:
+			-1	失败
+			0	成功
 
-		uint??_t cwb_net_tonet??(uint??_t data);
-			??可取16或32
-			将本机字节序转换为网络字节序
-			input:
-				data	本机字节序的数据
-			return:
-				data对应的网络字节序表示
+	uint??_t cwb_net_tonet??(uint??_t data);
+		??可取16或32
+		将本机字节序转换为网络字节序
+		input:
+			data	本机字节序的数据
+		return:
+			data对应的网络字节序表示
 
-		uint??_t cwb_net_tohost??(uint??_t data);
-			??可取16或32
-			将网络字节序转化为本机字节序
-			input:
-				data	网络字节序的数据
-			return:
-				data对应的本机字节序表示
-				
+	uint??_t cwb_net_tohost??(uint??_t data);
+		??可取16或32
+		将网络字节序转化为本机字节序
+		input:
+			data	网络字节序的数据
+		return:
+			data对应的本机字节序表示
+			
 ================
 IO库
-	IO库提供了与IO操作有关的内容
+IO库提供了与IO操作有关的内容
 
-	头文件
-		cwb/IO.h
-	数据结构
-		Cwb_IO_Watcher		定义了一个IO观察者(IO Watcher)
+头文件
+	cwb/IO.h
+数据结构
+	Cwb_IO_Watcher		定义了一个IO观察者(IO Watcher)
 	
-	宏
-		CWB_IO_WATCHER_READ	监听IO可读事件
-		CWB_IO_WATCHER_WRITE	监听IO可写事件
-		CWB_IO_WOULDBLOCK	布尔值,表示函数返回的原因是IO操作
-			阻塞
-		CWB_IO_OK		布尔值,为真表示IO操作成功
-		CWB_IO_TRUEERROR	布尔值,表示IO操作有有意义的错误发生
-		CWB_IO_TIMEOUT		布尔值,表示操作超时
-	
+宏
+	CWB_IO_WATCHER_READ	监听IO可读事件
+	CWB_IO_WATCHER_WRITE	监听IO可写事件
+	CWB_IO_WOULDBLOCK	布尔值,表示函数返回的原因是IO操作
+				阻塞
+	CWB_IO_OK		布尔值,为真表示IO操作成功
+	CWB_IO_TRUEERROR	布尔值,表示IO操作有有意义的错误发生
+	CWB_IO_TIMEOUT		布尔值,表示操作超时
+
 	函数
-		Cwb_IO_Watcher *cwb_io_watcher_new(
-			unsigned int maxNum);
-			新建一个IO观察者
-			input:
-				maxNum	最大可观察的文件描述符
-					数量
-			return:
-				一个IO观察者
-		int cwb_io_watcher_watch(Cwb_IO_Watcher *watcher,
-					 int fd,
-					 uint8_t flag);
-			观察一个文件描述符
-			input:
-				watcher	IO观察者
-				fd	文件描述符
-				flag	监听类型
-					取值
-					CWB_IO_WATCHER_READ,
-					CWB_IO_WATCHER_WRITE
-			return:
-				0	成功
-				!=0	失败
-		int *cwb_io_watcher_wait(Cwb_IO_Watcher *watcher,
-					 int *readyList,
-					 size_t maxNum,
-					 Cwb_Time_MicroSecond
-						*timeout);
-			等待被观察的文件描述符就绪
-			timeout为NULL时,无限等待
-			input:
-				watcher		IO观察者
-				readyList	存储就绪描述符
-						的列表
-				maxNum		readyList长度或
-					最多可接受的就绪描述符数量
-				timout		超时
-			return:
-				-1		超时,发生错误
-				readyList	readyList中填充着
-					就绪的文件描述符,以-1结尾
-				others		readyList为NULL时,
-					将会自动分配一个列表,以
-					-1结尾,需要手动释放
-		int cwb_io_watcher_unwatch(Cwb_IO_Watcher
-						*watcher,
-					   int fd);
-			不再观察一个文件描述符
-			input:
-				watcher		IO观察者
-				fd		文件描述符
-			return:
-				-1		失败
-				0		成功
-		void cwb_io_watcher_destroy(Cwb_IO_Watcher *watcher);
-			销毁一个IO观察者
-			input:
-				watcher		IO观察者
+	Cwb_IO_Watcher *cwb_io_watcher_new(unsigned int maxNum);
+		新建一个IO观察者
+		input:
+			maxNum	最大可观察的文件描述符
+				数量
+		return:
+			一个IO观察者
+	int cwb_io_watcher_watch(Cwb_IO_Watcher *watcher,
+				 int fd,
+				 uint8_t flag);
+		观察一个文件描述符
+		input:
+			watcher	IO观察者
+			fd	文件描述符
+			flag	监听类型
+				取值
+				CWB_IO_WATCHER_READ,
+				CWB_IO_WATCHER_WRITE
+		return:
+			0	成功
+			!=0	失败
+	int *cwb_io_watcher_wait(Cwb_IO_Watcher *watcher,
+				 int *readyList,
+				 size_t maxNum,
+				 Cwb_Time_MicroSecond
+					*timeout);
+		等待被观察的文件描述符就绪
+		timeout为NULL时,无限等待
+		input:
+			watcher		IO观察者
+			readyList	存储就绪描述符
+					的列表
+			maxNum		readyList长度或
+				最多可接受的就绪描述符数量
+			timout		超时
+		return:
+			-1		超时,发生错误
+			readyList	readyList中填充着
+				就绪的文件描述符,以-1结尾
+			others		readyList为NULL时,
+				将会自动分配一个列表,以
+				-1结尾,需要手动释放
+	int cwb_io_watcher_unwatch(Cwb_IO_Watcher
+					*watcher,
+				   int fd);
+		不再观察一个文件描述符
+		input:
+			watcher		IO观察者
+			fd		文件描述符
+		return:
+			-1		失败
+			0		成功
+	void cwb_io_watcher_destroy(Cwb_IO_Watcher *watcher);
+		销毁一个IO观察者
+		input:
+			watcher		IO观察者
 ================
 Encoder & Decoder库
-	Encoder和Decoder库提供了二进制数据的编解码
+Encoder和Decoder库提供了二进制数据的编解码
 
-	头文件
-		cwb/Encoder.c	编码器
-		cwb/Decoder.c	解码器
+头文件
+	cwb/Encoder.c	编码器
+	cwb/Decoder.c	解码器
 
-	函数
-		char *cwb_encode_xxx(const void *data,size_t size,
-				     char *output,size_t bufSize);
-			编码数据
-				数据存储在output中,当output为NULL时,会尝试
-					分配缓冲区
-			input:
-				data	数据
-				size	数据长度
-				output	输出缓冲区
-				bufSize	输出缓冲区长度
-			return:
-				NULL	缓冲区过小或内存分配失败
-				output	存储着被编码的数据
-				other	output为NULL
+函数
+	char *cwb_encode_xxx(const void *data,size_t size,
+			     char *output,size_t bufSize);
+		编码数据
+			数据存储在output中,当output为NULL时,会尝试
+				分配缓冲区
+		input:
+			data	数据
+			size	数据长度
+			output	输出缓冲区
+			bufSize	输出缓冲区长度
+		return:
+			NULL	缓冲区过小或内存分配失败
+			output	存储着被编码的数据
+			other	output为NULL
 
-		void *cwb_decode_xxx(const char *data,size_t *size,
-				     void *output,size_t bufSize);
-			解码数据
-				除size的指向将会存储解码后数据的长度
-				同cwb_encode_xxx()
-		目前支持的编解码器有
-			Coder		Encode	Decode	Function_Name
-			Base64		y	y	base64
-			URI		y	y	uri
+	void *cwb_decode_xxx(const char *data,size_t *size,
+			     void *output,size_t bufSize);
+		解码数据
+			除size的指向将会存储解码后数据的长度
+			同cwb_encode_xxx()
+	目前支持的编解码器有
+		Coder		Encode	Decode	Function_Name
+		Base64		y	y	base64
+		URI		y	y	uri
 
 ================
 Event库
-	Event库提供了基于IO库IO Watcher模型的事件驱动机制
+Event库提供了基于IO库IO Watcher模型的事件驱动机制
 
-	头文件
-		cwb/Event.h
+头文件
+	cwb/Event.h
+
+数据类型
+	Cwb_Event_Base	事件驱动框架
+	Cwb_Event_Fd_Handler
+		int (*Cwb_Event_Fd_Handler)
+			(Cwb_Event_Base *base,
+			 int fd,
+			 void *userData);
+		文件描述符事件回调函数
+			base		事件驱动框架
+			fd		事件源
+			userData	用户数据
+		当返回非0值时,框架视为回调函数出错
+
+宏
+	CWB_EVENT_FD_READ	监听文件描述符的可读事件
+	CWB_EVENT_FD_WRITE	监听文件描述符的可写事件
+
+
+函数
+	Cwb_Event_Base *cwb_event_new(void);
+		创建事件驱动框架
+		return:
+			事件驱动框架指针
+			失败返回NULL
+
+	int cwb_event_fd_watch(Cwb_Event_base *base,
+			       int fd,int flag,
+			       Cwb_Event_Fd_Handler handler,
+			       void *userData);
+		监听一个文件描述符
+		input:
+			base	事件驱动框架
+			fd	文件描述符
+			flag	监听标志
+				CWB_EVENT_FD*的按位或结果
+			handler	事件回调函数
+				监听的事件发生时会被调用
+			userData 用户数据,会被作为最后一个
+				参数传入handler
+		return:
+			0	成功
+			非0	失败
+
+	int cwb_event_fd_unwatch(Cwb_Event_Base *base,
+				 int fd);
+		取消对文件描述符的监听
+		input:
+			base	事件驱动框架
+			fd	文件描述符
 	
-	数据类型
-		Cwb_Event_Base	事件驱动框架
-		Cwb_Event_Fd_Handler
-			int (*Cwb_Event_Fd_Handler)
-				(Cwb_Event_Base *base,
-				 int fd,
-				 void *userData);
-			文件描述符事件回调函数
-				base		事件驱动框架
-				fd		事件源
-				userData	用户数据
-			当返回非0值时,框架视为回调函数出错
-	
-	宏
-		CWB_EVENT_FD_READ	监听文件描述符的可读事件
-		CWB_EVENT_FD_WRITE	监听文件描述符的可写事件
+	int cwb_event_loop(Cwb_Event_Base *base);
+		启动主事件循环
+		input:
+			base	事件驱动框架
+		return:
+			0	事件循环由cwb_event_exit()
+				正常结束
+			非零	事件循环中或事件处理中出现
+				错误
 
-	
-	函数
-		Cwb_Event_Base *cwb_event_new(void);
-			创建事件驱动框架
-			return:
-				事件驱动框架指针
-				失败返回NULL
-
-		int cwb_event_fd_watch(Cwb_Event_base *base,
-				       int fd,int flag,
-				       Cwb_Event_Fd_Handler handler,
-				       void *userData);
-			监听一个文件描述符
-			input:
-				base	事件驱动框架
-				fd	文件描述符
-				flag	监听标志
-					CWB_EVENT_FD*的按位或结果
-				handler	事件回调函数
-					监听的事件发生时会被调用
-				userData 用户数据,会被作为最后一个
-					参数传入handler
-			return:
-				0	成功
-				非0	失败
-
-		int cwb_event_fd_unwatch(Cwb_Event_Base *base,
-					 int fd);
-			取消对文件描述符的监听
-			input:
-				base	事件驱动框架
-				fd	文件描述符
-		
-		int cwb_event_loop(Cwb_Event_Base *base);
-			启动主事件循环
-			input:
-				base	事件驱动框架
-			return:
-				0	事件循环由cwb_event_exit()
-					正常结束
-				非零	事件循环中或事件处理中出现
-					错误
-
-		void cwb_event_destroy(Cwb_Event_Base *base);
-			销毁事件驱动框架
-			input:
-				base	事件驱动框架
+	void cwb_event_destroy(Cwb_Event_Base *base);
+		销毁事件驱动框架
+		input:
+			base	事件驱动框架
 ===============
-Ds库
-	Ds库提供了常用数据结构的实现
+Ds
+Ds库提供了常用数据结构的实现
+数据类型
+	Cwb_Ds		数据结构
+	Cwb_Ds_Type	数据结构种类,取值
+		CWB_DS_DICTIONARY	传统字典
+宏
+	CWB_DS_UNDEFINED	undefined数据
+	CWB_DS_SKEY		字符串类键
+	CWB_DS_IKEY		整数类键
+
+函数
+	对于所有函数,无特殊说明Cwb_Ds型的参数均为须操作的
+		数据结构
+	Cwb_Ds *cwb_ds_new(Cwb_Ds_Type type,...);
+		创建一个数据结构
+		input:
+			type	数据结构类型
+		return:
+			指向数据结构的指针,出错返回NULL
+	
+	void cwb_ds_destroy(Cwb_Ds *in);
+		销毁一个数据结构
+		input:
+	
+	int cwb_ds_set(Cwb_Ds *in,...);
+		设置键值
+	
+	void *cwb_ds_get(Cwb_Ds *in,...);
+		获取键值
+
+具体实现
+CWB_DS_DICTIONARY
+	Cwb_Ds *cwb_ds_new(Cwb_Ds_Type type,int keyType);
+		input:
+			keyType		键类型
+					取值CWB_DS_IKEY
+					    CWB_DS_SKEY
+	
+	int cwb_ds_set(Cwb_Ds *in,keyType key,void *data);
+		input:
+			key	键 keyType为创建Dictionary时
+					选择的键类型
+			data	键对应的数据
+					当data为CWB_DS_UNDEFINED时
+					删除此键
+	
+	void *cwb_ds_get(Cwb_Ds *in,keyType key);
+		input:
+			key	键 同cwb_ds_set()
+		return:
+			key对应的数据.如果未找到该键,返回
+				CWB_DS_UNDEFINED
+		
+	NOTE:
+		CWB_DS_DICTIONARY的查找实现为逐次匹配,所以效率
+			较低,尽可能避免使用.
 ==============
