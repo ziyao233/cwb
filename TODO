@@ -5,10 +5,8 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
-(+)	Cwb_Dstr动态字符串
 (+)	www-form序列化
 (-)	IO库select遍历
-(c)	README&Document
 ========	v0.1.0	========
 (c)	Code Style
 (+)	HTTP服务器
