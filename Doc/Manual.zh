@@ -19,6 +19,7 @@ IO库
 Encoder && Decoder库
 Event库
 Ds库
+Dstr库
 ===============
 Time库
 Time库提供了时间相关的操作
@@ -355,3 +356,66 @@ CWB_DS_DICTIONARY
 		CWB_DS_DICTIONARY的查找实现为逐次匹配,所以效率
 			较低,尽可能避免使用.
 ==============
+Dstr库
+Dstr库实现了高效的字符串缓冲与管理机制
+
+数据类型
+	Cwb_Dstr	动态字符串
+
+函数
+	不作特殊说明,返回的Cwb_Dstr*指针均为操作后的动态字符串
+	返回NULL被视作操作失败
+	Cwb_Dstr *cwb_dstr_new(void);
+		新建一个动态字符串
+		return:
+			指向动态字符串的指针.失败时返回NULL
+	
+	void cwb_dstr_destroy(Cwb_Dstr *dstr);
+		销毁一个动态字符串
+	
+	void cwb_dstr_clear(Cwb_Dstr *dstr);
+		清空一个动态字符串
+	
+	Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p);
+		破坏性赋值
+		input:
+			p	指向字符串的指针的地址
+				在赋值完成后,将会将此指针置为NULL
+	
+	Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,char const *src);
+		赋值
+		input:
+			src	源字符串
+	
+	char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length);
+		将动态字符串转换为C风格的原始字符串
+		input:
+			buffer	字符串缓冲区
+				为NULL时函数会尝试自行分配一个缓冲区
+			length	字符串缓冲区的长度
+		return:
+			储存着转换后字符串的缓冲区
+			如果buffer为NULL,函数会自行分配缓冲区,
+				在失败时返回NULL,成功时的缓冲区需要手动释放
+			如果buffer长度小于动态字符串长度,返回NULL
+	
+	Cwb_Dstr *cwb_dstr_copy(Cwb_Dstr *dstr);
+		创建动态字符串的一份拷贝
+	
+	Cwb_Dstr *cwb_Dstr_appendd(Cwb_Dstr *dstr,char **p);
+		破坏性追加
+		input:
+			p	指向要追加的字符串的指针的地址
+				在赋值完成后,会将此指针置为NULL
+	
+	Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c);
+		追加一个字符
+		input:
+			c	要追加的字符
+	
+	Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,char const *src);
+		追加一个短字符串
+		input:
+			src	要追加的字符串
+		src的长度应该小于CWB_CONF_DSTR_PARTSIZE(即一块缓冲区的长度)
+================
