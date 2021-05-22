@@ -22,7 +22,8 @@ FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra
 
 # Files
 FILES_CODERS:=Coder_Base64.o Coder_URI.o
-FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o $(FILES_CODERS)
+FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o \
+	    $(FILES_CODERS)
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib

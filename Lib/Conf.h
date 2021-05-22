@@ -5,4 +5,6 @@
 
 #define CWB_CONF_DSTR_PARTSIZE 16384
 
+#define CWB_CONF_BUFFER_PARTSIZE 16384
+
 #endif
