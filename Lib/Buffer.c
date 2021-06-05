@@ -1,3 +1,11 @@
+/*
+	cwb
+	File:/Lib/Buffer.c
+	Date:2021.06.05
+	By LGPL v3.0 and Anti-996
+	Copyright(C) 2021 cwb developers.All rights reserved.
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -18,7 +26,7 @@ static Buffer_Part *create_part(void)
 				.size = 0,
 				.used = 0,
 			     };
-	return NULL;
+	return part;
 }
 
 Cwb_Buffer *cwb_buffer_new(void)
@@ -63,6 +71,16 @@ Cwb_Buffer *cwb_buffer_append(Cwb_Buffer *buffer,void const *data,size_t size)
 {
 	Buffer_Part *part = buffer->last;
 
+	if (!part) {
+		buffer->part = create_part();
+		buffer->last = buffer->part;
+		part	     = buffer->part;
+		part->data   = malloc(size);
+		if (!part->data)
+			return NULL;
+		part->size   = size;
+	}
+
 	if (part->used + size > part->size) {
 		part->next   = create_part();
 
@@ -72,19 +90,21 @@ Cwb_Buffer *cwb_buffer_append(Cwb_Buffer *buffer,void const *data,size_t size)
 
 		buffer->last = part->next;
 		part	     = buffer->last;
+		part->size   = size;
 	}
 
-	void *p = (void*)(((uint8_t*)part->data)+part->used);
+	void *p = (void*)((uint8_t*)(part->data)+part->used);
 	memcpy(p,data,size);
 
 	buffer->size += size;
+	part->used   += size;
 
-	return NULL;
+	return buffer;
 }
 
 void *cwb_buffer_convert(Cwb_Buffer *buffer,void *result,size_t size)
 {
-	if (buffer) {
+	if (result) {
 		if (buffer->size > size)
 			return NULL;
 	} else {
@@ -93,12 +113,12 @@ void *cwb_buffer_convert(Cwb_Buffer *buffer,void *result,size_t size)
 			return NULL;
 	}
 
-	void *p = result;
+	uint8_t *p = (uint8_t*)result;
 	for (Buffer_Part *part = buffer->part;
 	     part;
 	     part = part->next) {
 		memcpy(p,part->data,part->used);
-		p = (void*)((uint8_t*)p+part->used);
+		p += part->used;
 	}
 
 	return result;

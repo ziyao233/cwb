@@ -1,3 +1,11 @@
+/*
+	cwb
+	File:/Lib/Buffer.h
+	Date:2021.06.05
+	By LGPL v3.0 and Anti-996 License.
+	Copyright(C) 2021 cwb developers.All rights reserved.
+*/
+
 #ifndef _CWB_BUFFER_H_INC
 #define _CWB_BUFFER_H_INC
 
