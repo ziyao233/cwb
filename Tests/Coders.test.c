@@ -1,19 +1,22 @@
 /*
 	cwb
 	File:/Tests/Coders.test.c
-	Date:2021.04.10
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 
+#include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
 #include<stdint.h>
 
-#include"cwb/Encoder.h"
-#include"cwb/Decoder.h"
+#include<cwb/Dstr.h>
+#include<cwb/Buffer.h>
+#include<cwb/Encoder.h>
+#include<cwb/Decoder.h>
 
 void error_report(void) {
 	fputs("Error\n",stderr);
@@ -37,29 +40,28 @@ int main(void)
 
 	{
 		puts("Encoding(Base64)...");
-		char *encodedData=cwb_encode_base64(data,dataSize,NULL,0);
-		if(!encodedData) {
-			fputs("Error\n",stderr);
-			return -1;
-		}
+		Cwb_Dstr *dEncodedData = cwb_encode_base64(data,dataSize,NULL);
+		assert(dEncodedData);
+		char *encodedData=cwb_dstr_convert(dEncodedData,NULL,0);
+		assert(encodedData);
 
-		size_t decodedSize=0;
 		puts("Decoding...");
-		void *decodedData=cwb_decode_base64(encodedData,&decodedSize,NULL,0);
-		if(!decodedData) {
-			fputs("Error\n",stderr);
-			return -1;
-		}
+		Cwb_Buffer *dDecodedData = cwb_decode_base64(encodedData,NULL);
+		assert(dDecodedData);
+		void *decodedData=cwb_buffer_convert(dDecodedData,NULL,0);
+		assert(decodedData);
 
 		puts("Comparing...");
-		if(dataSize!=decodedSize || memcmp(decodedData,data,dataSize)) {
-			fputs("Error\n",stderr);
-			return -1;
-		}
+		assert(!memcmp(decodedData,data,dataSize));
+
 		free(encodedData);
 		free(decodedData);
+
+		cwb_dstr_destroy(dEncodedData);
+		cwb_buffer_destroy(dDecodedData);
 	}
 
+	/*
 	{
 		puts("Encoding(URI)...");
 		char *encodedData=cwb_encode_uri(data,dataSize,NULL,0);
@@ -84,6 +86,7 @@ int main(void)
 		free(encodedData);
 		free(decodedData);
 	}
+	*/
 
 	puts("Done");
 

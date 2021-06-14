@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Encoder.h
-	Date:2021.04.10
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -11,9 +11,11 @@
 
 #include<stdlib.h>
 
-char *cwb_encode_base64(const void *data,size_t dataSize,
-			char *output,size_t bufSize);
-char *cwb_encode_uri(const void *data,size_t dataSize,
-		     char *output,size_t bufSize);
+#include"Dstr.h"
+#include"Buffer.h"
+
+Cwb_Dstr *cwb_encode_base64(void const *data,size_t size,Cwb_Dstr *output);
+/*char *cwb_encode_uri(const void *data,size_t dataSize,
+		     char *output,size_t bufSize);*/
 
 #endif

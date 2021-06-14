@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Coder_Base64.c
-	Date:2021.04.03
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -13,6 +13,8 @@
 
 #include"Encoder.h"
 #include"Decoder.h"
+#include"Dstr.h"
+#include"Buffer.h"
 
 static const char *base64ChangeTable=
 				  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \
@@ -39,48 +41,59 @@ static const uint8_t base64UnchangeTable[]=
 						0x31, 0x32, 0x33
 					};
 
-char *cwb_encode_base64(const void *data,size_t size,
-			char *output,size_t bufSize) {
+Cwb_Dstr *cwb_encode_base64(const void *data,size_t size,Cwb_Dstr *output)
+{
+	if (!output) {
+		output = cwb_dstr_new();
+		if (!output)
+			return NULL;
+	}
+
 	size_t filled=(3-size%3)==3?0:(3-size%3);
 	size_t resSize=(size/3+(filled?1:0))*4;
 
-	if(output&&bufSize<resSize)
-		return NULL;
-
-	char *code=output?output:(char*)malloc(sizeof(char)*(resSize+1));
-	if(!code)
-		return NULL;
-
 	uint8_t *p=(uint8_t*)data;
 
+	char code[5] = {0};
 	size_t dataCount=0,count;
 	for(count=0;count<resSize;count+=4) {
-		code[count]=base64ChangeTable[p[dataCount]>>2];
-		code[count+1]=base64ChangeTable[((p[dataCount]&0x03)<<4) | ((p[dataCount+1])>>4)];
-		code[count+2]=base64ChangeTable[(p[dataCount+1]&0x0f)<<2 | (p[dataCount+2]>>6)];
-		code[count+3]=base64ChangeTable[p[dataCount+2]&0x3f];
+		code[0]=base64ChangeTable[p[dataCount]>>2];
+		code[1]=base64ChangeTable[((p[dataCount]&0x03)<<4) | ((p[dataCount+1])>>4)];
+		code[2]=base64ChangeTable[(p[dataCount+1]&0x0f)<<2 | (p[dataCount+2]>>6)];
+		code[3]=base64ChangeTable[p[dataCount+2]&0x3f];
 		dataCount+=3;
+		if (!cwb_dstr_appends(output,code))
+			return NULL;
 	}
 
 	for(count=0;count<filled;count++) {
-		code[resSize-count-1]='=';
+		cwb_dstr_appendc(output,'=');
 	}
-	code[resSize]='\0';
 
-	return code;
+	return output;
 }
 
-void *cwb_decode_base64(const char *code,size_t *size,
-			void *output,size_t bufSize) {
+static size_t real_size(uint8_t *data)
+{
+	size_t size = 0;
+	while (*data != '=') {
+		data++;
+		size++;
+	}
+	return size;
+}
+
+Cwb_Buffer *cwb_decode_base64(const char *code,Cwb_Buffer *output)
+{
+	if (!output) {
+		output = cwb_buffer_new();
+		if (!output)
+			return NULL;
+	}
+
 	size_t dataSize=strlen(code);
-	uint8_t *data=output?output:(uint8_t*)malloc(sizeof(uint8_t)*dataSize);
 
-	if(output && bufSize<(dataSize/3+1))
-		return NULL;
-
-	if(!data)
-		return NULL;
-
+	uint8_t data[4];
 	size_t count=0,dataCount=0;
 	uint8_t *base64=(uint8_t*)code;
 	for(count=0;count<dataSize;count+=4) {
@@ -90,16 +103,12 @@ void *cwb_decode_base64(const char *code,size_t *size,
 						  ((base64UnchangeTable[base64[count+2]]>>2)&0x0f);
 		data[dataCount+2]=(base64UnchangeTable[base64[count+2]]&0x03)<<6 |
 						  (base64UnchangeTable[base64[count+3]]);
-		dataCount+=3;
+		if (count > dataSize-3) {
+			cwb_buffer_appends(output,data,real_size(base64)%3);
+		} else {
+			cwb_buffer_appends(output,data,3);
+		}
 	}
 
-	if(base64[dataSize-1]=='=')
-		dataCount--;
-	
-	if(base64[dataSize-2]=='=')	
-		dataCount--;
-	
-	
-	*size=dataCount;
-	return data;
+	return output;
 }
