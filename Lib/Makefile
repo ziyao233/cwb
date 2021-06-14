@@ -8,7 +8,7 @@
 CONF_DEBUG_OPTION:=-g -O0
 
 # Tool
-CC:=c99
+CC:=gcc
 AR:=ar
 REMOVE:=rm
 ECHO:=echo

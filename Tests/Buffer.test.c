@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Test/Buffer.test.c
-	Date:2021.06.06
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -27,7 +27,7 @@ int main(void)
 		Cwb_Buffer *buffer = cwb_buffer_new();
 		assert(buffer);
 
-		size_t size = (random()+1)%65536;
+		size_t size = (random()+1)%512;
 		void *data = test_random_data(size);
 		size_t tmp = size;
 		void *tmpData = data;
@@ -35,7 +35,7 @@ int main(void)
 		while (size) {
 			size_t step = random();
 			step = step > size ? size : step;
-			assert(cwb_buffer_append(buffer,data,step));
+			assert(cwb_buffer_appends(buffer,data,step));
 			data = (void*)((uint8_t*)data + step);
 			size -= step;
 		}

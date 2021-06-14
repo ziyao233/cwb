@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Buffer.h
-	Date:2021.06.05
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -13,7 +13,7 @@
 #include<stdint.h>
 
 struct __Cwb_Buffer_Part{
-	void *data;
+	uint8_t *data;
 	size_t size;
 	size_t used;
 	struct __Cwb_Buffer_Part *next;
@@ -24,10 +24,12 @@ typedef struct {
 	size_t size;
 }Cwb_Buffer;
 
+#define CWB_BUFFER_SIZE(buffer) ((buffer)->size)
+
 Cwb_Buffer *cwb_buffer_new(void);
 void cwb_buffer_destroy(Cwb_Buffer *buffer);
 
-Cwb_Buffer *cwb_buffer_append(Cwb_Buffer *buffer,void const *result,size_t size);
+Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,void const *result,size_t size);
 
 void *cwb_buffer_convert(Cwb_Buffer *buffer,void *data,size_t size);
 

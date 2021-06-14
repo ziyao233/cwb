@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Dstr.h
-	Date:2021.05.09
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -27,8 +27,6 @@ typedef struct {
 
 Cwb_Dstr *cwb_dstr_new(void);
 void cwb_dstr_destroy(Cwb_Dstr *dstr);
-
-void cwb_dstr_clear(Cwb_Dstr *dstr);
 
 Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p);
 Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,const char *src);

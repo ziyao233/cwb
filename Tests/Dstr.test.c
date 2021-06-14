@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Tests/Dstr.test.c
-	Date:2021.05.09
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -9,42 +9,51 @@
 #include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 #include<string.h>
+#include<stdint.h>
 
+#include"Test.h"
 #include<cwb/Dstr.h>
+
+#define TARGET 100
 
 int main(void)
 {
-	char temp[1024];
-	fgets(temp,1024,stdin);
+	(void)test_random_data;
+	test_init();
 
-	temp[strlen(temp)-1]='\0';
+	TEST_LOOP(TARGET) {
+		Cwb_Dstr *dstr = cwb_dstr_new();
+		assert(dstr);
 
-	Cwb_Dstr *dstr = cwb_dstr_new();
-	assert(dstr);
-	
-	assert(cwb_dstr_assign(dstr,temp));
-	Cwb_Dstr *copy = cwb_dstr_copy(dstr);
+		size_t length = random()%65536+1;
+		
+		char *str = test_random_str(length);
 
-	char *s = cwb_dstr_convert(dstr,NULL,0);
-	puts(s);
-	char *t = strdup(s);
-	cwb_dstr_appendd(dstr,&t);
-	assert(!t);
-	cwb_dstr_appendc(dstr,':');
-	cwb_dstr_appendc(dstr,')');
-	free(s);
-	
-	s = cwb_dstr_convert(dstr,NULL,0);
-	puts(s);
+		size_t tmpLength = length;
+		char *p = str;
+		while (tmpLength) {
+			size_t step = random()%512+1;
+			step = step > tmpLength ? tmpLength : step;
+			
+			char *subStr = (char*)malloc(step+2);
+			assert(subStr);
+			subStr[step] = '\0';
+			strncpy(subStr,p,step);
+			p += step;
 
-	cwb_dstr_destroy(dstr);
-	free(s);
+			assert(cwb_dstr_appends(dstr,subStr));
+			tmpLength -= step;
+			free(subStr);
+		}
 
-	cwb_dstr_appends(copy,":)");
-	s = cwb_dstr_convert(copy,NULL,0);
-	puts(s);
-	free(s);
+		char *result = cwb_dstr_convert(dstr,NULL,0);
+		assert(!strcmp(result,str));
+
+		free(str);
+		cwb_dstr_destroy(dstr);
+	}
 
 	return 0;
 }
