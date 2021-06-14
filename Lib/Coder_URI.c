@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/Coder_URI.c
-	Date:2021.04.10
+	Date:2021.06.14
 	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,6 +12,8 @@
 #include<string.h>
 #include<stdint.h>
 
+#include"Dstr.h"
+#include"Buffer.h"
 #include"Encoder.h"
 #include"Decoder.h"
 
@@ -23,63 +25,54 @@ static inline int uri_needcode(uint8_t ch)
 		   ch=='.' || ch=='-' || ch=='_' || ch=='~';
 }
 
-char *cwb_encode_uri(const void *data,size_t dataSize,
-		     char *output,size_t bufSize)
+Cwb_Dstr *cwb_encode_uri(void const *data,size_t size,Cwb_Dstr *output)
 {
-	char *result=output?output:(char*)malloc(sizeof(char)*dataSize*3+1);
-	if(!result)
-		return NULL;
-	if(output && (bufSize<dataSize*3))
-		return NULL;
+	if (!output) {
+		output = cwb_dstr_new();
+		if (!output)
+			return NULL;
+	}
 
-	char *dest=result;
 	static const char *changeTable="0123456789ABCDEF";
 	uint8_t *p=(uint8_t*)data;
-	for(size_t i=0;i<dataSize;i++)
+	char temp[4] = "%\0\0\0";
+	for(size_t i=0;i<size;i++)
 	{
 		if(!uri_needcode(*p))
 		{
-			*dest='%';
-			dest[1]=changeTable[*p/16];
-			dest[2]=changeTable[*p%16];
-			dest+=3;
+			temp[1]=changeTable[*p/16];
+			temp[2]=changeTable[*p%16];
+			cwb_dstr_appends(output,temp);
 		}
 		else
 		{
-			*dest=*p;
-			dest++;
+			cwb_dstr_appendc(output,*p);
 		}
 		p++;
 	}
 
-	*dest='\0';
-
-	return result;
+	return output;
 }
 
-void *cwb_decode_uri(const char *data,size_t *size,
-		     void *output,size_t bufSize) {
-	size_t dataSize=strlen(data);
-	void *result=output?output:malloc(sizeof(uint8_t)*dataSize*3);
-	if(!result)
-		return NULL;
-	
-	if(output && bufSize<dataSize)
-		return NULL;
-
-	uint8_t *dest=(uint8_t*)result;
-	*size=0;
-	for(const char *p=data;*p;dest++) {
-		/*	Coded	*/
-		if(*p=='%') {
-			*dest=HEX2NUM(p[1])<<4 | HEX2NUM(p[2]);
-			p+=3;
-		} else {
-			*dest=*p;
-			p++;
-		}
-		(*size)++;
+Cwb_Buffer *cwb_decode_uri(char const *code,Cwb_Buffer *output)
+{
+	if (!output) {
+		output = cwb_buffer_new();
+		if (!output)
+			return NULL;
 	}
 
-	return result;
+	for(const char *p = code;*p;) {
+		char temp;
+		if (*p == '%') {
+			temp = HEX2NUM(p[1]) << 4 | HEX2NUM(p[2]);
+			p    += 3;
+			cwb_buffer_appends(output,(void*)&temp,1);
+		} else {
+			cwb_buffer_appends(output,(void*)p,1);
+			p++;
+		}
+	}
+
+	return output;
 }

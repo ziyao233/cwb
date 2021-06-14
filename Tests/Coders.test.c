@@ -61,32 +61,28 @@ int main(void)
 		cwb_buffer_destroy(dDecodedData);
 	}
 
-	/*
 	{
 		puts("Encoding(URI)...");
-		char *encodedData=cwb_encode_uri(data,dataSize,NULL,0);
-		if(!encodedData) {
-			error_report();
-			return -1;
-		}
+		Cwb_Dstr *dEncodedData = cwb_encode_uri(data,dataSize,NULL);
+		assert(dEncodedData);
 
-		size_t decodedSize=0;
+		char *encodedData = cwb_dstr_convert(dEncodedData,NULL,0);
+		assert(encodedData);
+
 		puts("Decoding...");
-		void *decodedData=cwb_decode_uri(encodedData,&decodedSize,NULL,0);
-		if(!decodedData) {
-			error_report();
-			return -1;
-		}
+		Cwb_Buffer *dDecodedData = cwb_decode_uri(encodedData,NULL);
+		assert(dDecodedData);
+		void *decodedData = cwb_buffer_convert(dDecodedData,NULL,0);
+		assert(decodedData);
 		
 		puts("Comparing...");
-		if(dataSize!=decodedSize || memcmp(decodedData,data,dataSize)) {
-			error_report();
-			return -1;
-		}
+		assert(!memcmp(decodedData,data,dataSize));
 		free(encodedData);
 		free(decodedData);
+		
+		cwb_dstr_destroy(dEncodedData);
+		cwb_buffer_destroy(dDecodedData);
 	}
-	*/
 
 	puts("Done");
 

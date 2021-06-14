@@ -15,7 +15,6 @@
 #include"Buffer.h"
 
 Cwb_Buffer *cwb_decode_base64(char const *code,Cwb_Buffer *output);
-/*void *cwb_decode_uri(const char *data,size_t *size,
-		     void *output,size_t bufSize);*/
+Cwb_Buffer *cwb_decode_uri(char const *code,Cwb_Buffer *output);
 
 #endif
