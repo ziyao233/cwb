@@ -201,26 +201,25 @@ Encoder和Decoder库提供了二进制数据的编解码
 	cwb/Decoder.c	解码器
 
 函数
-	char *cwb_encode_xxx(const void *data,size_t size,
-			     char *output,size_t bufSize);
+	Cwb_Dstr *cwb_encode_xxx(void const *data,size_t size,
+				 Cwb_Dstr *output);
 		编码数据
 			数据存储在output中,当output为NULL时,会尝试
 				分配缓冲区
 		input:
 			data	数据
 			size	数据长度
-			output	输出缓冲区
-			bufSize	输出缓冲区长度
+			output	输出缓冲区,若缓冲区原有数据,将会追加
 		return:
-			NULL	缓冲区过小或内存分配失败
+			NULL	内存分配失败
 			output	存储着被编码的数据
 			other	output为NULL
 
-	void *cwb_decode_xxx(const char *data,size_t *size,
-			     void *output,size_t bufSize);
+	Cwb_Buffer *cwb_decode_xxx(char const *code,Cwb_Buffer *output);
 		解码数据
-			除size的指向将会存储解码后数据的长度
-			同cwb_encode_xxx()
+		input:
+			code	编码
+			output	输出缓冲区,若缓冲区原有数据,将会追加
 	目前支持的编解码器有
 		Coder		Encode	Decode	Function_Name
 		Base64		y	y	base64
@@ -358,6 +357,7 @@ CWB_DS_DICTIONARY
 ==============
 Dstr库
 Dstr库实现了高效的字符串缓冲与管理机制
+NOTICE:由于重构的原因,Dstr库函数未完全实现,请留意源代码.
 
 数据类型
 	Cwb_Dstr	动态字符串
@@ -372,9 +372,6 @@ Dstr库实现了高效的字符串缓冲与管理机制
 	
 	void cwb_dstr_destroy(Cwb_Dstr *dstr);
 		销毁一个动态字符串
-	
-	void cwb_dstr_clear(Cwb_Dstr *dstr);
-		清空一个动态字符串
 	
 	Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p);
 		破坏性赋值
@@ -418,4 +415,39 @@ Dstr库实现了高效的字符串缓冲与管理机制
 		input:
 			src	要追加的字符串
 		src的长度应该小于CWB_CONF_DSTR_PARTSIZE(即一块缓冲区的长度)
+================
+Buffer库
+Buffer库提供了简洁易用的缓冲区实现
+
+数据类型
+	Cwb_Buffer	缓冲区
+
+函数
+	不作特殊说明,返回的Cwb_Buffer*值均为修改后的缓冲区
+	返回NULL被视作操作失败
+	Cwb_Buffer *cwb_buffer_new(void);
+		创建一个缓冲区
+	
+	void cwb_buffer_destroy(Cwb_Buffer *buffer);
+		销毁一个缓冲区
+	
+	Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,
+				       void const *src,
+				       size_t size);
+		向缓冲区追加size字节的短数据
+		(size应该小于等与CWB_CONF_BUFFER_PARTSIZE)
+		input:
+			src	源数据
+			size	追加长度
+	
+	void *cwb_buffer_convert(Cwb_Buffer *buffer,
+				       void *output,
+				       size_t size);
+		将缓冲区转换为原始C风格数据
+		input:
+			output	输出缓冲区,值为NULL时,
+				将会尝试自行分配一个缓冲区
+			size	输出缓冲区大小.output=NULL时无效
+		NOTICE:
+			请记得释放cwb_buffer_convert()自动分配的缓冲区!
 ================
