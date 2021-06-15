@@ -5,17 +5,19 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 
+(r)	Dstr重构
 (+)	www-form序列化
 (c)	Code Style
-(+)	HTTP服务器
-(+)	HTTP请求头操作
-(+)	HTTP响应头操作
+(+)	有栈协程
+(+)	HTTP服务器 HTTP1.0 & HTTP1.1
+(+)	HTTP响应操作
+(+)	HTTP请求操作
 (+)	HTTP Cookie支持
-(!)	CWB_DS_LIST链表
+(!)	CWB_DS_LIoST链表
 ========	v0.2.0	========
 (+)	CWB_DS_HASHTABLE
 (+)	M/MIME编码
-(+)	JSON序列化
+(+)	JSON序列
 (+)	XML序列化
 ========	v0.3.0	========
 (-)	HTTP流量控制
@@ -23,6 +25,7 @@
 (+)	模板
 (+)	epoll支持
 (+)	HTTP 多线程服务器
+(+)	HTTP 2.0
 (!)	IRC Protocol
 (!)	STMP&POP3 Protocol
-(!)	COAP库
+(!)	COAP Protocol
