@@ -21,6 +21,7 @@
 typedef struct
 {
 	unsigned int maxNum;
+	int maxFd;
 	fd_set rSet,wSet;
 }Cwb_IO_Watcher;
 

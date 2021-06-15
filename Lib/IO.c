@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Lib/IO.c
-	Date:2021.03.05
+	Date:2021.06.15
 	By LGPL v3.0 and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -43,6 +43,7 @@ Cwb_IO_Watcher *cwb_io_watcher_new(unsigned int maxNum)
 
 	FD_ZERO(&(watcher->rSet));
 	FD_ZERO(&(watcher->wSet));
+	watcher->maxFd = 0;
 
 	return watcher;
 }
@@ -88,6 +89,8 @@ int cwb_io_watcher_watch(Cwb_IO_Watcher *watcher,int fd,
 	{
 		FD_SET(fd,&(watcher->wSet));
 	}
+
+	watcher->maxFd = watcher->maxFd > fd ? watcher->maxFd : fd;
 
 	return 0;
 }
@@ -137,7 +140,7 @@ int *cwb_io_watcher_wait(Cwb_IO_Watcher *watcher,int *readyList,
 					 .tv_usec=(suseconds_t)(*timeout%1000)
 					};
 	}
-	int readyNum=select(FD_SETSIZE,&rSet,&wSet,NULL,timeoutPointer);
+	int readyNum=select(watcher->maxFd+1,&rSet,&wSet,NULL,timeoutPointer);
 	
 	/*	Timeout	or something wrong	*/
 	if(readyNum<=0)
@@ -172,8 +175,18 @@ int cwb_io_watcher_unwatch(Cwb_IO_Watcher *watcher,int fd)
 	{
 		FD_CLR(fd,&(watcher->wSet));
 		FD_CLR(fd,&(watcher->rSet));
+		if (fd == watcher->maxFd) {
+			int nextMax = watcher->maxFd - 1;
+			while (!FD_ISSET(nextMax,&(watcher->wSet)) &&
+			       !FD_ISSET(nextMax,&(watcher->rSet)) &&
+			       nextMax > 0)
+				nextMax--;
+			watcher->maxFd = nextMax;
+		}
+
 		return 0;
 	}
+	
 	return -1;
 }
 

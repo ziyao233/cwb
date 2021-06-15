@@ -6,8 +6,6 @@
 	r	Refactor		代码重构
 
 (+)	www-form序列化
-(-)	IO库select遍历
-========	v0.1.0	========
 (c)	Code Style
 (+)	HTTP服务器
 (+)	HTTP请求头操作
