@@ -2,7 +2,7 @@
 	cwb
 	File:/Lib/Coder_Base64.c
 	Date:2021.06.14
-	By LGPL v3.0 and Anti-996 License
+	By MIT and Anti-996 License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 

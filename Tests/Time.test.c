@@ -2,7 +2,7 @@
 	cwb
 	File:/Tests/Time.test.c
 	Date:2021.02.15
-	By LGPL v3.0
+	By MIT and Anti-996 License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 

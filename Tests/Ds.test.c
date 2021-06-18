@@ -2,7 +2,7 @@
 	Cwb
 	File:/Tests/Ds.test.c
 	Date:2021.05.02
-	By LGPL v3.0 and Anti-996 License
+	By MIT and Anti-996 License
 	Copyright(C) 2021 Cwb developers.All rights reserved.
 */
 

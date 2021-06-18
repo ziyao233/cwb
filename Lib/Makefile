@@ -1,7 +1,7 @@
 # cwb
 # File:/Lib/Makefile
 # Date:2021.05.08
-# By LGPL v3.0 and Anti-996 License
+# By MIT and Anti-996 License
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
 # Configure
