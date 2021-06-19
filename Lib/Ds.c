@@ -2,7 +2,7 @@
 	cwb
 	File:/Lib/Ds.c
 	Date:2021.05.02
-	By MIT and Anti-996 License.
+	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 

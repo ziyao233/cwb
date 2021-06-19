@@ -2,7 +2,7 @@
 	cwb
 	File:/Lib/Net.c
 	Date:2021.03.05
-	By MIT and Anti-996 License
+	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 

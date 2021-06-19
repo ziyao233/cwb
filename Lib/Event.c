@@ -2,7 +2,7 @@
 	cwb
 	File:/Lib/Event.c
 	Date:2021.03.21
-	By MIT and Anti-996 License
+	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 
