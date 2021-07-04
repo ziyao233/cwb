@@ -12,9 +12,9 @@ Install
 Directory
 
 cwb
-|--------Doc		文档
-|--------Lib		库源代码
-|--------Tests		测试
+|--------doc		文档
+|--------src		库源代码
+|--------test		测试
 |TODO		TODO任务列表
 |Bugs		Bug列表
 |Developers	开发者名录
