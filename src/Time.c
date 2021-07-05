@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Lib/Time.c
+	File:/src/Time.c
 	Date:2021.02.16
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.

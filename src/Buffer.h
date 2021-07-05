@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Lib/Buffer.h
+	File:/src/Buffer.h
 	Date:2021.06.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.

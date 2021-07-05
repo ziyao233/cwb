@@ -1,6 +1,6 @@
 # cwb
-# File:/Lib/Makefile
-# Date:2021.05.08
+# File:/src/Makefile
+# Date:2021.07.055555
 # By MIT
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
@@ -23,6 +23,7 @@ FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra
 # Files
 FILES_CODERS:=Coder_Base64.o Coder_URI.o
 FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o \
+	    Coroutine.o \
 	    $(FILES_CODERS)
 FILES_LIB:=libcwb.a
 DIR_INSTALL_INCLUDE:=/usr/include
