@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Dstr.c
-	Date:2021.06.14
+	Date:2021.07.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -77,6 +77,30 @@ void cwb_dstr_destroy(Cwb_Dstr *dstr)
 	return;
 }
 
+Cwb_Dstr *cwb_dstr_clear(Cwb_Dstr *dstr)
+{
+	Dstr_Part *last = dstr->part;
+	for (Dstr_Part *part = last->next;
+	     part;
+	     part = part->next) {
+		free(last->partStr);
+		free(last);
+		last = part;
+	}
+	if (!last) {
+		free(last->partStr);
+		free(last);
+	}
+
+	dstr->part	= create_guard(); 
+	if (!dstr->part)
+		return NULL;
+	dstr->last	= dstr->part;
+	dstr->length	= 0;
+
+	return dstr;
+}
+
 char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length)
 {
 	if (buffer) {
@@ -89,7 +113,7 @@ char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length)
 	}
 
 	*buffer = '\0';
-	for (Dstr_Part *part = dstr->part;
+	for (Dstr_Part *part = dstr->part->next;
 	     part;
 	     part = part->next)
 		strcat(buffer,part->partStr);
@@ -154,4 +178,49 @@ Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c)
 	dstr->length++;
 	
 	return dstr;
+}
+
+Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p)
+{
+	cwb_dstr_clear(dstr);
+
+	Dstr_Part *part = create_part();
+	if (!part)
+		return NULL;
+
+	size_t length = strlen(*p);
+	*part = (Dstr_Part) {
+				.length = length,
+				.used	= length,
+				.next	= NULL,
+				.partStr= *p
+			    };
+	dstr->length = length;
+
+	dstr->part->next = part;
+	dstr->last	 = part;
+
+	*p = NULL;
+
+	return dstr;
+}
+
+static char *copy_str(char const *src)
+{
+	char *copy = (char*)malloc(strlen(src)+1);
+
+	if (!copy)
+		return NULL;
+
+	strcpy(copy,src);
+	return copy;
+}
+
+Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,char const *src)
+{
+	char *copy = copy_str(src);
+	if (!copy)
+		return NULL;
+	
+	return cwb_dstr_assignd(dstr,&copy);
 }

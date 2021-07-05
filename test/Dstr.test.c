@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/Tests/Dstr.test.c
-	Date:2021.06.14
+	Date:2021.07.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -51,8 +51,19 @@ int main(void)
 		char *result = cwb_dstr_convert(dstr,NULL,0);
 		assert(!strcmp(result,str));
 
-		free(str);
+		free(result);
+
+		cwb_dstr_clear(dstr);
+		result = cwb_dstr_convert(dstr,NULL,0);
+		assert(!strcmp(result,""));
+		free(result);
+
+		cwb_dstr_assign(dstr,str);
+		result = cwb_dstr_convert(dstr,NULL,0);
+		assert(!strcmp(result,str));
+
 		cwb_dstr_destroy(dstr);
+		free(str);
 	}
 
 	return 0;

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Dstr.h
-	Date:2021.06.14
+	Date:2021.07.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -28,6 +28,8 @@ typedef struct {
 Cwb_Dstr *cwb_dstr_new(void);
 void cwb_dstr_destroy(Cwb_Dstr *dstr);
 
+Cwb_Dstr *cwb_dstr_clear(Cwb_Dstr *dstr);
+
 Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p);
 Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,const char *src);
 
@@ -35,7 +37,6 @@ char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length);
 
 Cwb_Dstr *cwb_dstr_copy(Cwb_Dstr *dstr);
 
-Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p);
 Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c);
 Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,const char *src);
 
