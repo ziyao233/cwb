@@ -1,7 +1,7 @@
 /*
 	cwb
-	File:/Tests/Test.h
-	Date:2021.06.14
+	File:/test/Test.h
+	Date:2021.07.06
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,6 +12,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
 
 void test_init(void)
 {

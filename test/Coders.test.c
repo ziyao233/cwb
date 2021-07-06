@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Tests/Coders.test.c
+	File:/test/Coders.test.c
 	Date:2021.06.14
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.

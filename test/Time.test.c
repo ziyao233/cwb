@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Tests/Time.test.c
+	File:/test/Time.test.c
 	Date:2021.02.15
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.

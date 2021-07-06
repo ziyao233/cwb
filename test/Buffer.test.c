@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Test/Buffer.test.c
+	File:/test/Buffer.test.c
 	Date:2021.06.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.

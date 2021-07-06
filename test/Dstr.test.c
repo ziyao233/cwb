@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/Tests/Dstr.test.c
+	File:/test/Dstr.test.c
 	Date:2021.07.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
