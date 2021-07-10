@@ -1,7 +1,7 @@
 /*
 	Cwb
 	File:/test/Ds.test.c
-	Date:2021.07.06
+	Date:2021.07.10
 	By MIT License.
 	Copyright(C) 2021 Cwb developers.All rights reserved.
 */
@@ -55,12 +55,13 @@ static void test_ds(Cwb_Ds *ds)
 	Data_Pair *pair = spawn_pair();
 
 	for (int i = 0;i < TEST_PAIR_NUM;i++) {
-		assert(!cwb_ds_set(ds,pair[i].key,pair[i].data));
+		assert(cwb_ds_insert(ds,pair[i].key,pair[i].data));
 	}
 
 	for (int i = 0;i < TEST_PAIR_NUM;i++) {
-		void *data = cwb_ds_get(ds,pair[i].key);
-		assert(data != CWB_DS_UNDEFINED);
+		Cwb_Ds_Pair *p	= cwb_ds_search(ds,pair[i].key);
+		assert(p);
+		void *data	= cwb_ds_get(ds,p);
 		assert(!memcmp(data,pair[i].data,TEST_DATA_SIZE));
 	}
 
@@ -74,8 +75,7 @@ int main(void)
 {
 	test_init();
 
-	test_ds(cwb_ds_new(CWB_DS_DICTIONARY));
-
+	test_ds(cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY));
 
 	return 0;
 }
