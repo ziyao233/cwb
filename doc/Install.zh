@@ -1,0 +1,32 @@
+
+                Install
+
+        这里列举了一些/src/Makefile中的环境参数与/src/Conf.h的配置参数 
+
+================================================================================
+
+
+        Makefile 
+        CC                      ===>编译器
+        AR                      ===>库工具
+        REMOVE                  ===>删除命令
+        ECHO                    ===>打印命令
+        COPY                    ===>复制命令
+        MAKEDIR                 ===>新建文件夹命令
+        FLAG_AR                 ===>库工具参数
+        FLAG_REMOVE             ===>删除命令参数
+        FLAG_CC                 ===>编译器参数
+        DIR_INSTALL_INCLUDE     ===>头文件安装目录
+        DIR_INSTALL_LIB         ===>库文件安装目录
+
+
+================================================================================
+
+        Conf.h
+
+        CWB_CONF_EVENT_FD_MAX_NUM       ===>事件驱动模型最多监控的文件描述符数量
+        CWB_CONF_DSTR_PARTSIZE          ===>Dstr库字符串分片大小
+        CWB_CONF_BUFFER_PARTSIZE        ===>Buffer库数据分片大小
+        CWB_CONF_COROUTINE_STKSIZE      ===>Coroutine库协程栈大小
+
+================================================================================

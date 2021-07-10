@@ -1,0 +1,35 @@
+\t1 cwb \et1
+\tab A light weight and fast web framework for C Language.
+\tab 一个轻量级,快速的C语言网络框架
+\line
+\t2 Install\et2
+\nl
+\p cwb是POSIX兼容的,如果你有兼容POSIX标准的make(这意味着FreeBSD用户不必使用gmake),请切换到src文件夹并执行\code
+\tab make && make install
+\ecode
+请视情况调整命令的权限(Debian系Linux用户可能需要执行\code make && sudo make install\ecode \ep
+\p 在src文件夹中的Makefile定义了一些安装时的重要参数,详见/doc/Install.zh\ep \nl
+\line
+\t2 Directory \et2
+\nl
+\code
+cwb
+|\tab doc/\tab \tab \rarr 文档
+|\tab src/\tab \tab \rarr 库源代码
+|\tab test/\tab \tab \rarr 测试代码
+|\tab TODO\tab \tab \rarr TODO任务列表
+|\tab Bugs\tab \tab \rarr Bug列表
+|\tab Developers\tab \rarr 开发者名录
+|\tab README\tab \tab \rarr 你正在读的README
+|\tab LICENSE\tab \tab \rarr MIT协议
+\ecode \nl
+\line
+\t2 License\et2
+\nl
+\p 使用MIT许可证,许可证位于/LICENSE中\ep
+\line
+\t2 Development\et2
+\nl
+\p 开发者名单位于/Developers文件中 \ep
+\p 您可以通过\code tswuyin_st127@163.com\ecode 联系我\ep
+\line

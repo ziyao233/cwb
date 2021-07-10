@@ -1,35 +1,44 @@
-cwb ---- A light weight and fast web framework for C Language.
 
-一个轻量级,快速的C语言网络框架
+                cwb 
+        A light weight and fast web framework for C Language.
+        一个轻量级,快速的C语言网络框架
 
-================
-Install
+================================================================================
 
-本项目是POSIX兼容的,如果你有POSIX make,请在切换到Lib文件夹make && make install
-可以编辑Makefile来更改安装路径
-视情况调整命令权限
-===============
-Directory
+        Install
+
+        cwb是POSIX兼容的,如果你有兼容POSIX标准的make(这意味着FreeBSD用户不必使用
+gmake),请切换到src文件夹并执行  make && make install
+请视情况调整命令的权限(Debian系Linux用户可能需要执行make && sudo make install
+        在src文件夹中的Makefile定义了一些安装时的重要参数,详见/doc/Install.zh
+
+
+================================================================================
+
+        Directory 
 
 cwb
-|--------doc		文档
-|--------src		库源代码
-|--------test		测试
-|TODO		TODO任务列表
-|Bugs		Bug列表
-|Developers	开发者名录
-|README		说明
-|LICENSE	LGPLv3.0协议
-|LICENSE_ANTI996 反996协议
+|       doc/            ===>文档
+|       src/            ===>库源代码
+|       test/           ===>测试代码
+|       TODO            ===>TODO任务列表
+|       Bugs            ===>Bug列表
+|       Developers      ===>开发者名录
+|       README          ===>你正在读的README
+|       LICENSE         ===>MIT协议
 
-================
-License
 
-使用MIT许可证
-文件详见LICENSE
-================
-Developers
+================================================================================
 
-Developers文件---->开发者名录
-欢迎通过tswuyin_st127@163.com联系我
-================
+        License
+
+        使用MIT许可证,许可证位于/LICENSE中
+
+================================================================================
+
+        Development
+
+        开发者名单位于/Developers文件中 
+        您可以通过tswuyin_st127@163.com联系我
+
+================================================================================

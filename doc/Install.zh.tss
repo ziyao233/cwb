@@ -1,0 +1,27 @@
+\t1 Install\et1
+\nl
+\p 这里列举了一些/src/Makefile中的环境参数与/src/Conf.h的配置参数 \ep
+\line
+\nl
+
+\t2 Makefile \et2
+\tab CC\tab \tab \tab \rarr 编译器
+\tab AR\tab \tab \tab \rarr 库工具
+\tab REMOVE\tab \tab \tab \rarr 删除命令
+\tab ECHO\tab \tab \tab \rarr 打印命令
+\tab COPY\tab \tab \tab \rarr 复制命令
+\tab MAKEDIR\tab \tab \tab \rarr 新建文件夹命令
+\tab FLAG_AR\tab \tab \tab \rarr 库工具参数
+\tab FLAG_REMOVE\tab \tab \rarr 删除命令参数
+\tab FLAG_CC\tab \tab \tab \rarr 编译器参数
+\tab DIR_INSTALL_INCLUDE \tab \rarr 头文件安装目录
+\tab DIR_INSTALL_LIB\tab \tab \rarr 库文件安装目录
+
+\line
+\t2 Conf.h\et2
+\nl
+\tab CWB_CONF_EVENT_FD_MAX_NUM \tab \rarr 事件驱动模型最多监控的文件描述符数量
+\tab CWB_CONF_DSTR_PARTSIZE \tab \tab \rarr Dstr库字符串分片大小
+\tab CWB_CONF_BUFFER_PARTSIZE \tab \rarr Buffer库数据分片大小
+\tab CWB_CONF_COROUTINE_STKSIZE \tab \rarr Coroutine库协程栈大小
+\line
