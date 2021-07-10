@@ -211,3 +211,33 @@ static int hashtable_delete(void *ds,Cwb_Ds_Pair *pair)
 
 	return 0;
 }
+
+static Cwb_Ds_Pair *hashtable_first(void *ds)
+{
+	HashTable *ht = (HashTable*)ds;
+
+	for (uint32_t i = 0;i < ht->slotNum;i++) {
+		if (ht->slot[i].value)
+			return (Cwb_Ds_Pair*)(ht->slot[i].value);
+	}
+	
+	return NULL;
+}
+
+static Cwb_Ds_Pair *hashtable_next(void *ds,Cwb_Ds_Pair *pair)
+{
+	HashTable *ht = (HashTable*)ds;
+
+	Ht_SlotValue *slotValue = (Ht_SlotValue*)pair;
+	if (slotValue->next)
+		return (Cwb_Ds_Pair*)slotValue->next;
+	
+	for (uint32_t i = ht_hash(slotValue->key,strlen(slotValue->key));
+	     i < ht->slotNum;
+	     i++) {
+		if (ht->slot[i].value)
+			return (Cwb_Ds_Pair*)(ht->slot[i].value);
+	}
+	
+	return NULL;
+}

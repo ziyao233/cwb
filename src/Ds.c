@@ -28,6 +28,8 @@ typedef struct {
 	int (*set)(void *ds,Cwb_Ds_Pair *pair,void *data);
 	void *(*get)(void *ds,Cwb_Ds_Pair *pair);
 	int (*delete)(void *ds,Cwb_Ds_Pair *pair);
+	Cwb_Ds_Pair *(*first)(void *ds);
+	Cwb_Ds_Pair *(*next)(void *ds,Cwb_Ds_Pair *pair);
 }Ds_Prototype;
 
 static const Ds_Prototype prototype[]={
@@ -38,7 +40,9 @@ static const Ds_Prototype prototype[]={
 						.insert = hashtable_insert,
 						.set	= hashtable_set,
 						.get	= hashtable_get,
-						.delete = hashtable_delete
+						.delete = hashtable_delete,
+						.first	= hashtable_first,
+						.next	= hashtable_next
 					}
 				      };
 
@@ -121,4 +125,18 @@ Cwb_Ds_Pair *cwb_ds_insert(Cwb_Ds *in,...)
 	va_end(argList);
 
 	return pair;
+}
+
+Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in)
+{
+	Ds *ds = (Ds*)in;
+
+	return DS_PROTOTYPE(ds->type).first(ds->realDs);
+}
+
+Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+{
+	Ds *ds = (Ds*)in;
+	
+	return DS_PROTOTYPE(ds->type).next(ds->realDs,pair);
 }

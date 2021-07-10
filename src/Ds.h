@@ -30,5 +30,7 @@ int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Pair *pair,void *data);
 void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 Cwb_Ds_Pair *cwb_ds_insert(Cwb_Ds *in,...);
 int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in);
+Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 
 #endif
