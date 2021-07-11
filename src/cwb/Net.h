@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/src/Net.h
+	File:/src/cwb/Net.h
 	Date:2021.03.05
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
@@ -14,7 +14,7 @@
 #include<unistd.h>
 #include<errno.h>
 
-#include"Time.h"
+#include"cwb/Time.h"
 
 int cwb_net_socket(void);
 int cwb_net_bind(int sock,int port);

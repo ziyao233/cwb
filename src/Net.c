@@ -21,8 +21,8 @@
 #include<errno.h>
 #include<fcntl.h>
 
-#include"Net.h"
-#include"Time.h"
+#include"cwb/Net.h"
+#include"cwb/Time.h"
 
 /*
 	funcName:cwb_net_socket

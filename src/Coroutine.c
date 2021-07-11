@@ -13,8 +13,8 @@
 
 #include<ucontext.h>
 
-#include"Conf.h"
-#include"Coroutine.h"
+#include"cwb/Conf.h"
+#include"cwb/Coroutine.h"
 
 static int alloc_stack(Cwb_Coroutine *co)
 {

@@ -12,10 +12,10 @@
 #include<string.h>
 #include<stdint.h>
 
-#include"Dstr.h"
-#include"Buffer.h"
-#include"Encoder.h"
-#include"Decoder.h"
+#include"cwb/Dstr.h"
+#include"cwb/Buffer.h"
+#include"cwb/Encoder.h"
+#include"cwb/Decoder.h"
 
 #define HEX2NUM(ch) ((ch)>57?(ch)-55:(ch)-48)
 

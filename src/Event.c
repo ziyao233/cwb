@@ -14,10 +14,10 @@
 #include<unistd.h>
 #include<errno.h>
 
-#include"Time.h"
-#include"IO.h"
-#include"Event.h"
-#include"Conf.h"
+#include"cwb/Time.h"
+#include"cwb/IO.h"
+#include"cwb/Event.h"
+#include"cwb/Conf.h"
 
 Cwb_Event_Base *cwb_event_new(void) {
 	Cwb_Event_Base *base=(Cwb_Event_Base*)malloc(sizeof(Cwb_Event_Base));

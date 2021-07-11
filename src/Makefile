@@ -1,6 +1,6 @@
 # cwb
 # File:/src/Makefile
-# Date:2021.07.055555
+# Date:2021.07.11
 # By MIT
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
@@ -12,7 +12,7 @@ CC:=gcc
 AR:=ar
 REMOVE:=rm
 ECHO:=echo
-COPY:=cp -f
+COPY:=cp -rf
 MAKEDIR:=mkdir
 
 # Flags
@@ -26,9 +26,9 @@ FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o \
 	    Coroutine.o \
 	    $(FILES_CODERS)
 FILES_LIB:=libcwb.a
+FILES_HEADERS:=cwb
 DIR_INSTALL_INCLUDE:=/usr/include
 DIR_INSTALL_LIB:=/usr/lib
-DIR_INSTALL_HEADERS=$(DIR_INSTALL_INCLUDE)/cwb
 
 default:build
 
@@ -45,13 +45,13 @@ disbuild:
 	@$(REMOVE) $(FILES_OBJS) $(FILES_LIB)
 
 install:build
-	@$(ECHO) [MAKEDIR] $(DIR_INSTALL_HEADERS)
-	-$(MAKEDIR) $(DIR_INSTALL_HEADERS)
-	@$(ECHO) [COPY] Headers
-	@$(COPY) *.h $(DIR_INSTALL_HEADERS)
+	@$(ECHO) [COPY] $(FILES_HEADERS) $(DIR_INSTALL_INCLUDE)
+	@$(COPY) $(FILES_HEADERS) $(DIR_INSTALL_INCLUDE)
 	@$(ECHO) [COPY] $(FILES_LIB)
 	@$(COPY) $(FILES_LIB) $(DIR_INSTALL_LIB)
 
 uninstall:
-	@$(ECHO) [REMOVE] $(DIR_INSTALL_HEADERS)
-	@$(REMOVE) $(FLAG_REMOVE) $(DIR_INSTALL_HEADERS)
+	@$(ECHO) [REMOVE] $(DIR_INSTALL_INCLUDE)/cwb
+	@$(REMOVE) $(FLAG_REMOVE) $(DIR_INSTALL_HEADERS)/cwb
+	@$(ECHO) [REMOVE] $(DIR_INSTALL_LIB)/libcwb.a
+	@$(REMOEV) [REMOVE] $(DIR_INSTALL_LIB)/libcwb.a

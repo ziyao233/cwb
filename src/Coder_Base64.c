@@ -11,10 +11,10 @@
 #include<string.h>
 #include<stdint.h>
 
-#include"Encoder.h"
-#include"Decoder.h"
-#include"Dstr.h"
-#include"Buffer.h"
+#include"cwb/Encoder.h"
+#include"cwb/Decoder.h"
+#include"cwb/Dstr.h"
+#include"cwb/Buffer.h"
 
 static const char *base64ChangeTable=
 				  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \

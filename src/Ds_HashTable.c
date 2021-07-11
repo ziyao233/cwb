@@ -12,7 +12,7 @@
 #include<string.h>
 #include<stdint.h>
 
-#include"Ds.h"
+#include"cwb/Ds.h"
 
 // Overload: slotNum*0.75 < usedNum
 #define OVERLOAD(ht) (((ht)->slotNum >> 1) + ((ht)->slotNum >> 2) <= ((ht)->slotUsed))

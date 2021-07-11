@@ -11,8 +11,8 @@
 #include<string.h>
 #include<stdint.h>
 
-#include"Conf.h"
-#include"Buffer.h"
+#include"cwb/Conf.h"
+#include"cwb/Buffer.h"
 
 #define create_part() ((Buffer_Part*)malloc(sizeof(Buffer_Part)))
 

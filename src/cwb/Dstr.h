@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/src/Dstr.h
+	File:/src/cwb/Dstr.h
 	Date:2021.07.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.

@@ -12,8 +12,8 @@
 #include<ctype.h>
 #include<stdint.h>
 
-#include"Conf.h"
-#include"Dstr.h"
+#include"cwb/Conf.h"
+#include"cwb/Dstr.h"
 
 typedef struct __Cwb_Dstr_Part Dstr_Part;
 

@@ -1,8 +1,17 @@
+/*
+	cwb
+	File:/src/cwb/Coroutine.h
+	Date:2021.07.11
+	By MIT License.
+	Copyright(C) 2021 cwb developers.All rights reserved.
+*/
+
 #ifndef __CWB_COROUTINE_H_INC
 #define __CWB_COROUTINE_H_INC
 
-#include"Conf.h"
 #include<ucontext.h>
+
+#include"cwb/Conf.h"
 
 #define CWB_COROUTINE_SUSPEND	0x00	
 #define CWB_COROUTINE_RUNNING	0x01

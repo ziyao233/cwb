@@ -1,6 +1,6 @@
 /*
 	cwb
-	File:/src/Encoder.h
+	File:/src/cwb/Encoder.h
 	Date:2021.06.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
@@ -11,8 +11,8 @@
 
 #include<stdlib.h>
 
-#include"Dstr.h"
-#include"Buffer.h"
+#include"cwb/Dstr.h"
+#include"cwb/Buffer.h"
 
 Cwb_Dstr *cwb_encode_base64(void const *data,size_t size,Cwb_Dstr *output);
 Cwb_Dstr *cwb_encode_uri(void const *data,size_t size,Cwb_Dstr *output);
