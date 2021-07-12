@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds_HashTable.c
-	Date:2021.07.10
+	Date:2021.07.12
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -23,7 +23,7 @@
 #define __Ds_Ht_SlotValue Ht_SlotValue
 
 typedef struct __Ds_Ht_SlotValue{
-	char const *key;
+	char *key;
 	void *data;
 	struct __Ds_Ht_SlotValue *next,*prev;
 }__Ds_Ht_SlotValue;
@@ -35,6 +35,7 @@ typedef struct {
 typedef struct {
 	uint32_t slotNum,slotUsed;
 	Ht_Slot *slot;
+	Cwb_Ds_FreeFunc free;
 }__Ds_HashTable;
 
 static uint32_t ht_hash(char const *str,size_t length)
@@ -85,8 +86,20 @@ static int ht_init_slot(HashTable *ht)
 
 static void hashtable_destroy(void *ds)
 {
-	// TODO: Memory leak!
 	HashTable *ht = (HashTable*)ds;
+
+	for (uint32_t i = 0;i < ht->slotNum;i++) {
+		Ht_SlotValue *tmp = NULL;
+		for (Ht_SlotValue *slotValue = ht->slot[i].value;
+		     slotValue;
+		     slotValue = tmp) {
+			tmp = slotValue->next;
+			free(slotValue->key);
+			if (ht->free)
+				free(slotValue->data);
+			free(slotValue);
+		}
+	}
 	
 	free(ht->slot);
 	free(ht);
@@ -146,11 +159,22 @@ static int ht_extend_slot(HashTable *ht)
 	return 0;
 }
 
+static char *copy_str(char const *str)
+{
+	char *result = (char*)malloc(strlen(str)+1);
+	if (!result)
+		return NULL;
+	strcpy(result,str);
+	return result;
+}
+
 static Cwb_Ds_Pair *hashtable_insert(void *ds,va_list argList)
 {
 	HashTable *ht	= (HashTable*)ds;
-	char const *key = va_arg(argList,char const*);
+	char *key = copy_str(va_arg(argList,char const*));
 	void *value	= va_arg(argList,void*);
+	if (!key)
+		return NULL;
 
 	if (ht->slotNum == 0) {
 		if (ht_init_slot(ht))
@@ -240,4 +264,10 @@ static Cwb_Ds_Pair *hashtable_next(void *ds,Cwb_Ds_Pair *pair)
 	}
 	
 	return NULL;
+}
+
+static void hashtable_freefunc(void *ds,Cwb_Ds_FreeFunc freeFunc)
+{
+	((HashTable*)ds)->free = freeFunc;
+	return;
 }

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Ds.h
-	Date:2021.07.10
+	Date:2021.07.12
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,6 +12,8 @@
 
 typedef void* Cwb_Ds;
 typedef void* Cwb_Ds_Pair;
+
+typedef void (*Cwb_Ds_FreeFunc)(void *data);
 
 typedef enum {
 	CWB_DS_HASHTABLE
@@ -32,5 +34,6 @@ Cwb_Ds_Pair *cwb_ds_insert(Cwb_Ds *in,...);
 int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in);
 Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc func);
 
 #endif

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds.c
-	Date:2021.07.10
+	Date:2021.07.12
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -30,19 +30,21 @@ typedef struct {
 	int (*delete)(void *ds,Cwb_Ds_Pair *pair);
 	Cwb_Ds_Pair *(*first)(void *ds);
 	Cwb_Ds_Pair *(*next)(void *ds,Cwb_Ds_Pair *pair);
+	void (*freefunc)(void *ds,Cwb_Ds_FreeFunc func);
 }Ds_Prototype;
 
 static const Ds_Prototype prototype[]={
 					[CWB_DS_HASHTABLE] = {
-						.new	= hashtable_new,
-						.destroy= hashtable_destroy,
-						.search = hashtable_search,
-						.insert = hashtable_insert,
-						.set	= hashtable_set,
-						.get	= hashtable_get,
-						.delete = hashtable_delete,
-						.first	= hashtable_first,
-						.next	= hashtable_next
+						.new		= hashtable_new,
+						.destroy	= hashtable_destroy,
+						.search		= hashtable_search,
+						.insert		= hashtable_insert,
+						.set		= hashtable_set,
+						.get		= hashtable_get,
+						.delete		= hashtable_delete,
+						.first		= hashtable_first,
+						.next		= hashtable_next,
+						.freefunc	= hashtable_freefunc 
 					}
 				      };
 
@@ -139,4 +141,12 @@ Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair)
 	Ds *ds = (Ds*)in;
 	
 	return DS_PROTOTYPE(ds->type).next(ds->realDs,pair);
+}
+
+void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc freeFunc)
+{
+	Ds *ds = (Ds*)in;
+
+	DS_PROTOTYPE(ds->type).freefunc(ds->realDs,freeFunc);
+	return;
 }
