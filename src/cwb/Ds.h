@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Ds.h
-	Date:2021.07.12
+	Date:2021.07.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -35,5 +35,6 @@ int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in);
 Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc func);
+intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Pair *pair);
 
 #endif

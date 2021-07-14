@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds.c
-	Date:2021.07.12
+	Date:2021.07.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -10,6 +10,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdarg.h>
+#include<stdint.h>
 
 #include"cwb/Ds.h"
 
@@ -31,6 +32,7 @@ typedef struct {
 	Cwb_Ds_Pair *(*first)(void *ds);
 	Cwb_Ds_Pair *(*next)(void *ds,Cwb_Ds_Pair *pair);
 	void (*freefunc)(void *ds,Cwb_Ds_FreeFunc func);
+	intptr_t (*getkey)(void *ds,Cwb_Ds_Pair *pair);
 }Ds_Prototype;
 
 static const Ds_Prototype prototype[]={
@@ -44,7 +46,8 @@ static const Ds_Prototype prototype[]={
 						.delete		= hashtable_delete,
 						.first		= hashtable_first,
 						.next		= hashtable_next,
-						.freefunc	= hashtable_freefunc 
+						.freefunc	= hashtable_freefunc,
+						.getkey		= hashtable_getkey
 					}
 				      };
 
@@ -150,3 +153,9 @@ void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc freeFunc)
 	DS_PROTOTYPE(ds->type).freefunc(ds->realDs,freeFunc);
 	return;
 }
+
+intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+{
+	Ds *ds = (Ds*)in;
+
+	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,freeFunc);

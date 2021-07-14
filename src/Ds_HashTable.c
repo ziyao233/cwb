@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds_HashTable.c
-	Date:2021.07.12
+	Date:2021.07.14
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -270,4 +270,10 @@ static void hashtable_freefunc(void *ds,Cwb_Ds_FreeFunc freeFunc)
 {
 	((HashTable*)ds)->free = freeFunc;
 	return;
+}
+
+static intptr_t hashtabel_getkey(void *ds,Cwb_Ds_Pair *pair)
+{
+	(void)ds;
+	return (intptr_t)(((Ht_SlotValue*)pair)->key);
 }
