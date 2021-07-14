@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Coder_URI.c
-	Date:2021.06.14
+	Date:2021.07.14
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -14,8 +14,7 @@
 
 #include"cwb/Dstr.h"
 #include"cwb/Buffer.h"
-#include"cwb/Encoder.h"
-#include"cwb/Decoder.h"
+#include"cwb/Coder.h"
 
 #define HEX2NUM(ch) ((ch)>57?(ch)-55:(ch)-48)
 

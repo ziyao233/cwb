@@ -54,4 +54,4 @@ uninstall:
 	@$(ECHO) [REMOVE] $(DIR_INSTALL_INCLUDE)/cwb
 	@$(REMOVE) $(FLAG_REMOVE) $(DIR_INSTALL_HEADERS)/cwb
 	@$(ECHO) [REMOVE] $(DIR_INSTALL_LIB)/libcwb.a
-	@$(REMOEV) [REMOVE] $(DIR_INSTALL_LIB)/libcwb.a
+	@$(REMOVE) $(DIR_INSTALL_LIB)/libcwb.a

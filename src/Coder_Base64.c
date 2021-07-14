@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Coder_Base64.c
-	Date:2021.06.14
+	Date:2021.07.14
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -11,10 +11,9 @@
 #include<string.h>
 #include<stdint.h>
 
-#include"cwb/Encoder.h"
-#include"cwb/Decoder.h"
 #include"cwb/Dstr.h"
 #include"cwb/Buffer.h"
+#include"cwb/Coder.h"
 
 static const char *base64ChangeTable=
 				  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Coders.test.c
-	Date:2021.06.14
+	Date:2021.07.14
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -15,8 +15,7 @@
 
 #include<cwb/Dstr.h>
 #include<cwb/Buffer.h>
-#include<cwb/Encoder.h>
-#include<cwb/Decoder.h>
+#include<cwb/Coder.h>
 
 void error_report(void) {
 	fputs("Error\n",stderr);
