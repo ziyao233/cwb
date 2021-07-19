@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Coder_Base64.c
-	Date:2021.07.14
+	Date:2021.07.19
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -40,7 +40,7 @@ static const uint8_t base64UnchangeTable[]=
 						0x31, 0x32, 0x33
 					};
 
-Cwb_Dstr *cwb_encode_base64(const void *data,size_t size,Cwb_Dstr *output)
+Cwb_Dstr *cwb_encode_base64(Cwb_Dstr *output,const void *data,size_t size)
 {
 	if (!output) {
 		output = cwb_dstr_new();
@@ -82,7 +82,7 @@ static size_t real_size(uint8_t *data)
 	return size;
 }
 
-Cwb_Buffer *cwb_decode_base64(const char *code,Cwb_Buffer *output)
+Cwb_Buffer *cwb_decode_base64(Cwb_Buffer *output,char const *code)
 {
 	if (!output) {
 		output = cwb_buffer_new();

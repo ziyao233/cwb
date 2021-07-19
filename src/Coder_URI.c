@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Coder_URI.c
-	Date:2021.07.14
+	Date:2021.07.19
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -24,7 +24,7 @@ static inline int uri_needcode(uint8_t ch)
 		   ch=='.' || ch=='-' || ch=='_' || ch=='~';
 }
 
-Cwb_Dstr *cwb_encode_uri(void const *data,size_t size,Cwb_Dstr *output)
+Cwb_Dstr *cwb_encode_uri(Cwb_Dstr *output,void const *data,size_t size)
 {
 	if (!output) {
 		output = cwb_dstr_new();
@@ -53,7 +53,7 @@ Cwb_Dstr *cwb_encode_uri(void const *data,size_t size,Cwb_Dstr *output)
 	return output;
 }
 
-Cwb_Buffer *cwb_decode_uri(char const *code,Cwb_Buffer *output)
+Cwb_Buffer *cwb_decode_uri(Cwb_Buffer *output,char const *code)
 {
 	if (!output) {
 		output = cwb_buffer_new();
