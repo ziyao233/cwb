@@ -29,6 +29,10 @@ typedef struct {
 
 void data_free(void *data)
 {
+	Ds_Data *dsData = (Ds_Data*)data;
+	if (dsData->type == CWB_SERIALIZE_STRING)
+		free(dsData->value.string);
+	
 	free(data);
 	return;
 }
@@ -47,7 +51,7 @@ Cwb_Serialize_Data *cwb_serialize_new(void)
 
 void cwb_serialize_destroy(Cwb_Serialize_Data *data)
 {
-	cwb_ds_destroy(data);
+	cwb_ds_destroy((Cwb_Ds*)data);
 	return;
 }
 

@@ -97,7 +97,7 @@ static void hashtable_destroy(void *ds)
 			tmp = slotValue->next;
 			free(slotValue->key);
 			if (ht->free)
-				free(slotValue->data);
+				ht->free(slotValue->data);
 			free(slotValue);
 		}
 	}

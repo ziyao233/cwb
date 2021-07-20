@@ -68,7 +68,7 @@ Cwb_Serialize_Data *cwb_deserialize_urlcoded(Cwb_Serialize_Data *data,
 	if (!str)
 		return NULL;
 
-	for (char const *p = code;*p;p++) {
+	for (char const *p = code;*p;) {
 		while (*p != '=') {
 			if (*p == '%') {
 				char tmp = 0;
@@ -103,8 +103,12 @@ Cwb_Serialize_Data *cwb_deserialize_urlcoded(Cwb_Serialize_Data *data,
 		char *value = cwb_dstr_convert(str,NULL,0);
 		cwb_serialize_adds(data,key,value);
 		free(key);
+		free(value);
 		cwb_dstr_clear(str);
+
+		p = *p ? p + 1 : p;
 	}
+	cwb_dstr_destroy(str);
 
 	return data;
 }

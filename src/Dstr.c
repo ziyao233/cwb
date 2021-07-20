@@ -87,7 +87,7 @@ Cwb_Dstr *cwb_dstr_clear(Cwb_Dstr *dstr)
 		free(last);
 		last = part;
 	}
-	if (!last) {
+	if (last) {
 		free(last->partStr);
 		free(last);
 	}

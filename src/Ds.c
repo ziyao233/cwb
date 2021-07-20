@@ -79,6 +79,7 @@ void cwb_ds_destroy(Cwb_Ds *in)
 {
 	Ds *ds = (Ds*)in;
 	DS_PROTOTYPE(ds->type).destroy(ds->realDs);
+	free(in);
 	return;
 }
 

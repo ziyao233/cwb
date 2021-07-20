@@ -39,6 +39,7 @@ int main(void)
 				 cwb_serialize_gets(data,value));
 	}
 
+	free(result);
 	cwb_serialize_destroy(data);
 	
 	return 0;
