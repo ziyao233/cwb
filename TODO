@@ -4,25 +4,30 @@
 	!	Planing Feature		计划中特性
 	c	Chores			杂务
 	r	Refactor		代码重构
+	w	Work in Progress	进行中
 
-(+)	www-form序列化
 (c)	Code Style
+(c)	重写文档(groff)
 (+)	HTTP服务器 HTTP1.0 & HTTP1.1
 (+)	HTTP响应操作
 (+)	HTTP请求操作
 (+)	HTTP Cookie支持
-(!)	CWB_DS_LIST链表
+(+)	CWB_DS_LIST链表
 ========	v0.2.0	========
 (+)	M/MIME编码
-(+)	JSON序列
+(+)	JSON序列化
 (+)	XML序列化
-========	v0.3.0	========
 (-)	HTTP流量控制
 (+)	HTTP客户端
+========	v0.3.0	========
 (+)	模板
 (+)	epoll支持
 (+)	HTTP 多线程服务器
+(+)	RESP协议
+(+)	WebSocket
+(+)	数据库
+(+)	COAP Protocol
 (+)	HTTP 2.0
-(!)	IRC Protocol
+(+)	IRC Protocol
 (!)	STMP&POP3 Protocol
-(!)	COAP Protocol
+(!)	RPC

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds.c
-	Date:2021.07.14
+	Date:2021.07.20
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -158,4 +158,5 @@ intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Pair *pair)
 {
 	Ds *ds = (Ds*)in;
 
-	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,freeFunc);
+	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,pair);
+}

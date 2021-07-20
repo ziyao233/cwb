@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Dstr.c
-	Date:2021.07.05
+	Date:2021.07.20
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -111,6 +111,8 @@ char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length)
 		if (!buffer)
 			return NULL;
 	}
+
+	dstr->last->partStr[dstr->last->used] = '\0';
 
 	*buffer = '\0';
 	for (Dstr_Part *part = dstr->part->next;

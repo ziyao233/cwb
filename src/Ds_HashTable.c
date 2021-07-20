@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds_HashTable.c
-	Date:2021.07.14
+	Date:2021.07.20
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -74,7 +74,8 @@ static int ht_init_slot(HashTable *ht)
 	*ht = (HashTable){
 				.slotNum = 4,
 				.slotUsed= 0,
-				.slot	 = (Ht_Slot*)malloc(sizeof(Ht_Slot) << 2)
+				.slot	 = (Ht_Slot*)malloc(sizeof(Ht_Slot) << 2),
+				.free	 = ht->free
 			 };
 	if (!ht->slot)
 		return -1;
@@ -256,7 +257,10 @@ static Cwb_Ds_Pair *hashtable_next(void *ds,Cwb_Ds_Pair *pair)
 	if (slotValue->next)
 		return (Cwb_Ds_Pair*)slotValue->next;
 	
-	for (uint32_t i = ht_hash(slotValue->key,strlen(slotValue->key));
+	uint32_t hash   =
+		ht_hash(slotValue->key,strlen(slotValue->key)) %
+		ht->slotNum;
+	for (uint32_t i = hash + 1;
 	     i < ht->slotNum;
 	     i++) {
 		if (ht->slot[i].value)
@@ -272,7 +276,7 @@ static void hashtable_freefunc(void *ds,Cwb_Ds_FreeFunc freeFunc)
 	return;
 }
 
-static intptr_t hashtabel_getkey(void *ds,Cwb_Ds_Pair *pair)
+static intptr_t hashtable_getkey(void *ds,Cwb_Ds_Pair *pair)
 {
 	(void)ds;
 	return (intptr_t)(((Ht_SlotValue*)pair)->key);
