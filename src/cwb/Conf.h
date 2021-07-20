@@ -9,4 +9,6 @@
 
 #define CWB_CONF_COROUTINE_STKSIZE 8192
 
+#define CWB_CONF_HTTPD_BACKLOG 1024
+
 #endif

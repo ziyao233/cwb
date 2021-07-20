@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/IO.h
-	Date:2021.03.05
+	Date:2021.07.20
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -11,6 +11,8 @@
 
 #include<errno.h>
 #include<sys/select.h>
+
+#include"cwb/Time.h"
 
 //	Check errno to find out the reason of error
 #define CWB_IO_WOULDBLOCK (errno==EAGAIN || errno==EWOULDBLOCK)
