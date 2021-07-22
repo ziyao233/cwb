@@ -100,7 +100,11 @@ static int proc_body(Cwb_Coroutine *co,void *data)
 	Proc_Data *procData = (Proc_Data*)data;
 	Cwb_Httpd_Conn *conn = procData->conn;
 	int handler = procData->handler;
-	return conn->httpd->router.handler[handler](conn);
+	int retVal  = conn->httpd->router.handler[handler](conn);
+	int fd	    = conn - conn->httpd->conn;
+	cwb_net_close(fd);
+	
+	return retVal;
 }
 
 static int read_header(Cwb_Event_Base *base,int fd,
