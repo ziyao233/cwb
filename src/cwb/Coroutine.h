@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Coroutine.h
-	Date:2021.07.11
+	Date:2021.07.22
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -25,8 +25,8 @@ typedef struct __Cwb_Coroutine{
 
 typedef int (*Cwb_Coroutine_Func)(Cwb_Coroutine *co,void *data);
 
-Cwb_Coroutine *cwb_coroutine_create(Cwb_Coroutine_Func func,
-				    void *data);
+Cwb_Coroutine *cwb_coroutine_new(Cwb_Coroutine_Func func,
+				 void *data);
 short int cwb_coroutine_resume(Cwb_Coroutine *co);
 void cwb_coroutine_yield(Cwb_Coroutine *co);
 short int cwb_coroutine_status(Cwb_Coroutine *co);

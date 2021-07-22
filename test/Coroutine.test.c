@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Coroutine.test.c
-	Date:2021.07.05
+	Date:2021.07.22
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -28,9 +28,9 @@ int main(void)
 	char const *p1 = "Hello World,this is 1";
 	char const *p2 = "Hello World,this is 2";
 
-	Cwb_Coroutine *co1 = cwb_coroutine_create(foo,(void*)p1);
+	Cwb_Coroutine *co1 = cwb_coroutine_new(foo,(void*)p1);
 	assert(co1);
-	Cwb_Coroutine *co2 = cwb_coroutine_create(foo,(void*)p2);
+	Cwb_Coroutine *co2 = cwb_coroutine_new(foo,(void*)p2);
 	assert(co2);
 	
 	assert(cwb_coroutine_status(co1) == cwb_coroutine_status(co2));

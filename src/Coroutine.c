@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Coroutine.c
-	Date:2021.07.05
+	Date:2021.07.22
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -47,8 +47,8 @@ static void coroutine_main(Cwb_Coroutine		*co,
 	return;
 }
 
-Cwb_Coroutine *cwb_coroutine_create(Cwb_Coroutine_Func		func,
-				    void			*data)
+Cwb_Coroutine *cwb_coroutine_new(Cwb_Coroutine_Func	func,
+				 void			*data)
 {
 	/*	Create a coroutine and set the context	*/
 	Cwb_Coroutine *co	= (Cwb_Coroutine*)malloc(sizeof(Cwb_Coroutine));
