@@ -53,7 +53,7 @@ static int handler_write(Cwb_Event_Base *base,int fd,void *data)
 	return 0;
 }
 
-int cwb_httpd_conn_writen(Cwb_Httpd_Conn *conn,void *buffer,
+int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,
 			  size_t size)
 {
 	conn->buffer	= buffer;
@@ -69,7 +69,7 @@ int cwb_httpd_conn_writen(Cwb_Httpd_Conn *conn,void *buffer,
 	return 0;
 }
 
-int cwb_httpd_conn_status(Cwb_Httpd_Conn *conn,int status,char const *info)
+int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,char const *info)
 {
 	char const *format = "HTTP/1.1 %03d %s";
 	
@@ -81,7 +81,7 @@ int cwb_httpd_conn_status(Cwb_Httpd_Conn *conn,int status,char const *info)
 	sprintf(buffer,format,status,info);
 	size = strlen(buffer);
 
-	if (cwb_httpd_conn_writen(conn,(void*)buffer,size))
+	if (cwb_httpd_res_writen(conn,(void*)buffer,size))
 		return -1;
 
 	free(buffer);

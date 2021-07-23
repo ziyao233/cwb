@@ -26,7 +26,7 @@ FILES_SERIALIZERS:=Serializer_Urlcoded.o
 
 FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o \
 	    Coroutine.o Util.o Serializer.o Httpd.o \
-	    Httpd_Conn.o	\
+	    Httpd_Response.o	\
 	    $(FILES_SERIALIZERS) \
 	    $(FILES_CODERS)
 FILES_LIB:=libcwb.a

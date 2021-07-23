@@ -68,8 +68,8 @@ int cwb_httpd_start(Cwb_Httpd *httpd);
 int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
 			 Cwb_Httpd_Router_Handler handler);
 
-/*	Connection	*/
-int cwb_httpd_conn_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
-int cwb_httpd_conn_status(Cwb_Httpd_Conn *conn,int status,char const *info);
+/*	Response	*/
+int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
+int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,char const *info);
 
 #endif

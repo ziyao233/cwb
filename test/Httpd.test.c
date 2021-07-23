@@ -21,7 +21,7 @@ static int rule(char const *path)
 
 static int handler(Cwb_Httpd_Conn *conn)
 {
-	if (cwb_httpd_conn_status(conn,500,"Server Error"))
+	if (cwb_httpd_res_status(conn,500,"Server Error"))
 		return -1;
 	return 0;
 }
