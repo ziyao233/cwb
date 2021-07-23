@@ -70,5 +70,6 @@ int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
 
 /*	Connection	*/
 int cwb_httpd_conn_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
+int cwb_httpd_conn_status(Cwb_Httpd_Conn *conn,int status,char const *info);
 
 #endif

@@ -19,11 +19,9 @@ static int rule(char const *path)
 	return 1;
 }
 
-char const *data = "HTTP/1.1 200 OK\r\n\r\n<h1>Hello</h1>";
-
 static int handler(Cwb_Httpd_Conn *conn)
 {
-	if (cwb_httpd_conn_writen(conn,(void*)data,strlen(data)))
+	if (cwb_httpd_conn_status(conn,500,"Server Error"))
 		return -1;
 	return 0;
 }

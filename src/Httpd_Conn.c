@@ -68,3 +68,23 @@ int cwb_httpd_conn_writen(Cwb_Httpd_Conn *conn,void *buffer,
 
 	return 0;
 }
+
+int cwb_httpd_conn_status(Cwb_Httpd_Conn *conn,int status,char const *info)
+{
+	char const *format = "HTTP/1.1 %03d %s";
+	
+	size_t size = strlen(format) + strlen(info) + 4;
+	char *buffer = (char*)malloc(size);
+	if (!buffer)
+		return -1;
+
+	sprintf(buffer,format,status,info);
+	size = strlen(buffer);
+
+	if (cwb_httpd_conn_writen(conn,(void*)buffer,size))
+		return -1;
+
+	free(buffer);
+
+	return 0;
+}
