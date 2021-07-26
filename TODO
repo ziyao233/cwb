@@ -7,9 +7,6 @@
 	w	Work in Progress	进行中
 
 (c)	Code Style
-(c)	重写文档(groff)
-(+)	HTTP服务器 HTTP1.0 & HTTP1.1
-(+)	HTTP响应操作
 (+)	HTTP请求操作
 (+)	HTTP Cookie支持
 (+)	CWB_DS_LIST链表
