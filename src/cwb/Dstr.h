@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Dstr.h
-	Date:2021.07.05
+	Date:2021.07.28
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -24,6 +24,8 @@ typedef struct {
 	struct __Cwb_Dstr_Part *part;
 	struct __Cwb_Dstr_Part *last;
 }Cwb_Dstr;
+
+#define cwb_dstr_length(dstr) ((dstr)->length)
 
 Cwb_Dstr *cwb_dstr_new(void);
 void cwb_dstr_destroy(Cwb_Dstr *dstr);

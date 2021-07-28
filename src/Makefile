@@ -1,6 +1,6 @@
 # cwb
 # File:/src/Makefile
-# Date:2021.07.23
+# Date:2021.07.28
 # By MIT
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
@@ -24,10 +24,10 @@ FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra -I./
 FILES_CODERS:=Coder_Base64.o Coder_URI.o
 FILES_SERIALIZERS:=Serializer_Urlcoded.o
 
-FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o \
-	    Coroutine.o Util.o Serializer.o Httpd.o \
-	    Httpd_Response.o	\
-	    $(FILES_SERIALIZERS) \
+FILES_OBJS:=Net.o Time.o IO.o Event.o Ds.o Dstr.o Buffer.o	\
+	    Coroutine.o Util.o Serializer.o Httpd.o		\
+	    Httpd_Response.o Httpd_Request.o			\
+	    $(FILES_SERIALIZERS)				\
 	    $(FILES_CODERS)
 FILES_LIB:=libcwb.a
 FILES_HEADERS:=cwb
