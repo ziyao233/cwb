@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.07.23
+	Date:2021.07.28
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -143,6 +143,17 @@ static int read_header(Cwb_Event_Base *base,int fd,
 	sscanf((char*)conn->buffer,httpd->reqPattern,
 	       reqMethod,conn->path);
 	conn->method = get_method(reqMethod);
+	
+	char *arg = strstr(conn->path,"?");
+	if (arg) {
+		*arg = '\0';
+		arg++;
+		size_t size = strlen(arg);
+		conn->arg   = (char*)malloc(size + 1);
+		if (!conn->arg)
+			return -1;
+		strcpy(conn->arg,arg);
+	}
 
 	char *header = strstr((char*)conn->buffer,"\r\n") + 2;
 	strncpy(conn->nativeHeader,header,end-header);
@@ -192,7 +203,8 @@ static int socket_handler(Cwb_Event_Base *base,int fd,
 				.httpd	= httpd,
 				.buffer	= malloc(httpd->conf.http.maxHeaderSize),
 				.count	= 0,
-				.path	= (char*)malloc(httpd->conf.http.maxPathSize)
+				.path	= (char*)malloc(httpd->conf.http.maxPathSize),
+				.arg	= NULL
 			};
 
 		if (!httpd->conn[connFd].buffer || !httpd->conn[connFd].path)

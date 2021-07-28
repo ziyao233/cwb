@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.07.26
+	Date:2021.07.28
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -46,6 +46,7 @@ typedef struct Cwb_Httpd_Conn{
 	ssize_t count;
 	char *path;
 	Cwb_Httpd_Conn_Method method;
+	char *arg;
 }Cwb_Httpd_Conn;
 
 typedef struct Cwb_Httpd{
