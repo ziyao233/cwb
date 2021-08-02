@@ -1,11 +1,12 @@
 /*
 	cwb
 	File:/src/Serailize_Urlcoded.c
-	Date:2021.07.20
+	Date:2021.08.02
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
 
+#include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -17,7 +18,7 @@
 
 #define HEX2NUM(ch) ((ch)>57?(ch)-55:(ch)-48)
 
-Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Data *data)
+Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 {
 	if (!output) {
 		output = cwb_dstr_new();
@@ -25,27 +26,30 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Data *data)
 			return NULL;
 	}
 
-	Cwb_Serialize_Value *tmp = cwb_serialize_first(data);
-	for (Cwb_Serialize_Value *value = cwb_serialize_first(data);
-	     value;
-	     value = tmp) {
+	assert(cwb_serialize_type(value) == CWB_SERIALIZE_DS);
+	Cwb_Ds *ds = cwb_serialize_get(value).ds;
+	Cwb_Ds_Pair *tmp = cwb_ds_first(ds);
 
-		char const *key = cwb_serialize_getkey(data,value);
+	for (Cwb_Ds_Pair *pair = (Cwb_Ds_Pair*)cwb_ds_first(ds);
+	     pair;
+	     pair = tmp) {
+		char const *key = (char const*)cwb_ds_getkey(ds,pair);
 		if (!cwb_encode_uri(output,key,strlen(key)))
 			return NULL;
 		if (!cwb_dstr_appendc(output,'='))
 			return NULL;
 		
-		Cwb_Serialize_Type type = cwb_serialize_gettype(data,value);
+		Cwb_Serialize_Value *value = cwb_ds_get(ds,pair);
+		Cwb_Serialize_Type type = cwb_serialize_type(value);
 		if (type == CWB_SERIALIZE_STRING) {
-			char const *src = cwb_serialize_gets(data,value);
+			char const *src = cwb_serialize_get(value).string;
 			if (!cwb_encode_uri(output,src,strlen(src)))
 				return NULL;
 		} else {
 			abort();
 		}
 
-		tmp = cwb_serialize_next(data,tmp);
+		tmp = cwb_ds_next(ds,tmp);
 		if (tmp) {
 			if (!cwb_dstr_appendc(output,'&'))
 				return NULL;
@@ -55,12 +59,16 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Data *data)
 	return output;
 }
 
-Cwb_Serialize_Data *cwb_deserialize_urlcoded(Cwb_Serialize_Data *data,
-					     char const *code)
+Cwb_Serialize_Value *cwb_deserialize_urlcoded(Cwb_Serialize_Value *value,
+					      char const *code)
 {
-	if (!data) {
-		data = cwb_serialize_new();
-		if (!data)
+	if (!value) {
+		value = cwb_serialize_new(CWB_SERIALIZE_DS);
+		if (!value)
+			return NULL;
+		cwb_serialize_set(value).ds =
+			cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
+		if (!cwb_serialize_get(value).ds)
 			return NULL;
 	}
 
@@ -100,15 +108,18 @@ Cwb_Serialize_Data *cwb_deserialize_urlcoded(Cwb_Serialize_Data *data,
 				p++;
 			}
 		}
-		char *value = cwb_dstr_convert(str,NULL,0);
-		cwb_serialize_adds(data,key,value);
+		char *v = cwb_dstr_convert(str,NULL,0);
+		Cwb_Serialize_Value *term = cwb_serialize_new(CWB_SERIALIZE_STRING);
+		if (!term)
+			return NULL;
+		cwb_serialize_set(term).string = v;
+		cwb_ds_insert(cwb_serialize_get(value).ds,key,(void*)term);
 		free(key);
-		free(value);
 		cwb_dstr_clear(str);
 
 		p = *p ? p + 1 : p;
 	}
 	cwb_dstr_destroy(str);
 
-	return data;
+	return value;
 }

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.07.28
+	Date:2021.08.02
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -11,6 +11,7 @@
 
 #include<stdio.h>
 
+#include"cwb/Ds.h"
 #include"cwb/Event.h"
 #include"cwb/Coroutine.h"
 
