@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Dstr.h
-	Date:2021.07.28
+	Date:2021.08.02
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -41,5 +41,7 @@ Cwb_Dstr *cwb_dstr_copy(Cwb_Dstr *dstr);
 
 Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c);
 Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,const char *src);
+Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p);
+Cwb_Dstr *cwb_dstr_appendy(Cwb_Dstr *str1,Cwb_Dstr *str2);
 
 #endif

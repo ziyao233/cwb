@@ -182,6 +182,24 @@ Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c)
 	return dstr;
 }
 
+Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p)
+{
+	char *src = *p;
+	*p = NULL;
+
+	Dstr_Part *last = dstr->last;
+	Dstr_Part *part = create_part();
+	if (!part)
+		return NULL;
+	part->length	= strlen(src);
+	dstr->length	+= part->length;
+	part->used	= part->length;
+	last->next	= part;
+	dstr->last	= part;
+
+	return dstr;
+}
+
 Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p)
 {
 	cwb_dstr_clear(dstr);
@@ -225,4 +243,27 @@ Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,const char *src)
 		return NULL;
 	
 	return cwb_dstr_assignd(dstr,&copy);
+}
+
+Cwb_Dstr *cwb_dstr_copy(Cwb_Dstr *dstr)
+{
+	Cwb_Dstr *copy = cwb_dstr_new();
+	if (!copy)
+		return NULL;
+	
+	char *copySrc = cwb_dstr_convert(dstr,NULL,0);
+	if (!cwb_dstr_assignd(copy,&copySrc))
+		return NULL;
+	return copy;
+}
+
+Cwb_Dstr *cwb_dstr_appendy(Cwb_Dstr *str1,Cwb_Dstr *str2)
+{
+	char *nativeStr = cwb_dstr_convert(str2,NULL,0);
+	if (!nativeStr)
+		return NULL;
+
+	cwb_dstr_appendd(str1,&nativeStr);
+
+	return str1;
 }
