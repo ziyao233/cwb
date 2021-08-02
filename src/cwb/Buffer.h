@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/cwb/Buffer.h
-	Date:2021.06.14
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #ifndef _CWB_BUFFER_H_INC
@@ -29,7 +29,7 @@ typedef struct {
 Cwb_Buffer *cwb_buffer_new(void);
 void cwb_buffer_destroy(Cwb_Buffer *buffer);
 
-Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,void const *result,size_t size);
+Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,const void *result,size_t size);
 
 void *cwb_buffer_convert(Cwb_Buffer *buffer,void *data,size_t size);
 

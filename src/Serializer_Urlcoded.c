@@ -3,7 +3,7 @@
 	File:/src/Serailize_Urlcoded.c
 	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<assert.h>
@@ -33,7 +33,7 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 	for (Cwb_Ds_Pair *pair = (Cwb_Ds_Pair*)cwb_ds_first(ds);
 	     pair;
 	     pair = tmp) {
-		char const *key = (char const*)cwb_ds_getkey(ds,pair);
+		const char *key = (const char*)cwb_ds_getkey(ds,pair);
 		if (!cwb_encode_uri(output,key,strlen(key)))
 			return NULL;
 		if (!cwb_dstr_appendc(output,'='))
@@ -42,7 +42,7 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 		Cwb_Serialize_Value *value = cwb_ds_get(ds,pair);
 		Cwb_Serialize_Type type = cwb_serialize_type(value);
 		if (type == CWB_SERIALIZE_STRING) {
-			char const *src = cwb_serialize_get(value).string;
+			const char *src = cwb_serialize_get(value).string;
 			if (!cwb_encode_uri(output,src,strlen(src)))
 				return NULL;
 		} else {
@@ -60,7 +60,7 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 }
 
 Cwb_Serialize_Value *cwb_deserialize_urlcoded(Cwb_Serialize_Value *value,
-					      char const *code)
+					      const char *code)
 {
 	if (!value) {
 		value = cwb_serialize_new(CWB_SERIALIZE_DS);
@@ -76,7 +76,7 @@ Cwb_Serialize_Value *cwb_deserialize_urlcoded(Cwb_Serialize_Value *value,
 	if (!str)
 		return NULL;
 
-	for (char const *p = code;*p;) {
+	for (const char *p = code;*p;) {
 		while (*p != '=') {
 			if (*p == '%') {
 				char tmp = 0;

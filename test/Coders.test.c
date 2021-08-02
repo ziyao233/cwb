@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Coders.test.c
-	Date:2021.07.14
+	Date:2021.08.02
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -39,13 +39,13 @@ int main(void)
 
 	{
 		puts("Encoding(Base64)...");
-		Cwb_Dstr *dEncodedData = cwb_encode_base64(data,dataSize,NULL);
+		Cwb_Dstr *dEncodedData = cwb_encode_base64(NULL,data,dataSize);
 		assert(dEncodedData);
 		char *encodedData=cwb_dstr_convert(dEncodedData,NULL,0);
 		assert(encodedData);
 
 		puts("Decoding...");
-		Cwb_Buffer *dDecodedData = cwb_decode_base64(encodedData,NULL);
+		Cwb_Buffer *dDecodedData = cwb_decode_base64(NULL,encodedData);
 		assert(dDecodedData);
 		void *decodedData=cwb_buffer_convert(dDecodedData,NULL,0);
 		assert(decodedData);
@@ -62,14 +62,14 @@ int main(void)
 
 	{
 		puts("Encoding(URI)...");
-		Cwb_Dstr *dEncodedData = cwb_encode_uri(data,dataSize,NULL);
+		Cwb_Dstr *dEncodedData = cwb_encode_uri(NULL,data,dataSize);
 		assert(dEncodedData);
 
 		char *encodedData = cwb_dstr_convert(dEncodedData,NULL,0);
 		assert(encodedData);
 
 		puts("Decoding...");
-		Cwb_Buffer *dDecodedData = cwb_decode_uri(encodedData,NULL);
+		Cwb_Buffer *dDecodedData = cwb_decode_uri(NULL,encodedData);
 		assert(dDecodedData);
 		void *decodedData = cwb_buffer_convert(dDecodedData,NULL,0);
 		assert(decodedData);

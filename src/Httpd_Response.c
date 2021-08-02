@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Httpd_Conn.c
-	Date:2021.07.26
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<stdio.h>
@@ -69,9 +69,9 @@ int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,
 	return 0;
 }
 
-int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,char const *info)
+int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,const char *info)
 {
-	char const *format = "HTTP/1.1 %03d %s\r\n";
+	const char *format = "HTTP/1.1 %03d %s\r\n";
 	
 	size_t size = strlen(format) + strlen(info) + 6;
 	char *buffer = (char*)malloc(size);
@@ -89,7 +89,7 @@ int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,char const *info)
 	return 0;
 }
 
-int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,char const *key,char const *value)
+int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value)
 {
 	size_t size = strlen(key) + strlen(value) + 5;
 	char *buffer = (char*)malloc(size);
@@ -111,5 +111,5 @@ int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,char const *key,char const *value)
 
 int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn)
 {
-	return cwb_httpd_res_writen(conn,"\r\n",2);
+	return cwb_httpd_res_writen(conn,(void*)"\r\n",2);
 }

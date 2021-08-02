@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.07.28
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<stdio.h>
@@ -67,7 +67,7 @@ Cwb_Httpd *cwb_httpd_new(void)
 	return httpd;
 }
 
-static Cwb_Httpd_Conn_Method get_method(char const *str)
+static Cwb_Httpd_Conn_Method get_method(const char *str)
 {
 	static const char *table[] = {
 					[CWB_HTTPD_CONN_GET]	= "GET",

@@ -18,7 +18,8 @@ MAKEDIR:=mkdir
 # Flags
 FLAG_AR:=rcu
 FLAG_REMOVE:=-rf
-FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra -I./
+FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra -I./ \
+	 -Wwrite-strings
 
 # Files
 FILES_CODERS:=Coder_Base64.o Coder_URI.o

@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Ds_HashTable.c
-	Date:2021.07.20
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<assert.h>
@@ -38,7 +38,7 @@ typedef struct {
 	Cwb_Ds_FreeFunc free;
 }__Ds_HashTable;
 
-static uint32_t ht_hash(char const *str,size_t length)
+static uint32_t ht_hash(const char *str,size_t length)
 {
 	uint32_t hash = (uint32_t)length;
 	
@@ -114,7 +114,7 @@ static Cwb_Ds_Pair *hashtable_search(void *ds,va_list argList)
 	if (ht->slotNum == 0)
 		return NULL;
 
-	char const *key = va_arg(argList,char const*);
+	const char *key = va_arg(argList,const char*);
 
 	uint32_t keyHash = ht_hash(key,strlen(key)) % (ht->slotNum);
 	for (Ht_SlotValue *slotValue = ht->slot[keyHash].value;
@@ -144,7 +144,7 @@ static int ht_extend_slot(HashTable *ht)
 		for (Ht_SlotValue *slotValue = ht->slot[i].value;
 		     slotValue;
 		     slotValue = tmp) {
-			char const *key = slotValue->key;
+			const char *key = slotValue->key;
 			uint32_t hash = ht_hash(key,strlen(key)) % (ht->slotNum);
 			
 			tmp = slotValue->next;
@@ -160,7 +160,7 @@ static int ht_extend_slot(HashTable *ht)
 	return 0;
 }
 
-static char *copy_str(char const *str)
+static char *copy_str(const char *str)
 {
 	char *result = (char*)malloc(strlen(str)+1);
 	if (!result)
@@ -172,7 +172,7 @@ static char *copy_str(char const *str)
 static Cwb_Ds_Pair *hashtable_insert(void *ds,va_list argList)
 {
 	HashTable *ht	= (HashTable*)ds;
-	char *key = copy_str(va_arg(argList,char const*));
+	char *key = copy_str(va_arg(argList,const char*));
 	void *value	= va_arg(argList,void*);
 	if (!key)
 		return NULL;

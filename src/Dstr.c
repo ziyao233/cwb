@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Dstr.c
-	Date:2021.07.20
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<stdio.h>
@@ -145,7 +145,7 @@ static int extend_part(Cwb_Dstr *dstr)
 	return !part;
 }
 
-Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,char const *src)
+Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,const char *src)
 {
 	size_t srcLength = strlen(src);
 
@@ -207,7 +207,7 @@ Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p)
 	return dstr;
 }
 
-static char *copy_str(char const *src)
+static char *copy_str(const char *src)
 {
 	char *copy = (char*)malloc(strlen(src)+1);
 
@@ -218,7 +218,7 @@ static char *copy_str(char const *src)
 	return copy;
 }
 
-Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,char const *src)
+Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,const char *src)
 {
 	char *copy = copy_str(src);
 	if (!copy)

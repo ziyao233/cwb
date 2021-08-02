@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Buffer.c
-	Date:2021.06.14
+	Date:2021.08.02
 	By MIT License.
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<stdio.h>
@@ -93,7 +93,7 @@ static int extend_part(Cwb_Buffer *buffer)
 	return !part;
 }
 
-Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,void const *src,size_t size)
+Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,const void *src,size_t size)
 {
 	Buffer_Part *part = buffer->last;
 

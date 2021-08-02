@@ -1,9 +1,9 @@
 /*
 	cwb
 	File:/src/Coder_Base64.c
-	Date:2021.07.19
+	Date:2021.08.02
 	By MIT License
-	Copyright(C) 2021 cwb developers.All rights reserved.
+	Copyright (c) 2021 cwb developers.All rights reserved.
 */
 
 #include<stdio.h>
@@ -82,7 +82,7 @@ static size_t real_size(uint8_t *data)
 	return size;
 }
 
-Cwb_Buffer *cwb_decode_base64(Cwb_Buffer *output,char const *code)
+Cwb_Buffer *cwb_decode_base64(Cwb_Buffer *output,const char *code)
 {
 	if (!output) {
 		output = cwb_buffer_new();
