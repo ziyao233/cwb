@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Conn.c
-	Date:2021.08.02
+	Date:2021.08.03
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -12,6 +12,8 @@
 #include<stdint.h>
 
 #include"cwb/Net.h"
+#include"cwb/Dstr.h"
+#include"cwb/Coder.h"
 #include"cwb/Httpd.h"
 
 static int get_fd(Cwb_Httpd_Conn *conn)
@@ -112,4 +114,48 @@ int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value)
 int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn)
 {
 	return cwb_httpd_res_writen(conn,(void*)"\r\n",2);
+}
+
+int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
+			 const char *value,Cwb_Ds *attr)
+{
+	Cwb_Dstr *cookie = cwb_dstr_new();
+	if (!cookie)
+		return -1;
+	
+	if (!cwb_encode_uri(cookie,(void*)key,strlen(key)))
+		return -1;
+	
+	if (!cwb_dstr_appendc(cookie,'='))
+		return -1;
+	
+	if (!cwb_encode_uri(cookie,(void*)value,strlen(value)))
+		return -1;
+	
+	for (Cwb_Ds_Pair *pair = attr ? cwb_ds_first(attr) : NULL;
+	     pair;
+	     pair = cwb_ds_next(attr,pair)) {
+		if (!cwb_dstr_appends(cookie,"; "))
+			return -1;
+
+		const char *key = (const char*)cwb_ds_getkey(attr,pair);
+		if (!cwb_dstr_append(cookie,key))
+			return -1;
+
+		const char *value = (const char*)cwb_ds_get(attr,pair);
+		if (value) {
+			if (!cwb_dstr_appendc(cookie,'='))
+				return -1;
+			if (!cwb_dstr_append(cookie,value))
+				return -1;
+		}
+	}
+	char *buffer = cwb_dstr_convert(cookie,NULL,0);
+	if (!buffer)
+		return -1;
+	cwb_dstr_destroy(cookie);
+
+	int retVal = cwb_httpd_res_header(conn,"Set-Cookie",buffer);
+	free(buffer);
+	return retVal;
 }

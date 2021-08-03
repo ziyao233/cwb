@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Dstr.c
-	Date:2021.08.02
+	Date:2021.08.03
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -13,6 +13,7 @@
 #include<stdint.h>
 
 #include"cwb/Conf.h"
+#include"cwb/Util.h"
 #include"cwb/Dstr.h"
 
 typedef struct __Cwb_Dstr_Part Dstr_Part;
@@ -191,6 +192,7 @@ Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p)
 	Dstr_Part *part = create_part();
 	if (!part)
 		return NULL;
+	part->partStr	= src;
 	part->length	= strlen(src);
 	dstr->length	+= part->length;
 	part->used	= part->length;
@@ -266,4 +268,13 @@ Cwb_Dstr *cwb_dstr_appendy(Cwb_Dstr *str1,Cwb_Dstr *str2)
 	cwb_dstr_appendd(str1,&nativeStr);
 
 	return str1;
+}
+
+Cwb_Dstr *cwb_dstr_append(Cwb_Dstr *dstr,const char *src)
+{
+	char *copy = cwb_util_str_copy(src);
+	if (!copy)
+		return NULL;
+	
+	return cwb_dstr_appendd(dstr,&copy);
 }
