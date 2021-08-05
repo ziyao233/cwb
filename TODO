@@ -8,13 +8,14 @@
 
 (c)	Code Style
 (+)	HTTP请求操作
-(+)	HTTP Cookie支持
-(+)	CWB_DS_LIST链表
 ========	v0.2.0	========
+(-)	HTTP流量控制
+(-)	长连接支持
+(+)	Dstr,Buffer传播NULL
+(+)	CWB_DS_LIST链表
 (+)	M/MIME编码
 (+)	JSON序列化
 (+)	XML序列化
-(-)	HTTP流量控制
 (+)	HTTP客户端
 ========	v0.3.0	========
 (+)	模板

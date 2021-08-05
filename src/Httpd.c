@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.08.02
+	Date:2021.08.05
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -204,7 +204,8 @@ static int socket_handler(Cwb_Event_Base *base,int fd,
 				.buffer	= malloc(httpd->conf.http.maxHeaderSize),
 				.count	= 0,
 				.path	= (char*)malloc(httpd->conf.http.maxPathSize),
-				.arg	= NULL
+				.arg	= NULL,
+				.header = NULL
 			};
 
 		if (!httpd->conn[connFd].buffer || !httpd->conn[connFd].path)

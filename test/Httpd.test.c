@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.08.03
+	Date:2021.08.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -34,6 +34,13 @@ static int handler(Cwb_Httpd_Conn *conn)
 		printf("%s: %s\n",(char*)cwb_ds_getkey(ds,pair),
 		       (char*)cwb_ds_get(ds,pair));
 	}
+
+	Cwb_Ds *cookie = cwb_httpd_req_cookie(conn);
+	if (!cookie)
+		return -1;
+	Cwb_Ds_Pair *name = cwb_ds_search(cookie,"name");
+	if (name)
+		printf("name: %s\n",(const char*)cwb_ds_get(cookie,name));
 
 	if (cwb_httpd_res_status(conn,200,"OK"))
 		return -1;

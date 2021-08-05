@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.08.03
+	Date:2021.08.05
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -43,6 +43,7 @@ typedef struct Cwb_Httpd_Conn{
 	Cwb_Httpd *httpd;
 	Cwb_Coroutine *co;
 	char *nativeHeader;
+	Cwb_Ds *header;
 	void *buffer;
 	ssize_t count;
 	char *path;
@@ -72,6 +73,7 @@ int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
 
 /*	Request		*/
 Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn);
+Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn);
 
 /*	Response	*/
 int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
