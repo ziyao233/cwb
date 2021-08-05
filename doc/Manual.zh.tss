@@ -1,0 +1,192 @@
+\line
+\t1 cwb参考手册\et1
+\p 请注意,在版本号<=1.0.0的测试阶段,API可能会经常发生不兼容变动,请注意阅读手册\ep
+\line
+\t2 简介\et2
+\p cwb是一个轻量级,快速的C语言网络框架\ep
+\p cwb使用C99语法,仅依赖POSIX标准,便于移植\ep
+\p cwb对内存管理,编码与网络协议提供了简洁的结构,便于实现Web服务器\ep
+\line
+\t2 安装\et2
+\p 不再赘述,详见/doc/Install.zh \ep
+\line
+\t2 使用\et2
+\p 位于/src目录中的Makefile在指定install目标时,默认将头文件安装到/usr/include,请根据情况调整您的编译器选项,或者根据/doc/Install.zh的指引修改头文件的安装目录\ep
+\p 库文件默认被安装到/usr/lib,请根据情况调整您的链接器选项,或者根据/doc/Install.zh的指引修改库文件的安装目录\ep
+\p 通常情况下,默认的安装选项已经足矣.在编译使用cwb库的程序时,往往仅需指定\code -lcwb\ecode 选项即可,例如\ep \nl
+\code
+c99 MY_SOURCE.c -lcwb
+\ecode
+\line
+\t2 库一览\et2
+Time\tab \tab 时间库
+Net\tab \tab 网络库,封装了POSIX的网络API
+IO\tab \tab IO库,封装了POSIX的IO多路复用API
+Coder\tab \tab 编码器库,实现了Web开发中常用的编码方式
+Event\tab \tab 事件驱动库,实现了事件驱动框架
+Ds\tab \tab 数据结构库,实现了常用数据结构
+Dstr\tab \tab 动态字符串库,实现了动态字符串管理
+Buffer\tab \tab 动态缓冲区库,实现了二进制数据的动态构建
+Serializer\tab  序列化库,实现了数据结构的序列化与反序列化
+Util\tab \tab 工具库,实现C语言中常用工具
+Httpd\tab \tab HTTP服务器库,实现了HTTP协议
+\line
+\t2 约定\et2
+\p cwb的代码采用内核代码风格\ep
+\p 文档使用tess排版生成,制表符已经被替换为空格.在阅读源代码时,制表符宽度设为8更合适\ep
+\p 文档中,未说明的返回int值的函数,依照习惯返回0为成功,非零值为失败\ep
+\p 未说明的返回指针的函数,依照习惯返回普通指针为成功,NULL指针为失败\ep
+\nl
+\nl
+
+\t2 Time\et2
+\t3 头文件\et3
+\code
+	cwb/Time.h
+\ecode
+\t3 数据类型\et3
+\code
+	Cwb_Time_MicroSecond	以毫秒为单位的时间类型
+\ecode
+\t3 函数\et3
+\code
+	Cwb_Tine_MircoSecond cwb_time_get(void);
+	获取当前时间
+	Return:
+		当前时间,以毫秒为单位
+\ecode
+\line
+
+\t2 Net\et2
+\t3 头文件\et3
+\code
+	cwb/Net.h
+\ecode
+\t3 Note\et3
+\p Net库中的函数全部为非阻塞的,对于详细的IO状态检测,详见IO库\ep
+\t3 函数\et3
+\code
+	int cwb_net_socket(void);
+	创建一个非阻塞,TCP类型的IPv4套接字
+	Return:
+		套接字的文件描述符
+
+	int cwb_net_bind(int sock,int port);
+	将套接字绑定到端口
+	Input:
+		sock	套接字
+		port	绑定到的端口
+	
+	int cwb_net_listen(int sock,int backLog);
+	监听套接字
+	Input:
+		sock	套接字
+		backLog	套接字的backlog设置(详见内核文档)
+	
+	int cwb_net_accept(int sock);
+	接受套接字的连接
+	Input:
+		sock	套接字
+	Return:
+		<0	失败
+		Other	接受的连接的文件描述符
+
+	ssize_t cwb_net_write(int sock,void *buf,size_t size);
+	向连接写入数据
+	Input:
+		sock	套接字
+		buf	数据缓冲区起始地址
+		size	期望写入的数据长度
+	Return:
+		<0	失败
+		Other	实际读取的数据长度
+	Note:
+		由于非阻塞的特性和内核缓冲区的存在,cwb_net_write()可能在写入size字节前即返回.此时返回值指出了实际写入的数据长度.
+
+	ssize_t cwb_net_read(int sock,void *buf,size_t size);
+	读取连接中的数据
+	Input:
+		sock	套接字
+		buf	数据缓冲区起始地址
+		size	期望读取的数据长度
+	Note:	同cwb_net_write()
+	
+	int cwb_net_close(int sock);
+	关闭一个套接字/连接
+	Input:
+		sock	套接字/连接的文件描述符
+\ecode
+\line
+\nl
+
+\t2 IO\et2
+\t3 头文件\et3
+\code
+	cwb/IO.h
+\ecode
+\t3 数据结构\et3
+\code
+	Cwb_IO_Watcher		IO观察者
+\ecode
+\t3 宏\et3
+\code
+	CWB_IO_WOULDBLOCK	IO操作返回的原因为非阻塞的调用
+	CWB_IO_OK		IO操作成功完成
+	CWB_IO_TRUEERROR	IO操作产生了"真正的错误"(即IO操作的返回的原因不是信号打断或非阻塞调用返回,这样的错误真正需要注意)
+	CWB_IO_WATCHER_TIMEOUT	cwb_io_watcher_wait()返回的原因是等待超时
+	CWB_IO_WATCHER_READ	监听描述符的可读事件
+	CWB_IO_WATCHER_WRITE	监听描述符的可写事件
+\ecode
+\t3 函数\et3
+\code
+	Cwb_IO_Watcher *cwb_io_watcher_new(unsigned int maxNum);
+	新建一个IO观察者
+	Input:
+		maxNum	最多可监听的文件描述符数量
+	
+	int cwb_io_watcher_watch(Cwb_IO_Watcher *watcher,
+				 int fd,
+				 uint8_t flag);
+	监听一个文件描述符
+	Input:
+		watcher	IO观察者
+		fd	期望监听的文件描述符
+		flag	期望监听的文件描述符状态变化,取值CWB_IO_WATCHER_READ,CWB_IO_WATCHER_WRITE
+			或二者的按位与结果
+	
+	int *cwb_io_watcher_wait(Cwb_IO_Watcher *watcher,
+				 int *readyList,
+				 size_t maxNum,
+				 Cwb_Time_MicroSecond *timeout);
+	Input:
+		watcher		IO观察者
+		readyList	就绪的描述符列表
+		maxNum		最多接受描述符的数量
+		timeout		等待的超时
+	Return:
+		NULL		失败
+		readyList	成功且readyList不为NULL
+		Other		由malloc()分配的列表,存储着状态发生变化的描述符,以-1结尾
+	Note:
+		此函数为阻塞调用,直至由监听的文件描述符发生期望的状态变化后返回.maxNum指定了该函数一次最多返回的描述符数量.返回的描述符存储在readyList中,以-1结尾.readyList可以为NULL:当为NULL时,函数将自动分配一个列表,该列表需要使用free()释放
+	
+	int cwb_io_watcher_unwatch(Cwb_IO_Watcher *watcher,
+				   int fd);
+	取消对文件描述符的监听
+	Input:
+		watcher	IO观察者
+		fd	期望取消监听的文件描述符
+	
+	void cwb_io_watcher_destroy(Cwb_IO_Watcher *watcher);
+	销毁IO观察者
+	Input:
+		watcher	IO观察者
+
+	int cwb_io_watcher_resize(Cwb_IO_Watcher *watcher,
+				  unsigned int maxNum);
+	重设最多监听的文件描述符数量
+	Input:
+		watcher	IO观察者
+		maxNum	期望调整到的文件描述符的最多数量
+\ecode
+\line

@@ -7,10 +7,10 @@
 
         Install
 
-        cwb是POSIX兼容的,如果你有兼容POSIX标准的make(这意味着FreeBSD用户不必使用
-gmake),请切换到src文件夹并执行  make && make install
+    cwb是POSIX兼容的,如果你有兼容POSIX标准的make(这意味着FreeBSD用户不必使用gmak
+e),请切换到src文件夹并执行      make && make install
 请视情况调整命令的权限(Debian系Linux用户可能需要执行make && sudo make install
-        在src文件夹中的Makefile定义了一些安装时的重要参数,详见/doc/Install.zh
+    在src文件夹中的Makefile定义了一些安装时的重要参数,详见/doc/Install.zh
 
 
 ================================================================================
@@ -32,20 +32,20 @@ cwb
 
         License
 
-        使用MIT许可证,许可证位于/LICENSE中
+    使用MIT许可证,许可证位于/LICENSE中
 
 ================================================================================
 
         Development
 
-        开发者名单位于/Developers文件中 
-        您可以通过tswuyin_st127@163.com联系我
+    开发者名单位于/Developers文件中 
+    您可以通过tswuyin_st127@163.com联系我
 
 ================================================================================
 
         Community
 
-        同上,您可以通过tswuyin_st127@163.com\ecode联系我并进行技术相关的讨论
-        Telegram群组可用: https://t.me/cwbcommunity 
+    同上,您可以通过tswuyin_st127@163.com联系我并进行技术相关的讨论
+    Telegram群组可用: https://t.me/cwbcommunity 
 
 ================================================================================
