@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.08.05
+	Date:2021.08.06
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -72,12 +72,14 @@ int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
 			 Cwb_Httpd_Router_Handler handler);
 
 /*	Request		*/
+#define cwb_httpd_req_arg(conn) ((const char*)(conn->arg))
+
 Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn);
 Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn);
 
 /*	Response	*/
 int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
-int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,char const *info);
+int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,const char *info);
 int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value);
 int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn);
 int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,const char *value,

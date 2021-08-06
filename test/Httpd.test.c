@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.08.05
+	Date:2021.08.06
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -12,7 +12,14 @@
 #include<string.h>
 
 #include"cwb/Ds.h"
+#include"cwb/Serializer.h"
 #include"cwb/Httpd.h"
+
+static int urltest_rule(char const *path)
+{
+	puts(path);
+	return !strcmp(path,"/urltest");
+}
 
 static int rule(char const *path)
 {
@@ -41,6 +48,7 @@ static int handler(Cwb_Httpd_Conn *conn)
 	Cwb_Ds_Pair *name = cwb_ds_search(cookie,"name");
 	if (name)
 		printf("name: %s\n",(const char*)cwb_ds_get(cookie,name));
+	cwb_ds_destroy(cookie);
 
 	if (cwb_httpd_res_status(conn,200,"OK"))
 		return -1;
@@ -61,6 +69,41 @@ static int handler(Cwb_Httpd_Conn *conn)
 	return 0;
 }
 
+static int urltest_handler(Cwb_Httpd_Conn *conn)
+{
+	const char *nativeArg = cwb_httpd_req_arg(conn);
+	if (!nativeArg) {
+		const char *msg = "Got no arguments";
+		if (cwb_httpd_res_writen(conn,(void*)msg,strlen(msg)))
+			return -1;
+		return 0;
+	}
+
+	if (cwb_httpd_res_status(conn,200,"OK"))
+		return -1;
+	if (cwb_httpd_res_endheader(conn))
+		return -1;
+
+	Cwb_Serialize_Value *arg = cwb_deserialize_urlcoded(NULL,nativeArg);
+	if (!arg)
+		return -1;
+	Cwb_Ds *ds = cwb_serialize_get(arg).ds;
+	Cwb_Ds_Pair *user = cwb_ds_search(ds,"user");
+	if (!user)
+		return -1;
+	
+	char temp[64] = {0};
+	Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)cwb_ds_get(ds,user);
+	snprintf(temp,64,"Username is %s",cwb_serialize_get(value).string);
+
+	if (cwb_httpd_res_writen(conn,(void*)temp,strlen(temp)))
+		return -1;
+
+	cwb_serialize_destroy(arg);
+	
+	return 0;
+}
+
 int main(void)
 {
 	Cwb_Httpd *httpd = cwb_httpd_new();
@@ -68,6 +111,8 @@ int main(void)
 
 	httpd->conf.network.port = 10000;
 
+	assert(!cwb_httpd_router_add(httpd,(Cwb_Httpd_Router_Rule)urltest_rule,
+				     (Cwb_Httpd_Router_Handler)urltest_handler));
 	assert(!cwb_httpd_router_add(httpd,(Cwb_Httpd_Router_Rule)rule,
 				     (Cwb_Httpd_Router_Handler)handler));
 
