@@ -6,8 +6,6 @@
 	r	Refactor		代码重构
 	w	Work in Progress	进行中
 
-(c)	Code Style
-(+)	HTTP请求操作
 ========	v0.2.0	========
 (-)	HTTP流量控制
 (-)	长连接支持

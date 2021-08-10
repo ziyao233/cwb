@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.05
+	Date:2021.08.10
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<stdint.h>
 
 #include"cwb/Util.h"
 #include"cwb/Dstr.h"
@@ -99,4 +100,18 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 	cwb_serialize_destroy(cookie);
 	
 	return result;
+}
+
+long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
+{
+	Cwb_Ds *header = cwb_httpd_req_header(conn);
+	if (!header)
+		return -1;
+	
+	Cwb_Ds_Pair *length = cwb_ds_search(header,"Content-length");
+	if (!length)
+		return -1;
+
+	return strtol((const char*)cwb_ds_get(header,length),
+		      NULL,0);
 }

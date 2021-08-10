@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.08.06
+	Date:2021.08.10
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -15,19 +15,31 @@
 #include"cwb/Serializer.h"
 #include"cwb/Httpd.h"
 
-static int urltest_rule(char const *path)
+static int urltest_rule(const char *path)
 {
 	puts(path);
 	return !strcmp(path,"/urltest");
 }
 
-static int rule(char const *path)
+static int rule(const char *path)
 {
 	(void)path;
 	return 1;
 }
 
-static char const *text = "<html><head><title>Test</title></head><body><h1>Test</h1></body></html>";
+static int post_rule(const char *path)
+{
+	return !strcmp(path,"/post");
+}
+
+static int post_handler(Cwb_Httpd_Conn *conn)
+{
+	printf("POST Data Length:%ld\n",cwb_httpd_req_loadlen(conn));
+
+	return 0;
+}
+
+static const char *text = "<html><head><title>Test</title></head><body><h1>Test</h1></body></html>";
 
 static int handler(Cwb_Httpd_Conn *conn)
 {
@@ -111,6 +123,8 @@ int main(void)
 
 	httpd->conf.network.port = 10000;
 
+	assert(!cwb_httpd_router_add(httpd,(Cwb_Httpd_Router_Rule)post_rule,
+				     (Cwb_Httpd_Router_Handler)post_handler));
 	assert(!cwb_httpd_router_add(httpd,(Cwb_Httpd_Router_Rule)urltest_rule,
 				     (Cwb_Httpd_Router_Handler)urltest_handler));
 	assert(!cwb_httpd_router_add(httpd,(Cwb_Httpd_Router_Rule)rule,
