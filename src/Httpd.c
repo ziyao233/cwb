@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.08.05
+	Date:2021.08.11
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -166,6 +166,7 @@ static int read_header(Cwb_Event_Base *base,int fd,
 		free(conn->buffer);
 	}
 	conn->count = bodySize;
+	conn->status.readHeader = 1;
 
 	for (int i = 0;httpd->router.rule[i];i++) {
 		if (httpd->router.rule[i](conn->path)) {

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Response.c
-	Date:2021.08.03
+	Date:2021.08.11
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -55,10 +55,10 @@ static int handler_write(Cwb_Event_Base *base,int fd,void *data)
 	return 0;
 }
 
-int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,
+int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,const void *buffer,
 			  size_t size)
 {
-	conn->buffer	= buffer;
+	conn->buffer	= (void*)buffer;
 	conn->count	= size;
 
 	if (cwb_event_fd_watch(conn->httpd->eventBase,get_fd(conn),
@@ -88,11 +88,18 @@ int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,const char *info)
 
 	free(buffer);
 
+	conn->status.status = 1;
+
 	return 0;
 }
 
 int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value)
 {
+	if (!(conn->status.status)) {
+		if (cwb_httpd_res_status(conn,200,"OK"))
+			return -1;
+	}
+
 	size_t size = strlen(key) + strlen(value) + 5;
 	char *buffer = (char*)malloc(size);
 	
@@ -113,12 +120,22 @@ int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value)
 
 int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn)
 {
+	if (!(conn->status.status)) {
+		if (cwb_httpd_res_status(conn,200,"OK"))
+			return -1;
+	}
+	conn->status.header = 1;
+	conn->status.endHeader = 1;
 	return cwb_httpd_res_writen(conn,(void*)"\r\n",2);
 }
 
 int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
 			 const char *value,Cwb_Ds *attr)
 {
+	if (!(conn->status.status)) {
+		if (cwb_httpd_res_status(conn,200,"OK"))
+			return -1;
+	}
 	Cwb_Dstr *cookie = cwb_dstr_new();
 	if (!cookie)
 		return -1;
@@ -158,4 +175,19 @@ int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
 	int retVal = cwb_httpd_res_header(conn,"Set-Cookie",buffer);
 	free(buffer);
 	return retVal;
+}
+
+int cwb_httpd_res_write(Cwb_Httpd_Conn *conn,const void *buffer,size_t size)
+{
+	if (!(conn->status.status)) {
+		if (cwb_httpd_res_status(conn,200,"OK"))
+			return -1;
+	}
+
+	if (!(conn->status.endHeader)) {
+		if (cwb_httpd_res_endheader(conn))
+			return -1;
+	}
+
+	return cwb_httpd_res_writen(conn,buffer,size);
 }

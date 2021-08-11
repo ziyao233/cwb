@@ -49,6 +49,13 @@ typedef struct Cwb_Httpd_Conn{
 	char *path;
 	Cwb_Httpd_Conn_Method method;
 	char *arg;
+	struct {
+		unsigned int readHeader:1;
+		unsigned int status:1;
+		unsigned int header:1;
+		unsigned int endHeader:1;
+		unsigned int body:1;
+	}status;
 }Cwb_Httpd_Conn;
 
 typedef struct Cwb_Httpd{
@@ -81,11 +88,12 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn);
 int cwb_httpd_req_readn(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
 
 /*	Response	*/
-int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
+int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,const void *buffer,size_t size);
 int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,const char *info);
 int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,const char *value);
 int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn);
 int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,const char *value,
 			 Cwb_Ds *attr);
+int cwb_httpd_res_write(Cwb_Httpd_Conn *conn,const void *buffer,size_t size);
 
 #endif
