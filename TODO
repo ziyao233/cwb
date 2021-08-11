@@ -7,15 +7,16 @@
 	w	Work in Progress	进行中
 
 ========	v0.2.0	========
-(-)	HTTP流量控制
-(-)	长连接支持
-(+)	Dstr,Buffer传播NULL
 (+)	CWB_DS_LIST链表
-(+)	M/MIME编码
+(-)	长连接支持
 (+)	JSON序列化
-(+)	XML序列化
+(+)	CWB_DS_ARRAY数组
+(+)	Dstr,Buffer传播NULL
 (+)	HTTP客户端
+(-)	HTTP流量控制
 ========	v0.3.0	========
+(+)	M/MIME编码
+(+)	XML序列化
 (+)	模板
 (+)	epoll支持
 (+)	HTTP 多线程服务器
