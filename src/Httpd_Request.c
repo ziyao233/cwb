@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.10
+	Date:2021.08.11
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -15,6 +15,7 @@
 #include"cwb/Dstr.h"
 #include"cwb/Ds.h"
 #include"cwb/Serializer.h"
+#include"cwb/Net.h"
 #include"cwb/Httpd.h"
 
 Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
@@ -114,4 +115,81 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
 
 	return strtol((const char*)cwb_ds_get(header,length),
 		      NULL,0);
+}
+
+static inline int get_fd(Cwb_Httpd_Conn *conn)
+{
+	return conn - conn->httpd->conn;
+}
+
+static int wake_co(Cwb_Coroutine *co)
+{
+	short int status = cwb_coroutine_resume(co);
+	if (status == CWB_COROUTINE_DEAD) {
+		cwb_coroutine_destroy(co);
+	} else if (status == CWB_COROUTINE_ERROR) {
+		cwb_coroutine_destroy(co);
+		return -1;
+	}
+	return 0;
+}
+
+static int handler_read(Cwb_Event_Base *base,int fd,void *userData)
+{
+	Cwb_Httpd_Conn *conn = (Cwb_Httpd_Conn*)userData;
+
+	ssize_t size = cwb_net_read(fd,conn->buffer,conn->count);
+	if (CWB_IO_TRUEERROR)
+		return -1;
+
+	conn->count -= size;
+	conn->buffer = (void*)((uint8_t*)conn->buffer + size);
+
+	if (!(conn->count)) {
+		if (cwb_event_fd_unwatch(base,fd))
+			return -1;
+
+		if (wake_co(conn->co))
+			return -1;
+	}
+
+	return 0;
+}
+
+int cwb_httpd_req_readn(Cwb_Httpd_Conn *conn,void *buffer,size_t size)
+{
+	if (conn->count) {
+		if ((size_t)conn->count >= size) {
+			conn->count -= size;
+			memcpy(buffer,conn->buffer,size);
+			memmove(conn->buffer,
+				(void*)((uint8_t*)conn->buffer + size),
+				size);
+			
+			if (!(conn->count)) {
+				free(conn->buffer);
+				conn->buffer = NULL;
+			}
+			return 0;
+		} else {
+			memcpy(buffer,conn->buffer,conn->count);
+			buffer = (void*)((uint8_t*)buffer + conn->count);
+			size  -= conn->count;
+			conn->count = 0;
+			free(conn->buffer);
+			conn->buffer = NULL;
+		}
+	}
+
+	conn->buffer = buffer;
+	conn->count  = size;
+
+	if (cwb_event_fd_watch(conn->httpd->eventBase,get_fd(conn),
+			       CWB_EVENT_FD_READ,
+			       (Cwb_Event_Fd_Handler)handler_read,(void*)conn))
+		return -1;
+	
+	cwb_coroutine_yield(conn->co);
+
+	return 0;
 }

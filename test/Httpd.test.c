@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.08.10
+	Date:2021.08.11
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -34,7 +34,18 @@ static int post_rule(const char *path)
 
 static int post_handler(Cwb_Httpd_Conn *conn)
 {
-	printf("POST Data Length:%ld\n",cwb_httpd_req_loadlen(conn));
+	long int size = cwb_httpd_req_loadlen(conn);
+	printf("POST Data Length:%ld\n",size);
+
+	char *data = (char*)malloc(sizeof(char) * size + 1);
+	if (!data)
+		return -1;
+	data[size] = '\0';
+	
+	if (cwb_httpd_req_readn(conn,(void*)data,size))
+		return -1;
+	
+	puts(data);
 
 	return 0;
 }
