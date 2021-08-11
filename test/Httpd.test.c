@@ -47,6 +47,9 @@ static int post_handler(Cwb_Httpd_Conn *conn)
 	
 	puts(data);
 
+	if (cwb_httpd_res_write(conn,data,strlen(data)))
+		return -1;
+
 	return 0;
 }
 
@@ -97,15 +100,10 @@ static int urltest_handler(Cwb_Httpd_Conn *conn)
 	const char *nativeArg = cwb_httpd_req_arg(conn);
 	if (!nativeArg) {
 		const char *msg = "Got no arguments";
-		if (cwb_httpd_res_writen(conn,(void*)msg,strlen(msg)))
+		if (cwb_httpd_res_write(conn,(void*)msg,strlen(msg)))
 			return -1;
 		return 0;
 	}
-
-	if (cwb_httpd_res_status(conn,200,"OK"))
-		return -1;
-	if (cwb_httpd_res_endheader(conn))
-		return -1;
 
 	Cwb_Serialize_Value *arg = cwb_deserialize_urlcoded(NULL,nativeArg);
 	if (!arg)
@@ -119,7 +117,7 @@ static int urltest_handler(Cwb_Httpd_Conn *conn)
 	Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)cwb_ds_get(ds,user);
 	snprintf(temp,64,"Username is %s",cwb_serialize_get(value).string);
 
-	if (cwb_httpd_res_writen(conn,(void*)temp,strlen(temp)))
+	if (cwb_httpd_res_write(conn,(void*)temp,strlen(temp)))
 		return -1;
 
 	cwb_serialize_destroy(arg);
