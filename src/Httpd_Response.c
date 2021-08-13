@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Response.c
-	Date:2021.08.11
+	Date:2021.08.13
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -190,4 +190,9 @@ int cwb_httpd_res_write(Cwb_Httpd_Conn *conn,const void *buffer,size_t size)
 	}
 
 	return cwb_httpd_res_writen(conn,buffer,size);
+}
+
+int cwb_httpd_res_writes(Cwb_Httpd_Conn *conn,const char *str)
+{
+	return cwb_httpd_res_write(conn,str,strlen(str));
 }

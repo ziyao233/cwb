@@ -87,6 +87,7 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn);
 Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn);
 long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn);
 int cwb_httpd_req_readn(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
+int cwb_httpd_req_read(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
 
 /*	Response	*/
 int cwb_httpd_res_writen(Cwb_Httpd_Conn *conn,const void *buffer,size_t size);
@@ -96,5 +97,6 @@ int cwb_httpd_res_endheader(Cwb_Httpd_Conn *conn);
 int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,const char *value,
 			 Cwb_Ds *attr);
 int cwb_httpd_res_write(Cwb_Httpd_Conn *conn,const void *buffer,size_t size);
+int cwb_httpd_res_writes(Cwb_Httpd_Conn *conn,const char *str);
 
 #endif

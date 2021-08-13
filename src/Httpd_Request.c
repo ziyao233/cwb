@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.11
+	Date:2021.08.13
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -192,4 +192,9 @@ int cwb_httpd_req_readn(Cwb_Httpd_Conn *conn,void *buffer,size_t size)
 	cwb_coroutine_yield(conn->co);
 
 	return 0;
+}
+
+int cwb_httpd_req_read(Cwb_Httpd_Conn *conn,void *buffer,size_t size)
+{
+	return cwb_httpd_req_readn(conn,buffer,size);
 }
