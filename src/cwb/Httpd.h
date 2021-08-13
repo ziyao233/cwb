@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.08.11
+	Date:2021.08.13
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -77,6 +77,7 @@ int cwb_httpd_start(Cwb_Httpd *httpd);
 
 int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
 			 Cwb_Httpd_Router_Handler handler);
+int CWB_HTTPD_ROUTER_RULE_ANY(const char *path);
 
 /*	Request		*/
 #define cwb_httpd_req_arg(conn) ((const char*)((conn)->arg))
