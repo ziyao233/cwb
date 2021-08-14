@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.08.13
+	Date:2021.08.14
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -102,6 +102,11 @@ static int proc_body(Cwb_Coroutine *co,void *data)
 	int handler = procData->handler;
 	int retVal  = conn->httpd->router.handler[handler](conn);
 	int fd	    = conn - conn->httpd->conn;
+
+	if (!(conn->status.header)) {
+		if (!retVal)
+			retVal = cwb_httpd_res_endheader(conn);
+	}
 	cwb_net_close(fd);
 	
 	return retVal;
