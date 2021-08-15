@@ -64,6 +64,13 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
 	return header;
 }
 
+static const char *skip_space(const char *str)
+{
+	while (*str == ' ')
+		str++;
+	return str;
+}
+
 Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 {
 	if (!conn->header) {
@@ -76,31 +83,37 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 		return cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
 	const char *src = (const char*)cwb_ds_get(conn->header,pair);
 
-	Cwb_Serialize_Value *cookie = cwb_deserialize_urlcoded(NULL,src);
-	if (!cookie)
-		return NULL;
-	Cwb_Ds *ds = cwb_serialize_get(cookie).ds;
-
 	Cwb_Ds *result = cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
 	if (!result)
 		return NULL;
 
-	for (Cwb_Ds_Pair *pair = cwb_ds_first(ds);
-	     pair;
-	     pair = cwb_ds_next(ds,pair)) {
-		Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)
-			cwb_ds_get(ds,pair);
-		const char *key = (const char*)cwb_ds_getkey(ds,pair);
-		char *copy = cwb_util_str_copy(cwb_serialize_get(value).string);
-		if (!copy)
+	Cwb_Dstr *temp = cwb_dstr_new();
+	if (!temp)
+		return NULL;
+	char key[256] = {0};
+	while (*src) {
+		src = skip_space(src);
+
+		while (*src != '=') {
+			if (!cwb_dstr_appendc(temp,*src))
+				return NULL;
+			src++;
+		}
+		if (cwb_dstr_convert(temp,key,256))
 			return NULL;
 
-		if (!cwb_ds_insert(result,key,(void*)copy))
+		src++;
+		while (*src != ';') {
+			if (!cwb_dstr_appendc(temp,*src))
+				return NULL;
+			src++;
+		}
+		if (cwb_ds_insert(result,key,cwb_dstr_convert(temp,NULL,0)))
 			return NULL;
+
+		cwb_dstr_clear(temp);
 	}
 
-	cwb_serialize_destroy(cookie);
-	
 	return result;
 }
 
