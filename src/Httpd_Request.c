@@ -91,15 +91,11 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 		Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)
 			cwb_ds_get(ds,pair);
 		const char *key = (const char*)cwb_ds_getkey(ds,pair);
-		char *copyKey = cwb_util_str_copy(key);
-		if (!copyKey)
-			return NULL;
-		cwb_util_str_tolowerd(copyKey);
 		char *copy = cwb_util_str_copy(cwb_serialize_get(value).string);
 		if (!copy)
 			return NULL;
 
-		if (!cwb_ds_insert(result,copyKey,(void*)copy))
+		if (!cwb_ds_insert(result,key,(void*)copy))
 			return NULL;
 	}
 
