@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.13
+	Date:2021.08.15
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -40,6 +40,7 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
 		p += 2;		/*	Skip ':' and the space	*/
 		if (!cwb_dstr_convert(str,key,64))
 			return NULL;
+		cwb_util_str_tolowerd(key);
 
 		cwb_dstr_clear(str);
 
@@ -70,7 +71,7 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 			return NULL;
 	}
 
-	Cwb_Ds_Pair *pair = cwb_ds_search(conn->header,"Cookie");
+	Cwb_Ds_Pair *pair = cwb_ds_search(conn->header,"cookie");
 	if (!pair)
 		return cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
 	const char *src = (const char*)cwb_ds_get(conn->header,pair);
@@ -90,11 +91,15 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 		Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)
 			cwb_ds_get(ds,pair);
 		const char *key = (const char*)cwb_ds_getkey(ds,pair);
+		char *copyKey = cwb_util_str_copy(key);
+		if (!copyKey)
+			return NULL;
+		cwb_util_str_tolowerd(copyKey);
 		char *copy = cwb_util_str_copy(cwb_serialize_get(value).string);
 		if (!copy)
 			return NULL;
 
-		if (!cwb_ds_insert(result,key,(void*)copy))
+		if (!cwb_ds_insert(result,copyKey,(void*)copy))
 			return NULL;
 	}
 
@@ -109,7 +114,7 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
 	if (!header)
 		return -1;
 	
-	Cwb_Ds_Pair *length = cwb_ds_search(header,"Content-length");
+	Cwb_Ds_Pair *length = cwb_ds_search(header,"content-length");
 	if (!length)
 		return -1;
 
