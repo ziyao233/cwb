@@ -99,19 +99,21 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 				return NULL;
 			src++;
 		}
-		if (cwb_dstr_convert(temp,key,256))
+		if (!cwb_dstr_convert(temp,key,256))
 			return NULL;
+		cwb_dstr_clear(temp);
 
 		src++;
-		while (*src != ';') {
+		while (*src != ';' && *src) {
 			if (!cwb_dstr_appendc(temp,*src))
 				return NULL;
 			src++;
 		}
-		if (cwb_ds_insert(result,key,cwb_dstr_convert(temp,NULL,0)))
+		if (!cwb_ds_insert(result,key,cwb_dstr_convert(temp,NULL,0)))
 			return NULL;
 
 		cwb_dstr_clear(temp);
+		src = *src ? src + 1 : src;
 	}
 
 	return result;
