@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Dstr.c
-	Date:2021.08.03
+	Date:2021.08.16
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -197,6 +197,7 @@ Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p)
 	dstr->length	+= part->length;
 	part->used	= part->length;
 	last->next	= part;
+	part->next	= NULL;
 	dstr->last	= part;
 
 	return dstr;

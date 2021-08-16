@@ -111,6 +111,11 @@ static int proc_body(Cwb_Coroutine *co,void *data)
 			retVal = cwb_httpd_res_endheader(conn);
 	}
 	cwb_net_close(fd);
+
+	if (conn->nativeHeader)
+		free(conn->nativeHeader);
+	if (conn->header)
+		cwb_ds_destroy(conn->header);
 	
 	return retVal;
 }
@@ -164,7 +169,8 @@ static int read_header(Cwb_Event_Base *base,int fd,
 	}
 
 	char *header = strstr((char*)conn->buffer,"\r\n") + 2;
-	strncpy(conn->nativeHeader,header,end-header);
+	strncpy(conn->nativeHeader,header,end - header);
+	conn->nativeHeader[end - header] = '\0';
 
 	end += 4;
 	size_t bodySize = conn->count - (end - (char*)conn->buffer);

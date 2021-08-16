@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.15
+	Date:2021.08.16
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -31,12 +31,14 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
 	Cwb_Dstr *str = cwb_dstr_new();
 	char key[64];
 	while (*p) {
-		while (*p !=':') {
+		while (*p !=':' && *p) {
 			if (!*p)
 				return NULL;
 			cwb_dstr_appendc(str,*p);
 			p++;
 		}
+		if (!*p)
+			return NULL;
 		p += 2;		/*	Skip ':' and the space	*/
 		if (!cwb_dstr_convert(str,key,64))
 			return NULL;
@@ -44,7 +46,7 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
 
 		cwb_dstr_clear(str);
 
-		while (*p !='\r') {
+		while (*p !='\r' && *p) {
 			if (!*p)
 				break;
 			cwb_dstr_appendc(str,*p);
@@ -56,7 +58,7 @@ Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn)
 		if (!cwb_ds_insert(header,key,value))
 			return NULL;
 		cwb_dstr_clear(str);
-		p += 2;		/*	Skip '\r' and '\n'	*/
+		p = *p ? p + 2 : p;		/*	Skip '\r' and '\n'	*/
 	}
 
 	conn->header = header;
