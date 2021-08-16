@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.08.14
+	Date:2021.08.16
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -71,7 +71,10 @@ static Cwb_Httpd_Conn_Method get_method(const char *str)
 {
 	static const char *table[] = {
 					[CWB_HTTPD_CONN_GET]	= "GET",
-					[CWB_HTTPD_CONN_POST]	= "POST"
+					[CWB_HTTPD_CONN_POST]	= "POST",
+					[CWB_HTTPD_CONN_OPTIONS]= "OPTIONS",
+					[CWB_HTTPD_CONN_PUT]	= "PUT",
+					[CWB_HTTPD_CONN_DELETE] = "DELETE"
 				     };
 	for (Cwb_Httpd_Conn_Method method = CWB_HTTPD_CONN_GET;
 	     method < CWB_HTTPD_CONN_NULL;

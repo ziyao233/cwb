@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.08.13
+	Date:2021.08.16
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -18,6 +18,9 @@
 typedef enum {
 	CWB_HTTPD_CONN_GET,
 	CWB_HTTPD_CONN_POST,
+	CWB_HTTPD_CONN_DELETE,
+	CWB_HTTPD_CONN_OPTIONS,
+	CWB_HTTPD_CONN_PUT,
 	CWB_HTTPD_CONN_NULL
 }Cwb_Httpd_Conn_Method;
 
