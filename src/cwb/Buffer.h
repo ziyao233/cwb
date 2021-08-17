@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Buffer.h
-	Date:2021.08.02
+	Date:2021.08.17
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -24,7 +24,7 @@ typedef struct {
 	size_t size;
 }Cwb_Buffer;
 
-#define CWB_BUFFER_SIZE(buffer) ((buffer)->size)
+#define cwb_buffer_size(buffer) ((buffer)->size)
 
 Cwb_Buffer *cwb_buffer_new(void);
 void cwb_buffer_destroy(Cwb_Buffer *buffer);
