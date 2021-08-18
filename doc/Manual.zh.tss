@@ -190,3 +190,124 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 		maxNum	期望调整到的文件描述符的最多数量
 \ecode
 \line
+\nl
+
+\t2 Event\et2
+\t3 数据类型\et3
+\code
+	Cwb_Event_Base		事件驱动库的数据结构
+	Cwb_Event_Fd_Handler	文件事件的函数句柄
+		函数类型为
+int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
+			    int fd,void *userData);
+\ecode
+\t3 宏\et3
+\code
+	CWB_EVENT_FD_READ	指定关注文件描述符的可读事件
+	CWB_EVENT_FD_WRITE	指定关注文件描述符的可写事件
+\ecode
+\t3 函数\et3
+\code
+	Cwb_Event_Base *cwb_event_new(void);
+	创建一个事件驱动库的数据结构
+
+	int cwb_event_fd_watch(Cwb_Event_Base *base,
+			       int fd,int flag,
+			       Cwb_Event_Fd_Handler handler,
+			       void *userData);
+	监听一个文件描述符
+	Input:
+		fd	文件描述符
+		flag	关注的事件类型
+		handler	事件的处理函数
+			参数base为事件驱动库的数据结构
+			    fd为事件源(文件描述符)
+			    userData为传入的用户数据
+		userData 传入事件处理函数的用户数据
+
+	int cwb_event_fd_unwatch(Cwb_Event_Base *base,
+				 int fd);
+	取消对描述符的监听
+	Input:
+		fd	文件描述符
+
+	int cwb_event_loop(Cwb_Event_Base *base);
+	启动事件循环.当调用cwb_event_exit()或事件处理函数失败(返回非零)时返回
+	Return:
+		0	调用cwb_event_exit()结束
+		非0	事件处理函数出错
+
+	int cwb_event_exit(Cwb_Event_Base *base);
+	终止事件循环
+
+	void cwb_event_destroy(Cwb_Event_Base *base);
+	销毁事件驱动库数据结构
+\ecode
+\line
+\nl
+
+\t2 Dstr\et2
+\t3 头文件\et3
+\code
+	cwb/Dstr.h
+\ecode
+\t3 数据结构\et3
+\code
+	Cwb_Dstr	动态字符串
+\ecode
+\t3 函数\et3
+\code
+	Cwb_Dstr *cwb_dstr_new(void);
+	创建一个动态字符串
+
+	void cwb_dstr_destroy(Cwb_Dstr *dstr);
+	销毁一个动态字符串
+
+	Cwb_Dstr *cwb_dstr_clear(Cwb_Dstr *dstr);
+	清空动态字符串的内容
+
+	Cwb_Dstr *cwb_dstr_assignd(Cwb_Dstr *dstr,char **p);
+	破坏性赋值.将p指向的指针所指向的字符串赋值给动态字符串,并将p指向的指针置为NULL
+	Input:
+		p	指向指向字符串的指针的指针
+
+	Cwb_Dstr *cwb_dstr_assign(Cwb_Dstr *dstr,const char *src);
+	赋值.将src指向的字符串赋值给动态字符串.
+
+	char *cwb_dstr_convert(Cwb_Dstr *dstr,char *buffer,size_t length);
+	将动态字符串转换为C风格字符串
+	Input:
+		buffer	缓冲区
+		length	缓冲区长度
+	Return:
+		当buffer为NULL时,函数将试图分配一个缓冲区并进行转换,失败时返回NULL,此时length无效
+		当buffer不为NULL时,函数检查字符串是否超过buffer长度并进行转换,返回指向buffer的指针
+
+	Cwb_Dstr *cwb_dstr_copy(Cwb_Dstr *dstr);
+	复制动态字符串
+
+	Cwb_Dstr *cwb_dstr_appendc(Cwb_Dstr *dstr,char c);
+	向动态字符串追加字符
+	Input:
+		c	要追加的字符
+
+	Cwb_Dstr *cwb_dstr_appends(Cwb_Dstr *dstr,const char *src);
+	向动态字符串追加短字符串(长度小于CWB_CONF_DSTR_PARTSIZE)
+	Input:
+		src	要追加的短字符串
+
+	Cwb_Dstr *cwb_dstr_appendd(Cwb_Dstr *dstr,char **p);
+	破坏性追加.将p指向的指针指向的字符串追加到动态字符串,并将p指向的指针置为NULL
+	Input:
+		p	指向指向须追加的字符串的指针的指针
+
+	Cwb_Dstr *cwb_dstr_appendy(Cwb_Dstr *str1,Cwb_Dstr *str2);
+	向动态字符串str1追加动态字符串str2
+
+	Cwb_Dstr *cwb_dstr_append(Cwb_Dstr *dstr,const char *src);
+	向动态字符串追加字符串
+	Input:
+		src	要追加的字符串
+\ecode
+\line
+\nl
