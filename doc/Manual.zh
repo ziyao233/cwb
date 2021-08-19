@@ -326,5 +326,75 @@ NULL
         Input:
                 src     要追加的字符串
 
+        size_t cwb_dstr_length(Cwb_Dstr *dstr);
+        获取动态字符串的长度
+
+================================================================================
+
+
+        Buffer
+
+  头文件
+cwb/Buffer.h
+
+  数据结构
+Cwb_Buffer      动态缓冲区
+
+  函数
+Cwb_Buffer *cwb_buffer_new(void);
+        创建一个动态缓冲区
+
+        void cwb_buffer_destroy(Cwb_Buffer *buffer);
+        销毁一个动态缓冲区
+
+        Cwb_Buffer *cwb_buffer_appends(Cwb_Buffer *buffer,
+                                       const void *src,
+                                       size_t size);
+        向缓冲区内追加短数据(长度小于等与CWB_CONF_BUFFER_PARTSIZE)
+        Input:
+                src     要追加的短数据
+                size    追加的数据长度
+
+        void *cwb_buffer_convert(Cwb_Buffer *buffer,
+                                 void *data,
+                                 size_t size);
+        将动态缓冲区转换为C风格数据
+        Input:
+                data    存储数据的缓冲区,长度为size
+                size    缓冲区长度
+        Return:
+                当data为NULL时,size无效.函数将试图分配一个缓冲区并进行转换,成功
+时返回其地址;
+                当data不为NULL时,检查动态缓冲区长度是否超过size,是则返回NULL,否
+则进行转换,返回data
+        
+        size_t cwb_buffer_size(Cwb_Buffer *buffer);
+        获取动态缓冲区的长度
+
+================================================================================
+
+
+        Util
+
+  头文件
+cwb/Util.h
+
+  函数
+char *cwb_util_str_copys(const char *src,size_t length);
+        创建指定长度字符串的一个拷贝
+        Input:
+                src     字符串
+                length  字符串长度
+
+        char *cwb_util_str_copy(const char *src);
+        创建字符串的拷贝(效率可能低于cwb_util_str_copys())
+        Input:
+                src     字符串
+
+        void cwb_util_str_tolowerd(char *str);
+        就地将字符串中字符转换为小写
+        Input:
+                str     字符串
+
 ================================================================================
 
