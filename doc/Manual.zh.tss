@@ -42,15 +42,15 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 \t2 Time\et2
 \t3 头文件\et3
 \code
-	cwb/Time.h
+\tab	cwb/Time.h
 \ecode
 \t3 数据类型\et3
 \code
-	Cwb_Time_MicroSecond	以毫秒为单位的时间类型
+\tab	Cwb_Time_MicroSecond	以毫秒为单位的时间类型
 \ecode
 \t3 函数\et3
 \code
-	Cwb_Tine_MircoSecond cwb_time_get(void);
+\tab	Cwb_Tine_MircoSecond cwb_time_get(void);
 	获取当前时间
 	Return:
 		当前时间,以毫秒为单位
@@ -60,13 +60,13 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 \t2 Net\et2
 \t3 头文件\et3
 \code
-	cwb/Net.h
+\tab	cwb/Net.h
 \ecode
 \t3 Note\et3
 \p Net库中的函数全部为非阻塞的,对于详细的IO状态检测,详见IO库\ep
 \t3 函数\et3
 \code
-	int cwb_net_socket(void);
+\tab	int cwb_net_socket(void);
 	创建一个非阻塞,TCP类型的IPv4套接字
 	Return:
 		套接字的文件描述符
@@ -122,15 +122,15 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 \t2 IO\et2
 \t3 头文件\et3
 \code
-	cwb/IO.h
+\tab	cwb/IO.h
 \ecode
 \t3 数据结构\et3
 \code
-	Cwb_IO_Watcher		IO观察者
+\tab	Cwb_IO_Watcher		IO观察者
 \ecode
 \t3 宏\et3
 \code
-	CWB_IO_WOULDBLOCK	IO操作返回的原因为非阻塞的调用
+\tab	CWB_IO_WOULDBLOCK	IO操作返回的原因为非阻塞的调用
 	CWB_IO_OK		IO操作成功完成
 	CWB_IO_TRUEERROR	IO操作产生了"真正的错误"(即IO操作的返回的原因不是信号打断或非阻塞调用返回,这样的错误真正需要注意)
 	CWB_IO_WATCHER_TIMEOUT	cwb_io_watcher_wait()返回的原因是等待超时
@@ -139,7 +139,7 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 \ecode
 \t3 函数\et3
 \code
-	Cwb_IO_Watcher *cwb_io_watcher_new(unsigned int maxNum);
+\tab	Cwb_IO_Watcher *cwb_io_watcher_new(unsigned int maxNum);
 	新建一个IO观察者
 	Input:
 		maxNum	最多可监听的文件描述符数量
@@ -195,7 +195,7 @@ Httpd\tab \tab HTTP服务器库,实现了HTTP协议
 \t2 Event\et2
 \t3 数据类型\et3
 \code
-	Cwb_Event_Base		事件驱动库的数据结构
+\tab	Cwb_Event_Base		事件驱动库的数据结构
 	Cwb_Event_Fd_Handler	文件事件的函数句柄
 		函数类型为
 int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
@@ -203,12 +203,12 @@ int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
 \ecode
 \t3 宏\et3
 \code
-	CWB_EVENT_FD_READ	指定关注文件描述符的可读事件
+\tab	CWB_EVENT_FD_READ	指定关注文件描述符的可读事件
 	CWB_EVENT_FD_WRITE	指定关注文件描述符的可写事件
 \ecode
 \t3 函数\et3
 \code
-	Cwb_Event_Base *cwb_event_new(void);
+\tab	Cwb_Event_Base *cwb_event_new(void);
 	创建一个事件驱动库的数据结构
 
 	int cwb_event_fd_watch(Cwb_Event_Base *base,
@@ -249,15 +249,15 @@ int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
 \t2 Dstr\et2
 \t3 头文件\et3
 \code
-	cwb/Dstr.h
+\tab	cwb/Dstr.h
 \ecode
 \t3 数据结构\et3
 \code
-	Cwb_Dstr	动态字符串
+\tab	Cwb_Dstr	动态字符串
 \ecode
 \t3 函数\et3
 \code
-	Cwb_Dstr *cwb_dstr_new(void);
+\tab	Cwb_Dstr *cwb_dstr_new(void);
 	创建一个动态字符串
 
 	void cwb_dstr_destroy(Cwb_Dstr *dstr);
@@ -318,15 +318,15 @@ int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
 \t2 Buffer\et2
 \t3 头文件\et3
 \code
-	cwb/Buffer.h
+\tab	cwb/Buffer.h
 \ecode
 \t3 数据结构\et3
 \code
-	Cwb_Buffer	动态缓冲区
+\tab	Cwb_Buffer	动态缓冲区
 \ecode
 \t3 函数\et3
 \code
-	Cwb_Buffer *cwb_buffer_new(void);
+\tab	Cwb_Buffer *cwb_buffer_new(void);
 	创建一个动态缓冲区
 
 	void cwb_buffer_destroy(Cwb_Buffer *buffer);
@@ -360,11 +360,11 @@ int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
 \t2 Util\et2
 \t3 头文件\et3
 \code
-	cwb/Util.h
+\tab	cwb/Util.h
 \ecode
 \t3 函数\et3
 \code
-	char *cwb_util_str_copys(const char *src,size_t length);
+\tab	char *cwb_util_str_copys(const char *src,size_t length);
 	创建指定长度字符串的一个拷贝
 	Input:
 		src	字符串
@@ -379,6 +379,182 @@ int (*Cwb_Event_Fd_Handler)(Cwb_Event_Base *base,
 	就地将字符串中字符转换为小写
 	Input:
 		str	字符串
+\ecode
+\line
+\nl
+
+\t2 Ds\et2
+\t3 头文件\et3
+\code
+	cwb/Ds.h
+\ecode
+\t3 数据类型\et3
+\code
+\tab	Cwb_Ds		数据结构
+	Cwb_Ds_Pair	键值对指针
+	Cwb_Ds_Type	数据结构类型
+		CWB_DS_HASHTABLE	哈希表
+\ecode
+\t3 函数\et3
+\code
+\tab	Cwb_Ds *cwb_ds_new(Cwb_Ds_Type type,int keyType);
+	创建数据结构
+	Input:
+		type	数据结构类型
+		keyType 键类型
+			CWB_DS_SKEY	字符串键
+			CWB_DS_IKEY	整型键
+	
+	void cwb_ds_destroy(Cwb_Ds *in);
+	销毁数据结构
+
+	Cwb_Ds_Pair *cwb_ds_search(Cwb_Ds *in,Key_Type key);
+	在数据结构中搜索键(Key_Type为在创建数据结构时指定的键类型)
+	Input:
+		key	要查找的键
+	Return:
+		成功时返回指向键值对的指针,失败返回NULL
+
+	int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Pair *pair,void *data);
+	设置键值对的值
+
+	void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+	获得键值对的值
+
+	Cwb_Ds_Pair *cwb_ds_insert(Cwb_Ds *in,Key_Type key,
+				   void *data);
+	向数据结构插入键值对
+	Input:
+		key	插入的键
+		data	键对应的值
+
+	int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+	从数据结构中删除键值对
+
+	Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in);
+	获得数据结构中的第一个键
+
+	Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+	获取指定键的下一个键(常用于与cwb_ds_first()共同遍历数据结构)
+	Return:
+		返回指定键的下一个键.当指定键为数据结构中最后一个键时,返回NULL
+
+	void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc	func);
+	设置数据结构中值的释放函数,当数据结构被销毁,键值对被删除或值被修改时会被调用
+	Input:
+		func	要设置的释放函数
+
+	intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Pair *pair);
+	获取键值对中指向键的指针
+	Return:
+		当键为字符串时,返回值为指针的数值表示,否则返回对应的数值键
+	Warning:
+		请勿修改字符串的值!
+
+\ecode
+\t3 附记\et3
+\p 某些数据结构可能不支持所有的键类型,详见下表\ep
+\code \tab
+	Type			Support Key Type
+	CWB_DS_HASHTABLE	CWB_DS_SKEY
+\ecode
+\line
+\nl
+
+\t2 Coder\et2
+\t3 头文件\et3
+\code
+\tab	cwb/Coder.h
+\ecode
+\t3 函数\et3
+\p 函数分为两类:解码器和编码器\ep
+\p 所有解码器,编码器有相似的类型声明\ep
+\code
+\tab	解码器
+	Cwb_Buffer *cwb_decode_xxx(Cwb_Buffer *output,const char *code);
+	Input:
+		output		输出缓冲区,为NULL时会自动分配
+		code		字符类型的编码
+	Return:
+		当output为NULL时,解码成功返回分配的缓冲区地址,
+				 失败返回NULL
+		当output非NULL时,解码成功返回output,
+				 失败返回NULL
+
+	编码器
+	Cwb_Dstr *cwb_encode_xxx(Cwb_Dstr *output,const void *data,size_t size);
+	Input:
+		output		输出缓冲区,为NULL会自动分配
+		data		二进制数据
+		size		数据长度
+	Return:
+		同cwb_decode_xxx();
+\ecode
+\t3 编解码器列表\et3
+\code
+\tab	Name		Decode		Encode
+	Base64		v		v
+	URI		v		v
+\ecode
+\line
+\nl
+
+\t2 Serializer\et2
+\t3 头文件\et3
+\code
+\tab	cwb/Serializer.h
+\ecode
+\t3 数据结构\et3
+\code
+\tab	Cwb_Serialize_Type	序列化数据的类型
+		CWB_SERIALIZE_INTEGER	整型		对应integer
+		CWB_SERIALIZE_STRING	字符串类型	对应string
+		CWB_SERIALIZE_DS	数据结构(Cwb_Ds) 对应ds
+	Cwb_Serialize_Value	序列化的数据
+\ecode
+\t3 函数\et3
+\code
+	序列化数据的操作函数
+	Cwb_Serialize_Value *cwb_serialize_new(Cwb_Serialize_Type type);
+	创建一个序列化数据
+	Input:
+		type	数据的类型
+
+	void cwb_serialize_destroy(Cwb_Serialize_Type type);
+	销毁序列化数据,如果数据为数据结构,同时销毁其包含的数据
+
+	Value_Type cwb_serialize_get(Cwb_Serialize_Type *p)
+	获取序列化数据的值,使用成员运算符获取对应类型的数据
+	e.g.
+	\code
+	\tab	char *str = cwb_serialize_get(v1).string;
+		int *i = cwb_serialize_get(v2).integer;
+		Cwb_Ds *ds = cwb_serialize_get(v3).ds;
+	\ecode
+
+	序列化,反序列化器
+	序列化器
+	Cwb_Dstr *cwb_serialize_xxx(Cwb_Dstr *buff,Cwb_Serialize_Value *value);
+	Input:
+		buff		缓冲区,为NULL则自动分配
+		value		序列化数据
+	Return:
+		如buff为NULL,序列化成功返回分配的缓冲区指针,失败返回NULL
+		否则成功时返回buff,失败时返回NULL
+
+	反序列化器
+	Cwb_Serialize_Value *cwb_deserialize_xxx(Cwb_Serialize_Value *value,const char *code);
+	Input:
+		value		存储数据的序列化数据
+		code		序列化的数据
+	Return:
+		若value为NULL,序列化成功返回分配的数据指针,失败返回NULL
+		否则成功时返回value,失败时返回NULL
+\ecode
+\t3 序列化,反序列化器列表\et3
+\code
+\tab	Name		Serialize	Deserialize
+	Urlcoded	v		v
 \ecode
 \line
 \nl
