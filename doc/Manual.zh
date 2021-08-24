@@ -402,7 +402,7 @@ NULL
         Ds
 
   头文件
-cwb/Ds.h
+        cwb/Ds.h
 
   数据类型
         Cwb_Ds          数据结构
@@ -562,6 +562,164 @@ t char *code);
   序列化,反序列化器列表
         Name            Serialize       Deserialize
         Urlcoded        v               v
+
+================================================================================
+
+
+        Coroutine
+
+  头文件
+        cwb/Coroutine.h
+
+  数据类型
+        Cwb_Coroutine           协程
+        Cwb_Coroutine_Func      协程体函数
+                int (*Cwb_Coroutine_Func)(Cwb_Coroutine *co,void *data);
+                Input:
+                        co              当前协程
+                        data            传递到协程的用户数据
+                Return:
+                        0               协程体正常结束
+                        Otherwise       协程出错
+
+  宏
+        CWB_COROUTINE_SUSPEND           挂起状态
+        CWB_COROUTINE_RUNNING           正在运行
+        CWB_COROUTINE_DEAD              死亡(已结束)
+        CWB_COROUTINE_ERROR             错误(返回非零值)
+
+  函数
+        Cwb_Coroutine *cwb_coroutine_new(Cwb_Coroutine_Func func,
+                                         void *data);
+        创建协程
+        Input:
+                func            协程体
+                data            传递给协程的数据
+
+        short int cwb_coroutine_resume(Cwb_Coroutine *co);
+        恢复协程执行
+        Return:
+                协程当前状态(见 宏)
+
+        void cwb_coroutine_yield(Cwb_Coroutine *co);
+        暂停当前协程
+
+        short int cwb_coroutine_status(Cwb_Coroutine *co);
+        获取协程状态
+        Return:
+                协程当前状态(见 宏)
+
+        void cwb_coroutine_destroy(Cwb_Coroutine *co);
+        销毁协程
+
+================================================================================
+
+
+        Httpd
+
+  数据类型
+        Cwb_Httpd_Conn_Method   HTTP请求方法
+                CWB_HTTPD_CONN_GET,CWB_HTTPD_CONN_POST,
+                CWB_HTTPD_CONN_DELETE,CWB_HTTPD_CONN_OPTIONS,
+                CWB_HTTPD_CONN_PUT
+        Cwb_Httpd               HTTP服务器
+        Cwb_Httpd_Conn          HTTP连接
+        typedef int (*Cwb_Httpd_Router_Rule)(const char *path)
+                        路由规则函数
+                        Input:
+                                path    请求路径(以'\'开头)
+                        Return:
+                                0       规则不成立
+                                非零    规则成立
+
+        typedef int (*Cwb_Httpd_Router_Handler)(Cwb_Httpd_Conn *conn);
+                        路由处理函数
+                        Input:
+                                conn    当前连接
+
+  函数
+        基础组件
+        Cwb_Httpd *cwb_httpd_new(void);
+        创建HTTP服务器
+
+        void cwb_httpd_destroy(Cwb_Httpd *httpd);
+        销毁HTTP服务器
+
+        int cwb_httpd_start(Cwb_Httpd *httpd):
+        启动HTTP服务器
+
+        路由相关
+        int cwb_httpd_router_add(Cwb_Httpd *httpd,Cwb_Httpd_Router_Rule rule,
+                                 Cwb_Httpd_Router_Handler handler);
+        注册路由项
+        Input:
+                rule    路由规则
+                handler 路由处理函数
+
+        int CWB_HTTPD_ROUTER_RULE_ANY(const char *path);
+        预定义的路由规则:匹配全部
+        Return:
+                总是返回1
+
+        连接请求相关
+        const char *cwb_httpd_req_arg(Cwb_Httpd_Conn *conn);
+        获取客户端以URL形式传递的参数,可能需要反序列化
+
+        Cwb_Httpd_Conn_Method cwb_httpd_req_method(Cwb_Httpd_Conn *conn);
+        获取请求类型
+
+        Cwb_Ds *cwb_httpd_req_header(Cwb_Httpd_Conn *conn);
+        获取请求头,参数已经被转换为全小写
+
+        Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn);
+        获取请求Cookie
+
+        long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn);
+        在请求指定了content-length属性时获取载荷长度
+        Return:
+                <0              失败
+                Otherwise       载荷长度
+
+        int cwb_httpd_req_read(Cwb_Httpd_Conn *conn,void *buffer,size_t size);
+        读取请求载荷
+        Input:
+                buffer  缓冲区
+                size    读取数据的长度
+
+        响应相关
+        int cwb_httpd_res_status(Cwb_Httpd_Conn *conn,int status,
+                                 const char *info);
+        设置响应状态码及状态文本
+        Input:
+                status  状态码
+                info    状态文本
+
+        int cwb_httpd_res_header(Cwb_Httpd_Conn *conn,const char *key,
+                                 const char *value);
+        设置响应头
+        Input:
+                key     属性名
+                value   属性值
+
+        int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
+                                 const char *value,Cwb_Ds *attr);
+        设置响应Cookie
+        Input:
+                key     Cookie名
+                value   Cookie值
+                attr    Cookie属性,值为NULL的键值对不会包含=
+
+        int cwb_httpd_res_write(Cwb_Httpd_Conn *conn,const void *buffer,
+                                size_t size);
+        写入响应载荷
+        Input:
+                buffer  缓冲区
+                size    数据长度
+
+        int cwb_httpd_res_writes(Cwb_Httpd_Conn *conn,const char *str);
+        写入字符串类型的响应载荷
+        Input:
+                str     要写入的字符串
 
 ================================================================================
 
