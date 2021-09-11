@@ -1,11 +1,11 @@
 # cwb
 # File:/src/Makefile
-# Date:2021.07.28
+# Date:2021.09.11
 # By MIT
 # Copyright(C) 2021 cwb developers.All rights reserved.
 
 # Configure
-CONF_DEBUG_OPTION:=-g -O0
+CONF_DEBUG_OPTION:=-g
 
 # Tool
 CC:=gcc
@@ -19,7 +19,9 @@ MAKEDIR:=mkdir
 FLAG_AR:=rcu
 FLAG_REMOVE:=-rf
 FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra -I./ \
-	 -Wwrite-strings
+	 -Wwrite-strings -O3
+FLAG_CC_COROUTINE:=-Wall -Werror $(CONF_DEBUG_OPTION) -O0 -pedantic \
+		   -Wextra -I./ -Wwrite-strings -O0
 
 # Files
 FILES_CODERS:=Coder_Base64.o Coder_URI.o
@@ -40,6 +42,10 @@ default:build
 %.o:%.c
 	@$(ECHO) [C99] $< $@
 	@$(CC) $< -c $(FLAG_CC)
+
+Coroutine.o: Coroutine.c
+	@$(ECHO) [C99] $< $@
+	@$(CC) $< -c $(FLAG_CC_COROUTINE)
 
 build:$(FILES_OBJS)
 	@$(ECHO) [AR] $(FILES_LIB) $(FILES_OBJS)
