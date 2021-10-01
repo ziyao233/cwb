@@ -19,7 +19,7 @@ MAKEDIR:=mkdir
 FLAG_AR:=rcu
 FLAG_REMOVE:=-rf
 FLAG_CC:=-Wall -Werror $(CONF_DEBUG_OPTION) -pedantic -Wextra -I./ \
-	 -Wwrite-strings -O3
+	 -Wwrite-strings -O0
 FLAG_CC_COROUTINE:=-Wall -Werror $(CONF_DEBUG_OPTION) -O0 -pedantic \
 		   -Wextra -I./ -Wwrite-strings -O0
 
