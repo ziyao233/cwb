@@ -1,7 +1,7 @@
 /*
 	Cwb
 	File:/test/Ds.test.c
-	Date:2021.07.10
+	Date:2021.10.15
 	By MIT License.
 	Copyright(C) 2021 Cwb developers.All rights reserved.
 */
@@ -50,7 +50,7 @@ static void destroy_pair(Data_Pair *pair)
 }
 
 
-static void test_ds(Cwb_Ds *ds)
+static void test_ds_skey(Cwb_Ds *ds)
 {
 	Data_Pair *pair = spawn_pair();
 
@@ -75,7 +75,7 @@ int main(void)
 {
 	test_init();
 
-	test_ds(cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY));
+	test_ds_skey(cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY));
 
 	return 0;
 }
