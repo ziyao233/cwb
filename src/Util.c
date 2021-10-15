@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Util.c
-	Date:2021.10.01
+	Date:2021.10.15
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -12,6 +12,8 @@
 #include<ctype.h>
 
 #include<unistd.h>
+#include<sys/types.h>
+#include<sys/stat.h>
 
 #include"cwb/Util.h"
 
@@ -61,4 +63,44 @@ void cwb_util_pidfile_destroy(Cwb_Util_PidFile *pidFile)
 	unlink((char*)pidFile);
 	free(pidFile);
 	return;
+}
+
+int cwb_util_daemon(const char *workDir)
+{
+	/*	Step 1:	Fork	*/
+	pid_t pid = fork();
+
+	if (pid == (pid_t)-1)
+		return -1;
+
+	//	Parent Process
+	if (pid)
+		exit(0);
+
+	/*	Step 2: Create new session	*/
+	if (setsid() == (pid_t)-1)
+		return -1;
+
+	/*	Step 3: Fork again	*/
+	pid = fork();
+	if (pid == (pid_t)-1)
+		return -1;
+
+	// Parent Process
+	if (pid)
+		exit(0);
+
+	/*	Step 4: Change working directory	*/
+	if (chdir(workDir))
+		return -1;
+
+	/*	Step 5: Reset umask	*/
+	umask(0);
+
+	/*	Step 6:	Close standard input,output and error	*/
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+
+	return 0;
 }

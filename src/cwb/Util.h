@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Util.h
-	Date:2021.10.01
+	Date:2021.10.15
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -24,5 +24,8 @@ void cwb_util_pidfile_destroy(Cwb_Util_PidFile *pidFile);
 
 /*	Util Macros	*/
 #define cwb_util_create(type) ((type *)(malloc(sizeof(type))))
+
+/*	Daemon	*/
+int cwb_util_daemon(const char *workDir);
 
 #endif	// __CWB_UTIL_H_INC in Util.h
