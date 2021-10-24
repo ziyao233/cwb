@@ -1,7 +1,7 @@
 /*
 	Cwb
 	File:/test/Ds.test.c
-	Date:2021.10.15
+	Date:2021.10.24
 	By MIT License.
 	Copyright(C) 2021 Cwb developers.All rights reserved.
 */
@@ -59,7 +59,7 @@ static void test_ds_skey(Cwb_Ds *ds)
 	}
 
 	for (int i = 0;i < TEST_PAIR_NUM;i++) {
-		Cwb_Ds_Pair *p	= cwb_ds_search(ds,pair[i].key);
+		Cwb_Ds_Iter *p	= cwb_ds_search(ds,pair[i].key);
 		assert(p);
 		void *data	= cwb_ds_get(ds,p);
 		assert(!memcmp(data,pair[i].data,TEST_DATA_SIZE));
