@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds_HashTable.c
-	Date:2021.08.02
+	Date:2021.10.24
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -108,7 +108,7 @@ static void hashtable_destroy(void *ds)
 	return;
 }
 
-static Cwb_Ds_Pair *hashtable_search(void *ds,va_list argList)
+static Cwb_Ds_Iter *hashtable_search(void *ds,va_list argList)
 {
 	HashTable *ht = (HashTable*)ds;
 	if (ht->slotNum == 0)
@@ -121,7 +121,7 @@ static Cwb_Ds_Pair *hashtable_search(void *ds,va_list argList)
 	     slotValue;
 	     slotValue = slotValue->next) {
 		if (!strcmp(key,slotValue->key)) {
-			return (Cwb_Ds_Pair*)slotValue;
+			return (Cwb_Ds_Iter*)slotValue;
 		}
 	}
 
@@ -169,7 +169,7 @@ static char *copy_str(const char *str)
 	return result;
 }
 
-static Cwb_Ds_Pair *hashtable_insert(void *ds,va_list argList)
+static Cwb_Ds_Iter *hashtable_insert(void *ds,va_list argList)
 {
 	HashTable *ht	= (HashTable*)ds;
 	char *key = copy_str(va_arg(argList,const char*));
@@ -204,26 +204,26 @@ static Cwb_Ds_Pair *hashtable_insert(void *ds,va_list argList)
 
 	ht->slotUsed++;
 
-	return (Cwb_Ds_Pair*)slotValue;
+	return (Cwb_Ds_Iter*)slotValue;
 }
 
-static void *hashtable_get(void *ds,Cwb_Ds_Pair *pair)
+static void *hashtable_get(void *ds,Cwb_Ds_Iter *iter)
 {
 	(void)ds;
-	return ((Ht_SlotValue*)pair)->data;
+	return ((Ht_SlotValue*)iter)->data;
 }
 
-static int hashtable_set(void *ds,Cwb_Ds_Pair *pair,void *data)
+static int hashtable_set(void *ds,Cwb_Ds_Iter *iter,void *data)
 {
 	(void)ds;
-	((Ht_SlotValue*)pair)->data = data;
+	((Ht_SlotValue*)iter)->data = data;
 	return 0;
 }
 
-static int hashtable_delete(void *ds,Cwb_Ds_Pair *pair)
+static int hashtable_delete(void *ds,Cwb_Ds_Iter *iter)
 {
 	HashTable *ht = (HashTable*)ds;
-	Ht_SlotValue *slotValue = (Ht_SlotValue*)pair;
+	Ht_SlotValue *slotValue = (Ht_SlotValue*)iter;
 
 	if (slotValue->prev)
 		slotValue->prev->next = slotValue->next;
@@ -237,25 +237,25 @@ static int hashtable_delete(void *ds,Cwb_Ds_Pair *pair)
 	return 0;
 }
 
-static Cwb_Ds_Pair *hashtable_first(void *ds)
+static Cwb_Ds_Iter *hashtable_first(void *ds)
 {
 	HashTable *ht = (HashTable*)ds;
 
 	for (uint32_t i = 0;i < ht->slotNum;i++) {
 		if (ht->slot[i].value)
-			return (Cwb_Ds_Pair*)(ht->slot[i].value);
+			return (Cwb_Ds_Iter*)(ht->slot[i].value);
 	}
 	
 	return NULL;
 }
 
-static Cwb_Ds_Pair *hashtable_next(void *ds,Cwb_Ds_Pair *pair)
+static Cwb_Ds_Iter *hashtable_next(void *ds,Cwb_Ds_Iter *iter)
 {
 	HashTable *ht = (HashTable*)ds;
 
-	Ht_SlotValue *slotValue = (Ht_SlotValue*)pair;
+	Ht_SlotValue *slotValue = (Ht_SlotValue*)iter;
 	if (slotValue->next)
-		return (Cwb_Ds_Pair*)slotValue->next;
+		return (Cwb_Ds_Iter*)slotValue->next;
 	
 	uint32_t hash   =
 		ht_hash(slotValue->key,strlen(slotValue->key)) %
@@ -264,7 +264,7 @@ static Cwb_Ds_Pair *hashtable_next(void *ds,Cwb_Ds_Pair *pair)
 	     i < ht->slotNum;
 	     i++) {
 		if (ht->slot[i].value)
-			return (Cwb_Ds_Pair*)(ht->slot[i].value);
+			return (Cwb_Ds_Iter*)(ht->slot[i].value);
 	}
 	
 	return NULL;
@@ -276,8 +276,8 @@ static void hashtable_freefunc(void *ds,Cwb_Ds_FreeFunc freeFunc)
 	return;
 }
 
-static intptr_t hashtable_getkey(void *ds,Cwb_Ds_Pair *pair)
+static intptr_t hashtable_getkey(void *ds,Cwb_Ds_Iter *iter)
 {
 	(void)ds;
-	return (intptr_t)(((Ht_SlotValue*)pair)->key);
+	return (intptr_t)(((Ht_SlotValue*)iter)->key);
 }

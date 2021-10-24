@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Ds.c
-	Date:2021.07.20
+	Date:2021.10.24
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -24,15 +24,15 @@ typedef struct {
 typedef struct {
 	void *(*new)(va_list argList);
 	void (*destroy)(void *ds);
-	Cwb_Ds_Pair *(*search)(void *ds,va_list argList);
-	Cwb_Ds_Pair *(*insert)(void *ds,va_list);
-	int (*set)(void *ds,Cwb_Ds_Pair *pair,void *data);
-	void *(*get)(void *ds,Cwb_Ds_Pair *pair);
-	int (*delete)(void *ds,Cwb_Ds_Pair *pair);
-	Cwb_Ds_Pair *(*first)(void *ds);
-	Cwb_Ds_Pair *(*next)(void *ds,Cwb_Ds_Pair *pair);
+	Cwb_Ds_Iter *(*search)(void *ds,va_list argList);
+	Cwb_Ds_Iter *(*insert)(void *ds,va_list);
+	int (*set)(void *ds,Cwb_Ds_Iter *iter,void *data);
+	void *(*get)(void *ds,Cwb_Ds_Iter *iter);
+	int (*delete)(void *ds,Cwb_Ds_Iter *iter);
+	Cwb_Ds_Iter *(*first)(void *ds);
+	Cwb_Ds_Iter *(*next)(void *ds,Cwb_Ds_Iter *iter);
 	void (*freefunc)(void *ds,Cwb_Ds_FreeFunc func);
-	intptr_t (*getkey)(void *ds,Cwb_Ds_Pair *pair);
+	intptr_t (*getkey)(void *ds,Cwb_Ds_Iter *iter);
 }Ds_Prototype;
 
 static const Ds_Prototype prototype[]={
@@ -83,68 +83,68 @@ void cwb_ds_destroy(Cwb_Ds *in)
 	return;
 }
 
-Cwb_Ds_Pair *cwb_ds_search(Cwb_Ds *in,...)
+Cwb_Ds_Iter *cwb_ds_search(Cwb_Ds *in,...)
 {
 	va_list argList;
 	va_start(argList,in);
 	Ds *ds = (Ds*)in;
 
-	Cwb_Ds_Pair *pair = DS_PROTOTYPE(ds->type).search(ds->realDs,argList);
+	Cwb_Ds_Iter *iter = DS_PROTOTYPE(ds->type).search(ds->realDs,argList);
 	va_end(argList);
 
-	return pair;
+	return iter;
 }
 
-int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Pair *pair,void *data)
+int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Iter *iter,void *data)
 {
 	Ds *ds = (Ds*)in;
 	
-	int ret = DS_PROTOTYPE(ds->type).set(ds->realDs,pair,data);
+	int ret = DS_PROTOTYPE(ds->type).set(ds->realDs,iter,data);
 	return ret;
 }
 
-void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 
-	void *value = DS_PROTOTYPE(ds->type).get(ds->realDs,pair);
+	void *value = DS_PROTOTYPE(ds->type).get(ds->realDs,iter);
 
 	return value;
 }
 
-int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 
-	return DS_PROTOTYPE(ds->type).delete(ds->realDs,pair);
+	return DS_PROTOTYPE(ds->type).delete(ds->realDs,iter);
 }
 
-Cwb_Ds_Pair *cwb_ds_insert(Cwb_Ds *in,...)
+Cwb_Ds_Iter *cwb_ds_insert(Cwb_Ds *in,...)
 {
 	Ds *ds = (Ds*)in;
 
 	va_list argList;
 	va_start(argList,in);
 
-	Cwb_Ds_Pair *pair = DS_PROTOTYPE(ds->type).insert(ds->realDs,argList);
+	Cwb_Ds_Iter *iter = DS_PROTOTYPE(ds->type).insert(ds->realDs,argList);
 	
 	va_end(argList);
 
-	return pair;
+	return iter;
 }
 
-Cwb_Ds_Pair *cwb_ds_first(Cwb_Ds *in)
+Cwb_Ds_Iter *cwb_ds_first(Cwb_Ds *in)
 {
 	Ds *ds = (Ds*)in;
 
 	return DS_PROTOTYPE(ds->type).first(ds->realDs);
 }
 
-Cwb_Ds_Pair *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+Cwb_Ds_Iter *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 	
-	return DS_PROTOTYPE(ds->type).next(ds->realDs,pair);
+	return DS_PROTOTYPE(ds->type).next(ds->realDs,iter);
 }
 
 void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc freeFunc)
@@ -155,9 +155,9 @@ void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc freeFunc)
 	return;
 }
 
-intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Pair *pair)
+intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 
-	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,pair);
+	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,iter);
 }
