@@ -28,14 +28,14 @@ extern int ___cwb___ds___dummy___undefined___;
 
 Cwb_Ds *cwb_ds_new(Cwb_Ds_Type type,...);
 void cwb_ds_destroy(Cwb_Ds *in);
-Cwb_Ds_Iter *cwb_ds_search(Cwb_Ds *in,...);
+Cwb_Ds_Iter *cwb_ds_get(Cwb_Ds *in,...);
 int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Iter *iter,void *data);
-void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Iter *iter);
+void *cwb_ds_value(Cwb_Ds *in,Cwb_Ds_Iter *iter);
 Cwb_Ds_Iter *cwb_ds_insert(Cwb_Ds *in,...);
 int cwb_ds_delete(Cwb_Ds *in,Cwb_Ds_Iter *iter);
 Cwb_Ds_Iter *cwb_ds_first(Cwb_Ds *in);
 Cwb_Ds_Iter *cwb_ds_next(Cwb_Ds *in,Cwb_Ds_Iter *iter);
 void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc func);
-intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Iter *iter);
+intptr_t cwb_ds_key(Cwb_Ds *in,Cwb_Ds_Iter *iter);
 
 #endif

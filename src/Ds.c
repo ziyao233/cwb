@@ -24,30 +24,30 @@ typedef struct {
 typedef struct {
 	void *(*new)(va_list argList);
 	void (*destroy)(void *ds);
-	Cwb_Ds_Iter *(*search)(void *ds,va_list argList);
+	Cwb_Ds_Iter *(*get)(void *ds,va_list argList);
 	Cwb_Ds_Iter *(*insert)(void *ds,va_list);
 	int (*set)(void *ds,Cwb_Ds_Iter *iter,void *data);
-	void *(*get)(void *ds,Cwb_Ds_Iter *iter);
+	void *(*value)(void *ds,Cwb_Ds_Iter *iter);
 	int (*delete)(void *ds,Cwb_Ds_Iter *iter);
 	Cwb_Ds_Iter *(*first)(void *ds);
 	Cwb_Ds_Iter *(*next)(void *ds,Cwb_Ds_Iter *iter);
 	void (*freefunc)(void *ds,Cwb_Ds_FreeFunc func);
-	intptr_t (*getkey)(void *ds,Cwb_Ds_Iter *iter);
+	intptr_t (*key)(void *ds,Cwb_Ds_Iter *iter);
 }Ds_Prototype;
 
 static const Ds_Prototype prototype[]={
 					[CWB_DS_HASHTABLE] = {
 						.new		= hashtable_new,
 						.destroy	= hashtable_destroy,
-						.search		= hashtable_search,
+						.get		= hashtable_get,
 						.insert		= hashtable_insert,
 						.set		= hashtable_set,
-						.get		= hashtable_get,
+						.value		= hashtable_value,
 						.delete		= hashtable_delete,
 						.first		= hashtable_first,
 						.next		= hashtable_next,
 						.freefunc	= hashtable_freefunc,
-						.getkey		= hashtable_getkey
+						.key		= hashtable_key
 					}
 				      };
 
@@ -83,13 +83,13 @@ void cwb_ds_destroy(Cwb_Ds *in)
 	return;
 }
 
-Cwb_Ds_Iter *cwb_ds_search(Cwb_Ds *in,...)
+Cwb_Ds_Iter *cwb_ds_get(Cwb_Ds *in,...)
 {
 	va_list argList;
 	va_start(argList,in);
 	Ds *ds = (Ds*)in;
 
-	Cwb_Ds_Iter *iter = DS_PROTOTYPE(ds->type).search(ds->realDs,argList);
+	Cwb_Ds_Iter *iter = DS_PROTOTYPE(ds->type).get(ds->realDs,argList);
 	va_end(argList);
 
 	return iter;
@@ -103,11 +103,11 @@ int cwb_ds_set(Cwb_Ds *in,Cwb_Ds_Iter *iter,void *data)
 	return ret;
 }
 
-void *cwb_ds_get(Cwb_Ds *in,Cwb_Ds_Iter *iter)
+void *cwb_ds_value(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 
-	void *value = DS_PROTOTYPE(ds->type).get(ds->realDs,iter);
+	void *value = DS_PROTOTYPE(ds->type).value(ds->realDs,iter);
 
 	return value;
 }
@@ -155,9 +155,9 @@ void cwb_ds_freefunc(Cwb_Ds *in,Cwb_Ds_FreeFunc freeFunc)
 	return;
 }
 
-intptr_t cwb_ds_getkey(Cwb_Ds *in,Cwb_Ds_Iter *iter)
+intptr_t cwb_ds_key(Cwb_Ds *in,Cwb_Ds_Iter *iter)
 {
 	Ds *ds = (Ds*)in;
 
-	return DS_PROTOTYPE(ds->type).getkey(ds->realDs,iter);
+	return DS_PROTOTYPE(ds->type).key(ds->realDs,iter);
 }

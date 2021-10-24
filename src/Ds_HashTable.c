@@ -108,7 +108,7 @@ static void hashtable_destroy(void *ds)
 	return;
 }
 
-static Cwb_Ds_Iter *hashtable_search(void *ds,va_list argList)
+static Cwb_Ds_Iter *hashtable_get(void *ds,va_list argList)
 {
 	HashTable *ht = (HashTable*)ds;
 	if (ht->slotNum == 0)
@@ -207,7 +207,7 @@ static Cwb_Ds_Iter *hashtable_insert(void *ds,va_list argList)
 	return (Cwb_Ds_Iter*)slotValue;
 }
 
-static void *hashtable_get(void *ds,Cwb_Ds_Iter *iter)
+static void *hashtable_value(void *ds,Cwb_Ds_Iter *iter)
 {
 	(void)ds;
 	return ((Ht_SlotValue*)iter)->data;
@@ -276,7 +276,7 @@ static void hashtable_freefunc(void *ds,Cwb_Ds_FreeFunc freeFunc)
 	return;
 }
 
-static intptr_t hashtable_getkey(void *ds,Cwb_Ds_Iter *iter)
+static intptr_t hashtable_key(void *ds,Cwb_Ds_Iter *iter)
 {
 	(void)ds;
 	return (intptr_t)(((Ht_SlotValue*)iter)->key);
