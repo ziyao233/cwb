@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.08.16
+	Date:2021.10.24
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -80,10 +80,10 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 			return NULL;
 	}
 
-	Cwb_Ds_Pair *pair = cwb_ds_search(conn->header,"cookie");
-	if (!pair)
+	Cwb_Ds_Iter *iter = cwb_ds_search(conn->header,"cookie");
+	if (!iter)
 		return cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
-	const char *src = (const char*)cwb_ds_get(conn->header,pair);
+	const char *src = (const char*)cwb_ds_get(conn->header,iter);
 
 	Cwb_Ds *result = cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
 	if (!result)
@@ -127,7 +127,7 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
 	if (!header)
 		return -1;
 	
-	Cwb_Ds_Pair *length = cwb_ds_search(header,"content-length");
+	Cwb_Ds_Iter *length = cwb_ds_search(header,"content-length");
 	if (!length)
 		return -1;
 

@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Serailize_Urlcoded.c
-	Date:2021.08.02
+	Date:2021.10.24
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -28,18 +28,18 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 
 	assert(cwb_serialize_type(value) == CWB_SERIALIZE_DS);
 	Cwb_Ds *ds = cwb_serialize_get(value).ds;
-	Cwb_Ds_Pair *tmp = cwb_ds_first(ds);
+	Cwb_Ds_Iter *tmp = cwb_ds_first(ds);
 
-	for (Cwb_Ds_Pair *pair = (Cwb_Ds_Pair*)cwb_ds_first(ds);
-	     pair;
-	     pair = tmp) {
-		const char *key = (const char*)cwb_ds_getkey(ds,pair);
+	for (Cwb_Ds_Iter *iter = (Cwb_Ds_Iter*)cwb_ds_first(ds);
+	     iter;
+	     iter = tmp) {
+		const char *key = (const char*)cwb_ds_getkey(ds,iter);
 		if (!cwb_encode_uri(output,key,strlen(key)))
 			return NULL;
 		if (!cwb_dstr_appendc(output,'='))
 			return NULL;
 		
-		Cwb_Serialize_Value *value = cwb_ds_get(ds,pair);
+		Cwb_Serialize_Value *value = cwb_ds_get(ds,iter);
 		Cwb_Serialize_Type type = cwb_serialize_type(value);
 		if (type == CWB_SERIALIZE_STRING) {
 			const char *src = cwb_serialize_get(value).string;

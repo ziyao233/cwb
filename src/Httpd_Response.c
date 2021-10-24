@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Response.c
-	Date:2021.08.16
+	Date:2021.10.24
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -149,17 +149,17 @@ int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
 	if (!cwb_encode_uri(cookie,(void*)value,strlen(value)))
 		return -1;
 	
-	for (Cwb_Ds_Pair *pair = attr ? cwb_ds_first(attr) : NULL;
-	     pair;
-	     pair = cwb_ds_next(attr,pair)) {
+	for (Cwb_Ds_Iter *iter = attr ? cwb_ds_first(attr) : NULL;
+	     iter;
+	     iter = cwb_ds_next(attr,iter)) {
 		if (!cwb_dstr_appends(cookie,"; "))
 			return -1;
 
-		const char *key = (const char*)cwb_ds_getkey(attr,pair);
+		const char *key = (const char*)cwb_ds_getkey(attr,iter);
 		if (!cwb_dstr_appends(cookie,key))
 			return -1;
 
-		const char *value = (const char*)cwb_ds_get(attr,pair);
+		const char *value = (const char*)cwb_ds_get(attr,iter);
 		if (value) {
 			if (!cwb_dstr_appendc(cookie,'='))
 				return -1;
