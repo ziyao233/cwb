@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.08.11
+	Date:2021.10.24
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -61,17 +61,17 @@ static int handler(Cwb_Httpd_Conn *conn)
 	if (!ds)
 		return -1;
 	
-	for (Cwb_Ds_Pair *pair = cwb_ds_first(ds);
-	     pair;
-	     pair = cwb_ds_next(ds,pair)) {
-		printf("%s: %s\n",(char*)cwb_ds_getkey(ds,pair),
-		       (char*)cwb_ds_get(ds,pair));
+	for (Cwb_Ds_Iter *iter = cwb_ds_first(ds);
+	     iter;
+	     iter = cwb_ds_next(ds,iter)) {
+		printf("%s: %s\n",(char*)cwb_ds_getkey(ds,iter),
+		       (char*)cwb_ds_get(ds,iter));
 	}
 
 	Cwb_Ds *cookie = cwb_httpd_req_cookie(conn);
 	if (!cookie)
 		return -1;
-	Cwb_Ds_Pair *name = cwb_ds_search(cookie,"name");
+	Cwb_Ds_Iter *name = cwb_ds_search(cookie,"name");
 	if (name)
 		printf("name: %s\n",(const char*)cwb_ds_get(cookie,name));
 	cwb_ds_destroy(cookie);
@@ -109,7 +109,7 @@ static int urltest_handler(Cwb_Httpd_Conn *conn)
 	if (!arg)
 		return -1;
 	Cwb_Ds *ds = cwb_serialize_get(arg).ds;
-	Cwb_Ds_Pair *user = cwb_ds_search(ds,"user");
+	Cwb_Ds_Iter *user = cwb_ds_search(ds,"user");
 	if (!user)
 		return -1;
 	

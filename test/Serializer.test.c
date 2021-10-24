@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Serailize.test.c
-	Date:2021.08.02
+	Date:2021.10.24
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -48,13 +48,13 @@ int main(void)
 	value = cwb_deserialize_urlcoded(NULL,result);
 
 	ds = cwb_serialize_get(value).ds;
-	for (Cwb_Ds_Pair *pair = cwb_ds_first(ds);
-	     pair;
-	     pair = cwb_ds_next(ds,pair)) {
+	for (Cwb_Ds_Iter *iter = cwb_ds_first(ds);
+	     iter;
+	     iter = cwb_ds_next(ds,iter)) {
 		Cwb_Serialize_Value *tmp = 
-			(Cwb_Serialize_Value*)cwb_ds_get(ds,pair);
+			(Cwb_Serialize_Value*)cwb_ds_get(ds,iter);
 		char *data = cwb_serialize_get(tmp).string;
-		printf("%s:%s\n",(const char*)cwb_ds_getkey(ds,pair),
+		printf("%s:%s\n",(const char*)cwb_ds_getkey(ds,iter),
 				 data);
 	}
 
