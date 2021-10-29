@@ -33,13 +33,13 @@ Cwb_Dstr *cwb_serialize_urlcoded(Cwb_Dstr *output,Cwb_Serialize_Value *value)
 	for (Cwb_Ds_Iter *iter = (Cwb_Ds_Iter*)cwb_ds_first(ds);
 	     iter;
 	     iter = tmp) {
-		const char *key = (const char*)cwb_ds_getkey(ds,iter);
+		const char *key = (const char*)cwb_ds_key(ds,iter);
 		if (!cwb_encode_uri(output,key,strlen(key)))
 			return NULL;
 		if (!cwb_dstr_appendc(output,'='))
 			return NULL;
 		
-		Cwb_Serialize_Value *value = cwb_ds_get(ds,iter);
+		Cwb_Serialize_Value *value = cwb_ds_value(ds,iter);
 		Cwb_Serialize_Type type = cwb_serialize_type(value);
 		if (type == CWB_SERIALIZE_STRING) {
 			const char *src = cwb_serialize_get(value).string;

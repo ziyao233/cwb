@@ -155,7 +155,7 @@ int cwb_httpd_res_cookie(Cwb_Httpd_Conn *conn,const char *key,
 		if (!cwb_dstr_appends(cookie,"; "))
 			return -1;
 
-		const char *key = (const char*)cwb_ds_getkey(attr,iter);
+		const char *key = (const char*)cwb_ds_key(attr,iter);
 		if (!cwb_dstr_appends(cookie,key))
 			return -1;
 

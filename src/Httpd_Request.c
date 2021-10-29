@@ -80,7 +80,7 @@ Cwb_Ds *cwb_httpd_req_cookie(Cwb_Httpd_Conn *conn)
 			return NULL;
 	}
 
-	Cwb_Ds_Iter *iter = cwb_ds_search(conn->header,"cookie");
+	Cwb_Ds_Iter *iter = cwb_ds_get(conn->header,"cookie");
 	if (!iter)
 		return cwb_ds_new(CWB_DS_HASHTABLE,CWB_DS_SKEY);
 	const char *src = (const char*)cwb_ds_get(conn->header,iter);
@@ -127,7 +127,7 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
 	if (!header)
 		return -1;
 	
-	Cwb_Ds_Iter *length = cwb_ds_search(header,"content-length");
+	Cwb_Ds_Iter *length = cwb_ds_get(header,"content-length");
 	if (!length)
 		return -1;
 
