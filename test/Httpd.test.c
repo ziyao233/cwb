@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/test/Httpd.test.c
-	Date:2021.10.24
+	Date:2021.10.29
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -64,16 +64,16 @@ static int handler(Cwb_Httpd_Conn *conn)
 	for (Cwb_Ds_Iter *iter = cwb_ds_first(ds);
 	     iter;
 	     iter = cwb_ds_next(ds,iter)) {
-		printf("%s: %s\n",(char*)cwb_ds_getkey(ds,iter),
-		       (char*)cwb_ds_get(ds,iter));
+		printf("%s: %s\n",(char*)cwb_ds_key(ds,iter),
+		       (char*)cwb_ds_value(ds,iter));
 	}
 
 	Cwb_Ds *cookie = cwb_httpd_req_cookie(conn);
 	if (!cookie)
 		return -1;
-	Cwb_Ds_Iter *name = cwb_ds_search(cookie,"name");
+	Cwb_Ds_Iter *name = cwb_ds_get(cookie,"name");
 	if (name)
-		printf("name: %s\n",(const char*)cwb_ds_get(cookie,name));
+		printf("name: %s\n",(const char*)cwb_ds_value(cookie,name));
 	cwb_ds_destroy(cookie);
 
 	if (cwb_httpd_res_status(conn,200,"OK"))
@@ -109,12 +109,12 @@ static int urltest_handler(Cwb_Httpd_Conn *conn)
 	if (!arg)
 		return -1;
 	Cwb_Ds *ds = cwb_serialize_get(arg).ds;
-	Cwb_Ds_Iter *user = cwb_ds_search(ds,"user");
+	Cwb_Ds_Iter *user = cwb_ds_get(ds,"user");
 	if (!user)
 		return -1;
 	
 	char temp[64] = {0};
-	Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)cwb_ds_get(ds,user);
+	Cwb_Serialize_Value *value = (Cwb_Serialize_Value*)cwb_ds_value(ds,user);
 	snprintf(temp,64,"Username is %s",cwb_serialize_get(value).string);
 
 	if (cwb_httpd_res_write(conn,(void*)temp,strlen(temp)))

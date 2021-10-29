@@ -52,9 +52,9 @@ int main(void)
 	     iter;
 	     iter = cwb_ds_next(ds,iter)) {
 		Cwb_Serialize_Value *tmp = 
-			(Cwb_Serialize_Value*)cwb_ds_get(ds,iter);
+			(Cwb_Serialize_Value*)cwb_ds_value(ds,iter);
 		char *data = cwb_serialize_get(tmp).string;
-		printf("%s:%s\n",(const char*)cwb_ds_getkey(ds,iter),
+		printf("%s:%s\n",(const char*)cwb_ds_key(ds,iter),
 				 data);
 	}
 
