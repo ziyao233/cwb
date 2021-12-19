@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Event.c
-	Date:2021.03.21
+	Date:2021.12.19
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -115,7 +115,7 @@ int cwb_event_loop(Cwb_Event_Base *base) {
 			return -1;
 		}
 
-		for(int i=0;readyFd[i]>0;i++) {
+		for(int i=0;readyFd[i] >= 0;i++) {
 			int fd=readyFd[i];
 			if(base->fdEvent[fd].handler(base,
 						     fd,
