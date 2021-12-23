@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd_Request.c
-	Date:2021.10.24
+	Date:2021.12.23
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -131,7 +131,7 @@ long int cwb_httpd_req_loadlen(Cwb_Httpd_Conn *conn)
 	if (!length)
 		return -1;
 
-	return strtol((const char*)cwb_ds_get(header,length),
+	return strtol((const char*)cwb_ds_value(header,length),
 		      NULL,0);
 }
 
