@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Net.h
-	Date:2021.03.05
+	Date:2022.03.26
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -23,6 +23,7 @@ int cwb_net_accept(int sock);
 ssize_t cwb_net_write(int sock,void *buf,size_t size);
 ssize_t cwb_net_read(int sock,void *buf,size_t size);
 int cwb_net_close(int sock);
+int cwb_net_bind6(int sock,int port);
 
 uint16_t cwb_net_tonet16(uint16_t data);
 uint32_t cwb_net_tonet32(uint32_t data);

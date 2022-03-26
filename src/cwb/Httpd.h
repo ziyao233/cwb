@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/cwb/Httpd.h
-	Date:2021.08.16
+	Date:2022.03.26
 	By MIT License.
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -35,6 +35,7 @@ typedef struct {
 	struct{
 		int port;
 		int backlog;
+		int ipv6;
 	}network;
 	struct {
 		ssize_t maxHeaderSize;

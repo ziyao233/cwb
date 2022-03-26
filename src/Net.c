@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Net.c
-	Date:2021.03.05
+	Date:2022.03.26
 	By MIT License
 	Copyright(C) 2021 cwb developers.All rights reserved.
 */
@@ -50,6 +50,16 @@ int cwb_net_bind(int sock,int port)
 	struct sockaddr_in addr;
 
 	addr.sin_family=AF_INET;
+	addr.sin_port=htons(port);
+	addr.sin_addr.s_addr=htonl(INADDR_ANY);
+	return bind(sock,(struct sockaddr*)(&addr),sizeof(struct sockaddr));
+}
+
+int cwb_net_bind6(int sock,int port)
+{
+	struct sockaddr_in addr;
+
+	addr.sin_family=AF_INET6;
 	addr.sin_port=htons(port);
 	addr.sin_addr.s_addr=htonl(INADDR_ANY);
 	return bind(sock,(struct sockaddr*)(&addr),sizeof(struct sockaddr));

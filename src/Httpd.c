@@ -1,7 +1,7 @@
 /*
 	cwb
 	File:/src/Httpd.c
-	Date:2021.08.16
+	Date:2022.03.26
 	By MIT License.
 	Copyright (c) 2021 cwb developers.All rights reserved.
 */
@@ -241,8 +241,13 @@ int cwb_httpd_start(Cwb_Httpd *httpd)
 	if (httpd->socketFd < 0)
 		return -1;
 	
-	if (cwb_net_bind(httpd->socketFd,httpd->conf.network.port))
-		return -1;
+	if (httpd->conf.network.ipv6) {
+		if (cwb_net_bind6(httpd->socketFd,httpd->conf.network.port))
+			return -1;
+	} else {
+		if (cwb_net_bind(httpd->socketFd,httpd->conf.network.port))
+			return -1;
+	}
 	
 	if (cwb_net_listen(httpd->socketFd,httpd->conf.network.backlog))
 		return -1;
