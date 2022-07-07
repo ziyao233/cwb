@@ -1,6 +1,8 @@
 #ifndef CWB_CONF_H_INC
 #define CWB_CONF_H_INC
 
+// #define CWB_CONF_RELEASE
+
 #define CWB_CONF_EVENT_FD_MAX_NUM 64
 
 #define CWB_CONF_DSTR_PARTSIZE 16384
