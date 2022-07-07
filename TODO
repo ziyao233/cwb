@@ -5,10 +5,18 @@
 	c	Chores			杂务
 	r	Refactor		代码重构
 	w	Work in Progress	进行中
+	D	Deprecate		弃用代码
 
-(c)	完全文档
-(*)	内存泄漏查找
-========	v0.2.0	========
+(+)	Debug 库
+(r)	HTTP 去除 Net 依赖
+(*)	悬空指针排查
+(*)	Memory leak 排查
+(+)	IO Watcher 出错描述符跟踪
+(D)	Net 库
+(+)	Cwb_Mempool 内存池
+
+========	v0.3.0	========
+(+)	Log 库
 (+)	CWB_DS_LIST链表
 (+)	Event库定时器支持
 (-)	长连接支持
@@ -18,7 +26,7 @@
 (+)	HTTP客户端
 (-)	HTTP流量控制
 (c)	贡献者指南
-========	v0.3.0	========
+========	v0.4.0	========
 (+)	RESP协议
 (+)	M/MIME编码
 (+)	XML序列化
